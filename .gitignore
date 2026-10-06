@@ -1,0 +1,10 @@
+# GameMaker
+**/Output/
+**/cache/
+*.resource_order
+
+# Editores y sistema
+.vs/
+.idea/
+Thumbs.db
+.DS_Store
