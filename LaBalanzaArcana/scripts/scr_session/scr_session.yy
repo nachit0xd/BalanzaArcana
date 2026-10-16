@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_session",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_session",
+  "parent":{
+    "name":"Session",
+    "path":"folders/Scripts/Session.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scr_bank_core",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scr_bank_core",
+  "parent":{
+    "name":"Math",
+    "path":"folders/Scripts/Math.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}
