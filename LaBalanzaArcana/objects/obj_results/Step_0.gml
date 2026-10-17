@@ -25,4 +25,4 @@ if (action_pressed()) {
 }
 
 // Un sonido por cada insignia que aparece
-if (page == 2 && t >= 15 && ((t - 15) mod 20) == 0 && ((t - 15) div 20) < min(array_length(new_badges), 5)) sfx("snd_badge");
+if (page >= 2 && t >= 15 && ((t - 15) mod 20) == 0 && ((t - 15) div 20) < min(2, array_length(new_badges) - (page - 2) * 2)) sfx("snd_badge");

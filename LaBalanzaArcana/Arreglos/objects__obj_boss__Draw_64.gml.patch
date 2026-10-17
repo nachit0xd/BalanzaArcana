@@ -1,0 +1,42 @@
+--- a/objects/obj_boss/Draw_64.gml
++++ b/objects/obj_boss/Draw_64.gml
+@@ -62 +62 @@
+-draw_text_shadow(boss_x, 98, src.name, COL_TEXT);
++draw_text_shadow(_cx - 50, 132, src.name, COL_TEXT);
+@@ -67 +67 @@
+-    var _hx0  = boss_x - (hp_max - 1) * _hsep / 2;
++    var _hx0  = _cx - 50 - (hp_max - 1) * _hsep / 2;
+@@ -71 +71 @@
+-        draw_circle(_hx, 146, 12, false);
++        draw_circle(_hx, 194, 12, false);
+@@ -73 +73 @@
+-        draw_circle(_hx, 146, 12, true);
++        draw_circle(_hx, 194, 12, true);
+@@ -78 +78 @@
+-var _sx0 = GUI_W - 110;
++var _sx0 = GUI_W - 220;
+@@ -80 +80 @@
+-draw_text_shadow(_sx0, 104, "Sellos", COL_DIM);
++draw_text_shadow(_sx0 + 60, 140, "Sellos", COL_DIM);
+@@ -82 +82,2 @@
+-    var _yy = 160 + s * 56;
++    var _sx = _sx0 + s * 60;
++    var _yy = 218;
+@@ -85 +86 @@
+-        draw_circle(_sx0, _yy, 20, false);
++        draw_circle(_sx, _yy, 20, false);
+@@ -87,3 +88,3 @@
+-        draw_circle(_sx0, _yy, 20, true);
+-        draw_line_width(_sx0 - 10, _yy - 10, _sx0 + 10, _yy + 10, 3);
+-        draw_line_width(_sx0 + 10, _yy - 10, _sx0 - 10, _yy + 10, 3);
++        draw_circle(_sx, _yy, 20, true);
++        draw_line_width(_sx - 10, _yy - 10, _sx + 10, _yy + 10, 3);
++        draw_line_width(_sx + 10, _yy - 10, _sx - 10, _yy + 10, 3);
+@@ -94 +95 @@
+-        draw_circle(_sx0, _yy, 20, false);
++        draw_circle(_sx, _yy, 20, false);
+@@ -97,2 +98,2 @@
+-        draw_circle(_sx0, _yy, 20, true);
+-        draw_circle(_sx0, _yy, 8, true);
++        draw_circle(_sx, _yy, 20, true);
++        draw_circle(_sx, _yy, 8, true);

@@ -1,0 +1,16 @@
+--- a/objects/obj_exercise/Create_0.gml
++++ b/objects/obj_exercise/Create_0.gml
+@@ -85 +85 @@
+-    lay.card_h  = lay.show_eq ? (_mh + 28) : 0;
++    lay.card_h  = lay.show_eq ? ((ctx == "battle") ? round(_mh * 0.72) + 24 : _mh + 28) : 0;
+@@ -97 +97 @@
+-        lay.card_y_ask = lay.body_y + string_height_ext(story, _lh, lay.lw) + 12;   // con el enunciado a la vista
++        lay.card_y_ask = lay.body_y;  // ecuación arriba: los textos largos quedan debajo
+@@ -100,0 +101,7 @@
++        lay.story_y_battle = lay.card_y_ask + lay.card_h + 14;
++        lay.story_scale = 1.0;
++        var _story_room = lay.foot_y - 28 - lay.story_y_battle;
++        repeat (10) {
++            if (string_height_ext(story, _lh, lay.lw / lay.story_scale) * lay.story_scale <= _story_room) break;
++            lay.story_scale = max(0.55, lay.story_scale - 0.05);
++        }

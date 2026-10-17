@@ -1,0 +1,9 @@
+--- a/objects/obj_exercise/Draw_64.gml
++++ b/objects/obj_exercise/Draw_64.gml
+@@ -65 +65 @@
+-    draw_text_ext(lay.lx, lay.body_y, story, _lh, lay.lw);
++    draw_text_scaled(lay.lx, lay.story_y_battle, story, _lh * lay.story_scale, lay.lw, lay.story_scale);
+@@ -76 +76,2 @@
+-    draw_text(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex));
++    if (_battle) draw_text_transformed(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex), 0.72, 0.72, 0);
++    else         draw_text(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex));

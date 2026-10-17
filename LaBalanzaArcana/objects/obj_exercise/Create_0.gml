@@ -82,7 +82,7 @@ compute_layout = function(_fields) {
 
     lay.lh      = _lh;
     lay.show_eq = (ctx == "battle") || (ex.level == 4) || global.cfg.show_eq_npc;
-    lay.card_h  = lay.show_eq ? (_mh + 28) : 0;
+    lay.card_h  = lay.show_eq ? ((ctx == "battle") ? round(_mh * 0.72) + 24 : _mh + 28) : 0;
 
     if (ctx == "battle") {
         // Panel inferior de dos columnas: izquierda = enunciado y ecuación;
@@ -94,11 +94,18 @@ compute_layout = function(_fields) {
         lay.body_y  = lay.py + 84;
         lay.card_x  = lay.lx;
         lay.card_w  = lay.lw;
-        lay.card_y_ask = lay.body_y + string_height_ext(story, _lh, lay.lw) + 12;   // con el enunciado a la vista
+        lay.card_y_ask = lay.body_y;  // ecuación arriba: los textos largos quedan debajo
         lay.card_y_ans = lay.body_y;                                                // al responder, el enunciado se oculta
         lay.fb_y    = lay.body_y + 64 + 14;                                         // mensajes bajo la caja de respuesta
         lay.foot_y  = lay.py + lay.ph - 28;
         box.configure(_fields, lay.rx + lay.rw / 2, lay.body_y, (_fields == 2));
+		lay.story_y_battle = lay.card_y_ask + lay.card_h + 14;
+        lay.story_scale = 1.0;
+        var _story_room = lay.foot_y - 28 - lay.story_y_battle;
+        repeat (10) {
+            if (string_height_ext(story, _lh, lay.lw / lay.story_scale) * lay.story_scale <= _story_room) break;
+            lay.story_scale = max(0.55, lay.story_scale - 0.05);
+        }
     } else {
         // Panel centrado, con encabezado con retrato, enunciado, tarjeta, respuesta y mensajes.
         // El alto se adapta al texto, reservando lo que ocupará el mensaje más largo.

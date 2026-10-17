@@ -1,0 +1,13 @@
+--- a/objects/obj_results/Create_0.gml
++++ b/objects/obj_results/Create_0.gml
+@@ -25,3 +25,3 @@
+     shown_total  = global.score - stats.points;
+-    pages        = (array_length(new_badges) > 0) ? 2 : 1;
++    pages        = 1 + ceil(array_length(new_badges) / 2);
+ 	jingle("mus_results");
+@@ -32,3 +32,4 @@
+     if (page == 1) return (t >= 90);
+-    return (t >= 20 + 20 * min(array_length(new_badges), 5));
++    var _visible = min(2, array_length(new_badges) - (page - 2) * 2);
++    return (t >= 20 + 20 * _visible);
+ };

@@ -32,22 +32,22 @@ draw_glyphs(glyphs);
 // Menú:
 if (state == TITLE_STATE.MENU) {
     // Logotipo: la balanza se mece suavemente sobre el título
-    draw_balance(_cx, 130, 5 * dsin(tt * 1.6), 0.8);
+    draw_balance(_cx, 92, 5 * dsin(tt * 1.6), 0.70);
 
     draw_set_font(fnt_math);
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
-    draw_text_transformed(_cx + 4, 322, "LA BALANZA ARCANA", 2, 2, 0);       // sombra
+    draw_text_transformed(_cx + 3, 278, "LA BALANZA ARCANA", 1.25, 1.25, 0);       // sombra
     draw_set_colour(COL_WARN);
-    draw_text_transformed(_cx, 318, "LA BALANZA ARCANA", 2, 2, 0);
+    draw_text_transformed(_cx, 275, "LA BALANZA ARCANA", 1.25, 1.25, 0);
 
     draw_set_font(fnt_ui);
     draw_set_colour(COL_DIM);
-    draw_text(_cx, 322 + string_height("M") * 2 + 10, "Aprende álgebra equilibrando el mundo");
+    draw_text(_cx, 384, "Aprende álgebra equilibrando el mundo");
 
     // Opciones
-    var _my = 470;
-    var _step = string_height("M") + 14;
+    var _my = 440;
+    var _step = 42;
     for (var i = 0; i < array_length(menu_items); i++) {
         var _on = (i == sel);
         draw_set_colour(_on ? COL_WARN : COL_TEXT);
@@ -63,33 +63,33 @@ if (state == TITLE_STATE.MENU) {
     if (DEBUG_MODE) {
         draw_set_halign(fa_center);
         draw_set_colour(COL_BAD);
-        draw_text(_cx, GUI_H - 44, "[DEBUG] F2: entrar directo a la aldea");
+        draw_set_halign(fa_left);
+        draw_text(24, 20, "[DEBUG] F2: entrar directo a la aldea");
     }
 }
 
 // Cómo jugar:
 if (state == TITLE_STATE.HOWTO) {
-    draw_panel(120, 90, GUI_W - 240, GUI_H - 180);
+    draw_panel(90, 50, GUI_W - 180, GUI_H - 100);
     draw_set_font(fnt_math);
     draw_set_halign(fa_center);
     draw_set_colour(COL_WARN);
-    draw_text(_cx, 116, "Cómo jugar");
+    draw_text_transformed(_cx, 76, "Cómo jugar", 0.8, 0.8, 0);
 
     draw_set_font(fnt_ui);
     draw_set_halign(fa_left);
     draw_set_colour(COL_TEXT);
     var _hw = title_howto();
-    var _hy = 116 + string_height("M") * 2 + 10;                   // aproximado si fnt_math es más alta
-    draw_set_font(fnt_math);
-    _hy = 116 + string_height("M") + 24;
-    draw_set_font(fnt_ui);
+	var _hy = 155;
+    var _scale = 0.85;
+    var _sep = string_height("M") + 4;
     for (var i = 0; i < array_length(_hw); i++) {
-        draw_text_ext(160, _hy, _hw[i], string_height("M") + 6, GUI_W - 320);
-        _hy += string_height_ext(_hw[i], string_height("M") + 6, GUI_W - 320) + 14;
+        draw_text_ext_transformed(130, _hy, _hw[i], _sep, (GUI_W - 260) / _scale, _scale, _scale, 0);
+        _hy += string_height_ext(_hw[i], _sep, (GUI_W - 260) / _scale) * _scale + 8;
     }
     draw_set_halign(fa_center);
     draw_set_colour(COL_DIM);
-    draw_text(_cx, GUI_H - 150, "Enter: volver");
+    draw_text(_cx, GUI_H - 95, "Enter: volver");
 }
 
 // Créditos:
@@ -101,21 +101,21 @@ if (state == TITLE_STATE.CREDITS) {
     draw_text(_cx, 116, "Créditos");
 
     draw_set_font(fnt_ui);
-    var _lh = string_height("M") + 10;
-    var _yy = 116 + _lh * 2 + 10;
+    var _lh = string_height("M") + 4;
+    var _yy = 205;
     draw_set_colour(COL_TEXT);
     draw_text(_cx, _yy, "La Balanza Arcana"); _yy += _lh;
     draw_set_colour(COL_DIM);
-    draw_text(_cx, _yy, "Proyecto del curso Sistemas Educativos Inteligentes"); _yy += _lh * 2;
+    draw_text(_cx, _yy, "Proyecto del curso Sistemas Educativos Inteligentes"); _yy += _lh + 18;
     draw_set_colour(COL_WARN);
     draw_text(_cx, _yy, "Equipo"); _yy += _lh;
     draw_set_colour(COL_TEXT);
     var _cr = title_credits();
     for (var i = 0; i < array_length(_cr); i++) { draw_text(_cx, _yy, _cr[i]); _yy += _lh; }
-    _yy += _lh;
+    _yy += 10;
     draw_set_colour(COL_DIM);
     draw_text(_cx, _yy, "Arte y sonido: provisionales");
-    draw_text(_cx, GUI_H - 150, "Enter: volver");
+    draw_text(_cx, GUI_H - 145, "Enter: volver");
 }
 
 // Aviso de datos:
@@ -159,7 +159,9 @@ if (state == TITLE_STATE.CODE) {
     _yy += string_height_ext("Escríbelo así: las 2 primeras letras de tu nombre, las 2 primeras de tu apellido y el día de tu nacimiento con 2 cifras.", _lh, GUI_W - 360) + 10;
     draw_set_colour(COL_DIM);
     draw_text(_cx, _yy, "Ejemplo: María Torres, nacida un día 7  ->  MATO07"); _yy += _lh;
-    draw_text(_cx, _yy, "Sin tildes (la ñ se escribe N). Usa SIEMPRE el mismo código en el pre-test, el juego y el post-test."); _yy += _lh + 16;
+    var _code_note = "Sin tildes (la ñ se escribe N). Usa SIEMPRE el mismo código en el pre-test, el juego y el post-test.";
+    draw_text_ext(_cx, _yy, _code_note, _lh, GUI_W - 360);
+    _yy += string_height_ext(_code_note, _lh, GUI_W - 360) + 16;
 
     // Seis casillas, una por carácter
     draw_set_font(fnt_math);
@@ -198,22 +200,22 @@ if (state == TITLE_STATE.CONFIRM) {
     var _th2 = string_height("M");
 
     draw_set_colour(COL_TEXT);
-    draw_text_transformed(_cx, 140 + _th2 + 34, code_text, 2, 2, 0);
+    draw_text_transformed(_cx, 140 + _th2 + 20, code_text, 1.4, 1.4, 0);
 
     draw_set_font(fnt_ui);
     var _lh2 = string_height("M") + 8;
-    var _y3 = 140 + _th2 + 34 + _th2 * 2 + 30;
+    var _y3 = 140 + _th2 + 20 + _th2 * 1.4 + 22;
     draw_set_colour(COL_DIM);
     draw_text_ext(_cx, _y3, "Revísalo bien: con este código se unen tus resultados del pre-test, del juego y del post-test.", _lh2, GUI_W - 560);
 
-    var _oy = GUI_H - 270;
+    var _oy = GUI_H - 240;
     draw_set_colour((confirm_sel == 0) ? COL_WARN : COL_TEXT);
     draw_text(_cx - 160, _oy, ((confirm_sel == 0) ? ">  " : "    ") + "Sí, es correcto");
     draw_set_colour((confirm_sel == 1) ? COL_WARN : COL_TEXT);
     draw_text(_cx + 160, _oy, ((confirm_sel == 1) ? ">  " : "    ") + "Corregir");
 
     draw_set_colour(COL_DIM);
-    draw_text(_cx, GUI_H - 160, "Izquierda / derecha: elegir     |     Enter: aceptar     |     Esc: volver");
+    draw_text_transformed(_cx, GUI_H - 160, "Izquierda / derecha: elegir     |     Enter: aceptar     |     Esc: volver", 0.64, 0.64, 0);
 }
 
 // Restaurar estado de dibujo

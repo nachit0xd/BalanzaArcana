@@ -37,7 +37,7 @@ if (mode == "main") {
     draw_text(_cx, _py + _ph - 44, "Esc: continuar");
 } else {
     // Cómo jugar
-    var _pw2 = 1000, _ph2 = 560;
+    var _pw2 = 1100, _ph2 = 620;
     var _px2 = _cx - _pw2 / 2, _py2 = (GUI_H - _ph2) / 2;
     draw_panel(_px2, _py2, _pw2, _ph2);
 
@@ -45,20 +45,22 @@ if (mode == "main") {
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
     draw_set_colour(COL_WARN);
-    draw_text(_cx, _py2 + 28, "Cómo jugar");
+    draw_text_transformed(_cx, _py2 + 26, "Cómo jugar", 0.8, 0.8, 0);
 
     draw_set_font(fnt_ui);
     draw_set_halign(fa_left);
     draw_set_colour(COL_TEXT);
     var _hw = title_howto();
-    var _hy = _py2 + 28 + _th + 28;
+    var _hy = _py2 + 105;
+    var _scale = 0.85;
+    var _sep = string_height("M") + 4;
     for (var j = 0; j < array_length(_hw); j++) {
-        draw_text_ext(_px2 + 56, _hy, _hw[j], _lh - 8, _pw2 - 112);
-        _hy += string_height_ext(_hw[j], _lh - 8, _pw2 - 112) + 10;
+        draw_text_ext_transformed(_px2 + 40, _hy, _hw[j], _sep, (_pw2 - 80) / _scale, _scale, _scale, 0);
+        _hy += string_height_ext(_hw[j], _sep, (_pw2 - 80) / _scale) * _scale + 8;
     }
     draw_set_halign(fa_center);
     draw_set_colour(COL_DIM);
-    draw_text(_cx, _py2 + _ph2 - 44, "Enter o Esc: volver");
+    draw_text(_cx, _py2 + _ph2 - 50, "Enter o Esc: volver");
 }
 
 // Restaurar estado de dibujo

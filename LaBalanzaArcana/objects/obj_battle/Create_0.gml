@@ -50,10 +50,10 @@ begin_fight = function() {
     next_round();
 };
 
-// Una ronda = un ejercicio
+// Una ronda equivale a un ejercicio
 next_round = function() {
     var _ex    = deck_next(deck);
-    var _first = first_exercise_of_level(src.level);      // el 1.º del nivel muestra la pista
+    var _first = first_exercise_of_level(src.level);      // el primer ejercicio del nivel muestra la pista
     exercise_launch(_ex, "battle", _first, on_round_done);
 };
 
@@ -67,13 +67,13 @@ on_round_done = function(_r) {
         hp = max(0, hp - _dmg);
         shake_e = 18;
         sfx("snd_hit_enemy");
-        array_push(pop, { x: enemy_x, y: enemy_y - 190, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
+        array_push(pop, { x: enemy_x, y: enemy_y - 70, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
     } else {
         var _pct = cfg_life_loss(src.level);
         life_lose(_pct);
         shake_p = 18;
         sfx("snd_hit_player");
-        array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
+        array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
     }
 };
 
@@ -97,7 +97,7 @@ finish_win = function() {
     quest_check_level(_lvl);                             // ¿se completó el nivel?
 };
 
-//  Derrota: se reinicia el combate desde el principio
+//  Derrota, se reinicia el combate desde el principio
 set_lose = function() {
     state  = "lose_banner";
     banner = "Has caído...";

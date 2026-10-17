@@ -1,0 +1,14 @@
+--- a/objects/obj_battle/Draw_64.gml
++++ b/objects/obj_battle/Draw_64.gml
+@@ -32 +32 @@
+-draw_text_shadow(enemy_x, 100, src.name, COL_TEXT);
++draw_text_shadow(_cx + 10, 128, src.name, COL_TEXT);
+@@ -35 +35 @@
+-var _x0  = enemy_x - (hp_max - 1) * _sep / 2;
++var _x0  = _cx + 10 - (hp_max - 1) * _sep / 2;
+@@ -39 +39 @@
+-    draw_circle(_pxx, 146, 12, false);
++    draw_circle(_pxx, 194, 12, false);
+@@ -41 +41 @@
+-    draw_circle(_pxx, 146, 12, true);
++    draw_circle(_pxx, 194, 12, true);

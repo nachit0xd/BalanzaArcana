@@ -3,7 +3,7 @@ if (closing) exit;
 var _a  = anim_in;
 var _cx = GUI_W / 2;
 
-// Escena (franja superior, 0..300)
+// Escena 
 draw_set_alpha(_a);
 var _c1 = make_colour_rgb(18, 24, 44);
 var _c2 = make_colour_rgb(46, 80, 70);
@@ -29,16 +29,16 @@ draw_sprite_ext(spr_player, 0,    _px, player_y, 8, 8, 0, _pc, _a);
 draw_set_font(fnt_ui);
 draw_set_halign(fa_center);
 draw_set_valign(fa_top);
-draw_text_shadow(enemy_x, 100, src.name, COL_TEXT);
+draw_text_shadow(_cx + 10, 128, src.name, COL_TEXT);
 
 var _sep = 36;
-var _x0  = enemy_x - (hp_max - 1) * _sep / 2;
+var _x0  = _cx + 10 - (hp_max - 1) * _sep / 2;
 for (var i = 0; i < hp_max; i++) {
     var _pxx = _x0 + i * _sep;
     draw_set_colour((i < hp) ? COL_BAD : COL_INPUT_BG);
-    draw_circle(_pxx, 146, 12, false);
+    draw_circle(_pxx, 194, 12, false);
     draw_set_colour(COL_BORDER);
-    draw_circle(_pxx, 146, 12, true);
+    draw_circle(_pxx, 194, 12, true);
 }
 
 // Textos flotantes de daño

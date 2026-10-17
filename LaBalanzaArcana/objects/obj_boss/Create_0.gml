@@ -123,7 +123,7 @@ on_round_done = function(_r) {
             broken++;
             shatter_t = 60;
             shake_e   = 24;
-            array_push(pop, { x: boss_x, y: boss_y - 210, txt: "¡Sello roto!", col: COL_GOOD, t: 0 });
+            array_push(pop, { x: boss_x, y: boss_y - 95, txt: "¡Sello roto!", col: COL_GOOD, t: 0 });
             log_event("sello_roto", string(broken));
             sfx("snd_seal_break");
         } else {
@@ -131,7 +131,7 @@ on_round_done = function(_r) {
             life_lose(_pct);
             shake_p = 18;
             sfx("snd_hit_player");
-            array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
+            array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
         }
     } else {
         // Etapa 2: el jefe recibe daño como un enemigo normal
@@ -140,13 +140,13 @@ on_round_done = function(_r) {
             hp = max(0, hp - _dmg);
             shake_e = 18;
             sfx("snd_hit_enemy");
-            array_push(pop, { x: boss_x, y: boss_y - 210, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
+            array_push(pop, { x: boss_x, y: boss_y - 95, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
         } else {
             var _pct2 = cfg_life_loss(4);
             life_lose(_pct2);
             shake_p = 18;
             sfx("snd_hit_player");
-            array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct2) + " %", col: COL_BAD, t: 0 });
+            array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct2) + " %", col: COL_BAD, t: 0 });
         }
     }
 };

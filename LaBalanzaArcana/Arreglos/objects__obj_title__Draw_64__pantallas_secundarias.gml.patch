@@ -1,0 +1,86 @@
+--- a/objects/obj_title/Draw_64.gml
++++ b/objects/obj_title/Draw_64.gml
+@@ -72,7 +72,7 @@
+ if (state == TITLE_STATE.HOWTO) {
+-    draw_panel(120, 90, GUI_W - 240, GUI_H - 180);
+-    draw_set_font(fnt_math);
+-    draw_set_halign(fa_center);
+-    draw_set_colour(COL_WARN);
+-    draw_text(_cx, 116, "Cómo jugar");
++    draw_panel(90, 50, GUI_W - 180, GUI_H - 100);
++    draw_set_font(fnt_math);
++    draw_set_halign(fa_center);
++    draw_set_colour(COL_WARN);
++    draw_text_transformed(_cx, 76, "Cómo jugar", 0.8, 0.8, 0);
+ 
+@@ -82,13 +82,12 @@
+     var _hw = title_howto();
+-    var _hy = 116 + string_height("M") * 2 + 10;                   // aproximado si fnt_math es más alta
+-    draw_set_font(fnt_math);
+-    _hy = 116 + string_height("M") + 24;
+-    draw_set_font(fnt_ui);
++    var _hy = 155;
++    var _scale = 0.85;
++    var _sep = string_height("M") + 4;
+     for (var i = 0; i < array_length(_hw); i++) {
+-        draw_text_ext(160, _hy, _hw[i], string_height("M") + 6, GUI_W - 320);
+-        _hy += string_height_ext(_hw[i], string_height("M") + 6, GUI_W - 320) + 14;
+-    }
+-    draw_set_halign(fa_center);
+-    draw_set_colour(COL_DIM);
+-    draw_text(_cx, GUI_H - 150, "Enter: volver");
++        draw_text_ext_transformed(130, _hy, _hw[i], _sep, (GUI_W - 260) / _scale, _scale, _scale, 0);
++        _hy += string_height_ext(_hw[i], _sep, (GUI_W - 260) / _scale) * _scale + 8;
++    }
++    draw_set_halign(fa_center);
++    draw_set_colour(COL_DIM);
++    draw_text(_cx, GUI_H - 95, "Enter: volver");
+ }
+@@ -104,4 +103,4 @@
+     draw_set_font(fnt_ui);
+-    var _lh = string_height("M") + 10;
+-    var _yy = 116 + _lh * 2 + 10;
++    var _lh = string_height("M") + 4;
++    var _yy = 205;
+     draw_set_colour(COL_TEXT);
+@@ -109,3 +108,3 @@
+     draw_set_colour(COL_DIM);
+-    draw_text(_cx, _yy, "Proyecto del curso Sistemas Educativos Inteligentes"); _yy += _lh * 2;
++    draw_text(_cx, _yy, "Proyecto del curso Sistemas Educativos Inteligentes"); _yy += _lh + 18;
+     draw_set_colour(COL_WARN);
+@@ -115,6 +114,6 @@
+     for (var i = 0; i < array_length(_cr); i++) { draw_text(_cx, _yy, _cr[i]); _yy += _lh; }
+-    _yy += _lh;
++    _yy += 10;
+     draw_set_colour(COL_DIM);
+     draw_text(_cx, _yy, "Arte y sonido: provisionales");
+-    draw_text(_cx, GUI_H - 150, "Enter: volver");
++    draw_text(_cx, GUI_H - 145, "Enter: volver");
+ }
+@@ -162,3 +161,5 @@
+     draw_text(_cx, _yy, "Ejemplo: María Torres, nacida un día 7  ->  MATO07"); _yy += _lh;
+-    draw_text(_cx, _yy, "Sin tildes (la ñ se escribe N). Usa SIEMPRE el mismo código en el pre-test, el juego y el post-test."); _yy += _lh + 16;
++    var _code_note = "Sin tildes (la ñ se escribe N). Usa SIEMPRE el mismo código en el pre-test, el juego y el post-test.";
++    draw_text_ext(_cx, _yy, _code_note, _lh, GUI_W - 360);
++    _yy += string_height_ext(_code_note, _lh, GUI_W - 360) + 16;
+ 
+@@ -201,3 +202,3 @@
+     draw_set_colour(COL_TEXT);
+-    draw_text_transformed(_cx, 140 + _th2 + 34, code_text, 2, 2, 0);
++    draw_text_transformed(_cx, 140 + _th2 + 20, code_text, 1.4, 1.4, 0);
+ 
+@@ -205,3 +206,3 @@
+     var _lh2 = string_height("M") + 8;
+-    var _y3 = 140 + _th2 + 34 + _th2 * 2 + 30;
++    var _y3 = 140 + _th2 + 20 + _th2 * 1.4 + 22;
+     draw_set_colour(COL_DIM);
+@@ -209,3 +210,3 @@
+ 
+-    var _oy = GUI_H - 270;
++    var _oy = GUI_H - 240;
+     draw_set_colour((confirm_sel == 0) ? COL_WARN : COL_TEXT);
+@@ -216,3 +217,3 @@
+     draw_set_colour(COL_DIM);
+-    draw_text(_cx, GUI_H - 160, "Izquierda / derecha: elegir     |     Enter: aceptar     |     Esc: volver");
++    draw_text_transformed(_cx, GUI_H - 160, "Izquierda / derecha: elegir     |     Enter: aceptar     |     Esc: volver", 0.64, 0.64, 0);
+ }

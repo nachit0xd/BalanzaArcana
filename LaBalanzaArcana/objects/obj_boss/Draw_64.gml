@@ -59,43 +59,44 @@ draw_set_alpha(_a);
 draw_set_font(fnt_ui);
 draw_set_halign(fa_center);
 draw_set_valign(fa_top);
-draw_text_shadow(boss_x, 98, src.name, COL_TEXT);
+draw_text_shadow(_cx - 50, 132, src.name, COL_TEXT);
 
 // Etapa 2: puntos de energía del jefe
 if (stage == 2) {
     var _hsep = 36;
-    var _hx0  = boss_x - (hp_max - 1) * _hsep / 2;
+    var _hx0  = _cx - 50 - (hp_max - 1) * _hsep / 2;
     for (var h = 0; h < hp_max; h++) {
         var _hx = _hx0 + h * _hsep;
         draw_set_colour((h < hp) ? COL_BAD : COL_INPUT_BG);
-        draw_circle(_hx, 146, 12, false);
+        draw_circle(_hx, 194, 12, false);
         draw_set_colour(COL_BORDER);
-        draw_circle(_hx, 146, 12, true);
+        draw_circle(_hx, 194, 12, true);
     }
 }
 
 // Tres sellos en columna a la derecha: rotos = apagados con una cruz
-var _sx0 = GUI_W - 110;
+var _sx0 = GUI_W - 220;
 draw_set_halign(fa_center);
-draw_text_shadow(_sx0, 104, "Sellos", COL_DIM);
+draw_text_shadow(_sx0 + 60, 140, "Sellos", COL_DIM);
 for (var s = 0; s < seals_max; s++) {
-    var _yy = 160 + s * 56;
+    var _sx = _sx0 + s * 60;
+    var _yy = 218;
     if (s < broken) {
         draw_set_colour(COL_INPUT_BG);
-        draw_circle(_sx0, _yy, 20, false);
+        draw_circle(_sx, _yy, 20, false);
         draw_set_colour(COL_DIM);
-        draw_circle(_sx0, _yy, 20, true);
-        draw_line_width(_sx0 - 10, _yy - 10, _sx0 + 10, _yy + 10, 3);
-        draw_line_width(_sx0 + 10, _yy - 10, _sx0 - 10, _yy + 10, 3);
+        draw_circle(_sx, _yy, 20, true);
+        draw_line_width(_sx - 10, _yy - 10, _sx + 10, _yy + 10, 3);
+        draw_line_width(_sx + 10, _yy - 10, _sx - 10, _yy + 10, 3);
     } else {
         var _glow = (s == broken) ? (0.6 + 0.4 * dsin(current_time / 4)) : 1;
         draw_set_colour(COL_BAD);
         draw_set_alpha(_a * _glow);
-        draw_circle(_sx0, _yy, 20, false);
+        draw_circle(_sx, _yy, 20, false);
         draw_set_alpha(_a);
         draw_set_colour(COL_WARN);
-        draw_circle(_sx0, _yy, 20, true);
-        draw_circle(_sx0, _yy, 8, true);
+        draw_circle(_sx, _yy, 20, true);
+        draw_circle(_sx, _yy, 8, true);
     }
 }
 

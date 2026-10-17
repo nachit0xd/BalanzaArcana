@@ -23,14 +23,15 @@ start = function(_level, _preview) {
     owned_total  = array_length(global.badges) + (_preview ? array_length(new_badges) : 0);
     total_points = global.score;
     shown_total  = global.score - stats.points;
-    pages        = (array_length(new_badges) > 0) ? 2 : 1;
+    pages        = 1 + ceil(array_length(new_badges) / 2);
 	jingle("mus_results");
 };
 
 // ¿La animación de la página actual ya terminó?
 page_ready = function() {
     if (page == 1) return (t >= 90);
-    return (t >= 20 + 20 * min(array_length(new_badges), 5));
+    var _visible = min(2, array_length(new_badges) - (page - 2) * 2);
+    return (t >= 20 + 20 * _visible);
 };
 
 finish = function() {

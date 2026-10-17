@@ -1,0 +1,14 @@
+--- a/objects/obj_boss/Create_0.gml
++++ b/objects/obj_boss/Create_0.gml
+@@ -126 +126 @@
+-            array_push(pop, { x: boss_x, y: boss_y - 210, txt: "¡Sello roto!", col: COL_GOOD, t: 0 });
++            array_push(pop, { x: boss_x, y: boss_y - 95, txt: "¡Sello roto!", col: COL_GOOD, t: 0 });
+@@ -134 +134 @@
+-            array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
++            array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
+@@ -143 +143 @@
+-            array_push(pop, { x: boss_x, y: boss_y - 210, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
++            array_push(pop, { x: boss_x, y: boss_y - 95, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
+@@ -149 +149 @@
+-            array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct2) + " %", col: COL_BAD, t: 0 });
++            array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct2) + " %", col: COL_BAD, t: 0 });

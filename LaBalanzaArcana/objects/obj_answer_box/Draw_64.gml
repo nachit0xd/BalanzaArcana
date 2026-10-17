@@ -9,10 +9,17 @@ for (var i = 0; i < fields; i++) {
     var _active = enabled && (i == focus);
     var _jit    = (shake > 0 && _active) ? choose(-5, 5) : 0;
 
-    // Etiqueta (x =  /  x₁ =  /  x₂ =)
-    draw_set_halign(fa_right);
+	// Los glifos Unicode ₁ y ₂ no están en fnt_math: dibujar cada subíndice con un dígito reducido.
     draw_set_colour(COL_TEXT);
-    draw_text(_bx - 14, gy + box_h / 2, labels[i]);
+    if (fields == 2) {
+        draw_set_halign(fa_left);
+        draw_text(_bx - 90, gy + box_h / 2, "x");
+        draw_text_transformed(_bx - 58, gy + box_h / 2 + 14, string(i + 1), 0.42, 0.42, 0);
+        draw_text(_bx - 42, gy + box_h / 2, "=");
+    } else {
+        draw_set_halign(fa_right);
+        draw_text(_bx - 14, gy + box_h / 2, labels[i]);
+    }
 
     // Caja
     draw_set_colour(COL_INPUT_BG);

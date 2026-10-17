@@ -99,7 +99,7 @@ if (page == 1) {
         draw_set_halign(fa_left);
         draw_set_colour(COL_WARN);
         var _bt = (array_length(new_badges) > 0)
-                ? "Insignias nuevas: " + string(array_length(new_badges)) + "  (se muestran en la siguiente pantalla)"
+                ? "Insignias nuevas: " + string(array_length(new_badges)) + "  (se muestran a continuación)"
                 : "Ninguna insignia nueva en este nivel.";
         draw_text(_px + 48, _py + _ph - 2 * _lh - 24, _bt);
         draw_set_colour(COL_DIM);
@@ -116,11 +116,12 @@ if (page == 1) {
     draw_set_colour(COL_DIM);
     draw_text(_px + _pw - 48, _y1, string(owned_total) + " de " + string(array_length(global.badge_defs)));
 
-    var _n    = min(array_length(new_badges), 5);
-    var _by   = _y1 + _lh + 16;
+    var _first = (page - 2) * 2;
+    var _n = min(2, array_length(new_badges) - _first);
+    var _by = _y1 + _lh + 16;
     for (var b = 0; b < _n; b++) {
         if (t < 15 + 20 * b) continue;                 // van apareciendo una a una
-        var _bd = new_badges[b];
+        var _bd = new_badges[_first + b];
 
         // Medallón dorado
         draw_set_colour(c_yellow);
@@ -136,10 +137,7 @@ if (page == 1) {
 
         _by += _lh * 2 + 24 + ((string_width(_bd.desc) > _pw - 220) ? _lh : 0);
     }
-    if (array_length(new_badges) > 5) {
-        draw_set_colour(COL_DIM);
-        draw_text(_px + 110, _by, "... y " + string(array_length(new_badges) - 5) + " más");
-    }
+
 }
 
 // Pie
@@ -147,7 +145,8 @@ if (page_ready()) {
     if ((current_time div 500) mod 2 == 0) {
         draw_set_halign(fa_center);
         draw_set_colour(COL_DIM);
-        draw_text(_cx, _py + _ph - 44, (page < pages) ? "Enter: ver insignias" : "Enter: continuar");
+        var _next = (page == 1) ? "Enter: ver insignias" : "Enter: ver más insignias";
+        draw_text(_cx, _py + _ph - 44, (page < pages) ? _next : "Enter: continuar");
     }
 }
 

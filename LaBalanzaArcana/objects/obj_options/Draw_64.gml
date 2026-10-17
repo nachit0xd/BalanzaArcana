@@ -18,8 +18,8 @@ draw_text(_cx, _py + 24, "Opciones");
 var _th = string_height("M");
 
 draw_set_font(fnt_ui);
-var _lh = string_height("M") + 14;
-var _y0 = _py + 24 + _th + 28;
+var _lh = string_height("M") + 6;
+var _y0 = _py + 24 + _th + 20;
 var _lx = _px + 64, _rx = _px + _pw - 64;
 
 for (var i = 0; i < array_length(rows); i++) {
@@ -59,8 +59,8 @@ for (var i = 0; i < array_length(rows); i++) {
 // Descripción de la fila elegida
 draw_set_halign(fa_center);
 draw_set_colour(COL_DIM);
-draw_text_ext(_cx, _py + _ph - 100, rows[sel].desc, _lh - 6, _pw - 120);
-draw_text(_cx, _py + _ph - 48, "Arriba/abajo: elegir     Izquierda/derecha: cambiar     Esc: volver");
+draw_text_ext_transformed(_cx, _py + _ph - 128, rows[sel].desc, _lh, (_pw - 120) / 0.8, 0.8, 0.8, 0);
+draw_text_transformed(_cx, _py + _ph - 36, "Arriba/abajo: elegir     Izquierda/derecha: cambiar     Esc: volver", 0.62, 0.62, 0);
 
 // Restaurar estado de dibujo
 draw_set_halign(fa_left);

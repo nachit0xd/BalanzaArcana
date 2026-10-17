@@ -62,7 +62,7 @@ if (!_battle) {
     draw_text_ext(lay.story_x, lay.story_y, story, _lh, lay.story_w);
     _card_y = lay.card_y;
 } else if (state == EX_STATE.ASK1) {
-    draw_text_ext(lay.lx, lay.body_y, story, _lh, lay.lw);
+    draw_text_scaled(lay.lx, lay.story_y_battle, story, _lh * lay.story_scale, lay.lw, lay.story_scale);
     _card_y = lay.card_y_ask;
 } else {
     _card_y = lay.card_y_ans;                           // tras responder, el enunciado cede su lugar
@@ -73,7 +73,8 @@ if (lay.show_eq) {
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
     draw_set_colour(COL_TEXT);
-    draw_text(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex));
+    if (_battle) draw_text_transformed(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex), 0.72, 0.72, 0);
+    else         draw_text(lay.card_x + lay.card_w / 2, _card_y + lay.card_h / 2, ex_equation_string(ex));
     draw_set_font(fnt_ui);
     draw_set_valign(fa_top);
 }

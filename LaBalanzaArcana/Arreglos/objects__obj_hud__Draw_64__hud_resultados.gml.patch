@@ -1,0 +1,35 @@
+--- a/objects/obj_hud/Draw_64.gml
++++ b/objects/obj_hud/Draw_64.gml
+@@ -7,25 +7,12 @@
+ var _px  = 16, _py = 16;
+-var _barx = _px + 56, _barw = 268, _barh = 26;
+-var _pw  = 56 + _barw + 18, _ph = 56;
++var _heart_step = 54, _ph = 56;
++var _pw = 72 + (_n - 1) * _heart_step;
+ draw_plaque(_px, _py, _pw, _ph);
+ 
+-var _col = (_lf >= _n) ? COL_GOOD : ((_lf <= 1) ? COL_BAD : COL_WARN);
+-draw_heart(_px + 28, _py + 26, 11, (_lf > 0) ? COL_BAD : COL_DIM);
+-
+-var _gap = 8;
+-var _sw  = (_barw - (_n - 1) * _gap) / _n;
+ for (var i = 0; i < _n; i++) {
+-    var _sx = _barx + i * (_sw + _gap);
+-    var _sy = _py + (_ph - _barh) / 2;
+-    draw_set_colour(COL_INPUT_BG);
+-    draw_rectangle(_sx, _sy, _sx + _sw, _sy + _barh, false);
+-    if (i < _lf) {
+-        draw_set_colour(_col);
+-        draw_rectangle(_sx + 3, _sy + 3, _sx + _sw - 3, _sy + _barh - 3, false);
+-    } else if (i == blink_idx && blink_t > 0 && ((blink_t div 5) mod 2 == 0)) {
+-        draw_set_colour(COL_BAD);                       // el segmento recién perdido destella
+-        draw_rectangle(_sx + 3, _sy + 3, _sx + _sw - 3, _sy + _barh - 3, false);
+-    }
+-    draw_set_colour(COL_BORDER);
+-    draw_rectangle(_sx, _sy, _sx + _sw, _sy + _barh, true);
++    var _hx = _px + 36 + i * _heart_step;
++    var _hy = _py + _ph / 2;
++    var _blink = (i == blink_idx && blink_t > 0 && ((blink_t div 5) mod 2 == 0));
++    draw_heart(_hx, _hy, 17, COL_DIM);
++    draw_heart(_hx, _hy, 14, (i < _lf || _blink) ? COL_BAD : COL_PANEL);
+ }
