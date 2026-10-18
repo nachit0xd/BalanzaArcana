@@ -166,7 +166,7 @@ function bank_text_init() {
 		],
 		win: [
 			"Mi forma se disuelve... Has separado la luz del engaño.",
-			"Las ruinas aún guardan otros juramentos rotos."
+			"Tras el portón, mi jefe utiliza una x al cuadrado... una misma ecuación puede esconder dos soluciones."
 		]
 	};
 	txt("sombra_1", "Antes de tomar forma completa, la sombra libera 5 chispas de caos y crece con 4 veces cierta fuerza oscura. Para contenerla, esa fuerza debe igualar las 9 chispas más 3 veces esa misma fuerza que ya la sostienen.");
@@ -177,11 +177,12 @@ function bank_text_init() {
 	global.src_text[$ "guerrero"] = {
 		intro: [
 			"Mi espada sigue una orden antigua: defender el castillo de todo intruso.",
-			"Si puedes igualar la fuerza de mi ataque con la de tu defensa, quizá pueda descansar."
+			"Si puedes igualar la fuerza de mi ataque con la de tu defensa, quizá pueda descansar para siempre..."
 		],
 		win: [
 			"La orden se ha cumplido. Mi espada ya puede volver a su vaina.",
-			"Busca al Rey; fue él quien torció el juramento de los guardianes."
+			"Los guardianes oímos los planes del jefe... x al cuadrado más un término con x y una constante, todo igual a 0.",
+			"Las dos raíces suman el opuesto del coeficiente de x; su producto es la constante... será una batalla complicada para ti, mago."
 		]
 	};
 	txt("guerrero_1", "La espada del guerrero marca 4 unidades de fuerza más 3 veces un poder x. Tu escudo marca 6 unidades más una vez ese mismo poder. ¿Qué valor de x los iguala?");
@@ -196,7 +197,7 @@ function bank_text_init() {
 		],
 		win: [
 			"Medida correcta. Ya no debo cerrarte el paso.",
-			"Avanza, pero no confundas la puerta del Rey con una salida."
+			"Cada sello del Rey pide dos soluciones. Escríbelas en casillas distintas... solo así podrás derribar sus escudos."
 		]
 	};
 	txt("centinela_1", "El mecanismo del centinela registra 2 unidades de carga más 5 veces una potencia x. Tu amuleto registra 8 unidades más 2 veces esa potencia. ¿Qué valor de x equilibra ambos registros?");
@@ -211,7 +212,7 @@ function bank_text_init() {
 		],
 		win: [
 			"Por fin hay silencio. Ya puedo recordar mi propia voz.",
-			"El Rey se esconde tras el portón, pero aún quedan sombras en el castillo."
+			"Escucha los signos... las raíces del Rey también pueden ser negativas. No descartes una por su sombra."
 		]
 	};
 	txt("espectro_1", "El primer eco guarda 10 notas de memoria más 2 veces una intensidad x. El segundo guarda 4 notas más 3 veces esa intensidad. ¿Qué valor de x hace que suenen iguales?");
@@ -226,7 +227,7 @@ function bank_text_init() {
 		],
 		win: [
 			"Clac... Los huesos vuelven a descansar.",
-			"El hechizo que los alzaba viene del otro lado del portón."
+			"Tres sellos de protección rodean al Rey. Rompe cada uno con dos raíces antes de poder alcanzarlo."
 		]
 	};
 	txt("esqueleto_1", "Un grupo de huesos tiene 3 marcas de magia más 2 veces una variación firmada x. El otro tiene 9 marcas más 4 veces x. ¿Qué valor de x los iguala? Si la magia se debilita, escribe un número negativo.");
@@ -237,15 +238,18 @@ function bank_text_init() {
 	global.src_text[$ "rey_desequilibrio"] = {
 		intro: [
 			"Así que el aprendiz ha llegado hasta mi sala. Has equilibrado el bosque y liberado a mis guardianes.",
-			"Tres sellos protegen mi escudo. Cada uno encierra una ecuación con dos raíces: encuentra ambas y rómpelo."
+			"Pero hasta aquí llega tu camino... ¡yo, el Rey del Desequilibrio, acabaré contigo gracias a mi poder cuadrático!",
+			"Tres sellos protegen mi escudo mágico... cada uno encierra una ecuación con dos soluciones posibles...",
+			"Intenta romper mis sellos, ¡pero eso será imposible para un humano como tu!"
 		],
 		shield: [
-			"¡Mis tres sellos... destruidos! Aún me queda fuerza para combatir.",
-			"Cada respuesta correcta me alcanzará ahora. Veamos cuánto resiste tu balanza."
+			"¡¿C-Cómo es posible?! ¡Mis tres sellos... destruidos! Pero... ¡aún me queda fuerza para combatir!",
+			"Puede que me dañes ahora, ¡pero no me rendiré hasta destruirte! Veamos cuánto resiste tu balanza, aprendiz."
 		],
 		win: [
-			"Imposible... Mis inscripciones ceden y la balanza vuelve a sostenerse por sí sola.",
-			"La magia ya no me pertenece. El reino de Aequor puede encontrar su equilibrio."
+			"I-Imposible... mi poder mágico... se desvanece...",
+			"Puedo sentir... el equilibrio vuelve en mi interior...",
+			"El Desequilibrio ya no me pertenece. El reino de Aequor... puede encontrar su equilibrio... una vez más..."
 		]
 	};
 	txt("rey_1", "Una inscripción del Rey muestra x² - 5x + 6 = 0. La balanza solo se estabiliza cuando encuentras los dos valores de x que la cumplen. ¿Cuáles son las dos raíces?");

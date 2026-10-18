@@ -5,7 +5,7 @@
 
 npc_id = "";
 src    = undefined;        // datos del NPC en el banco
-deck   = undefined;        // sus ejercicios, en orden fijo
+deck   = undefined;        // solo ejercicios del banco de este NPC
 total  = 0;                // cuántos ejercicios tiene la misión
 n_done = 0;                // cuántos van
 
@@ -15,8 +15,15 @@ n_done = 0;                // cuántos van
 start = function(_npc_id) {
     npc_id = _npc_id;
     src    = global.bank_src[$ npc_id];
-    deck   = deck_create(npc_id);          // baraja propia: si se interrumpe, se reinicia igual
-    total  = array_length(src.order);
+    deck   = deck_create(npc_id);          // contiene únicamente los ejercicios de este NPC
+    // Barajar sin repetición al iniciar la misión; cada partida puede dar un par distinto
+    for (var i = array_length(deck.queue) - 1; i > 0; i--) {
+        var j = irandom(i);
+        var _tmp = deck.queue[i];
+        deck.queue[i] = deck.queue[j];
+        deck.queue[j] = _tmp;
+    }
+    total  = min(2, array_length(deck.queue));
     n_done = 0;
     intro();
 };

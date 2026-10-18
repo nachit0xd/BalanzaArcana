@@ -1,0 +1,28 @@
+--- a/scripts/scr_bank_test/scr_bank_test.gml
++++ b/scripts/scr_bank_test/scr_bank_test.gml
+@@ -168,3 +168,3 @@
+ 			"Mi forma se disuelve... Has separado la luz del engaño.",
+-			"Las ruinas aún guardan otros juramentos rotos."
++			"Tras el portón verás x al cuadrado: una misma ecuación puede esconder dos raíces."
+ 		]
+@@ -183,3 +183,4 @@
+ 			"La orden se ha cumplido. Mi espada ya puede volver a su vaina.",
+-			"Busca al Rey; fue él quien torció el juramento de los guardianes."
++			"La guardia oyó su conjuro: x al cuadrado más un término con x y una constante, todo igual a 0.",
++			"Las dos raíces suman el opuesto del coeficiente de x; su producto es la constante."
+ 		]
+@@ -198,3 +198,3 @@
+ 			"Medida correcta. Ya no debo cerrarte el paso.",
+-			"Avanza, pero no confundas la puerta del Rey con una salida."
++			"Cada sello pide dos raíces. Escríbelas en casillas distintas y usa Tab para cambiar de una a otra."
+ 		]
+@@ -213,3 +213,3 @@
+ 			"Por fin hay silencio. Ya puedo recordar mi propia voz.",
+-			"El Rey se esconde tras el portón, pero aún quedan sombras en el castillo."
++			"Escucha los signos: las raíces del Rey también pueden ser negativas. No descartes una por su sombra."
+ 		]
+@@ -228,3 +228,3 @@
+ 			"Clac... Los huesos vuelven a descansar.",
+-			"El hechizo que los alzaba viene del otro lado del portón."
++			"Tres sellos protegen al Rey. Rompe cada uno con dos raíces antes de poder alcanzarlo."
+ 		]

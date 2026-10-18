@@ -43,8 +43,10 @@ function story_text_init() {
 
     // Nivel 3  [BORRADOR]; el ejemplo 5 + 4x = 9 + 3x es [DOCUMENTO] (PDF 2.2)
     global.level_intro[$ "3"] = [
-        dlg("Maestro", "Este castillo esconde ecuaciones con x en ambos lados, como 5 + 4x = 9 + 3x."),
-        dlg("Maestro", "Junta las x de un mismo lado restando 3x en ambos lados: queda 5 + x = 9. Luego resta 5 y obtienes x = 4.")
+        dlg("Maestro", "Has llegado al castillo de El Rey del Desequilibrio, tu objetivo no está muy lejos, muchacho."),
+		dlg("Maestro", "Aquí se esconden ecuaciones con x en ambos lados, como 5 + 4x = 9 + 3x."),
+        dlg("Maestro", "Junta las x de un mismo lado restando 3x en ambos lados: queda 5 + x = 9. Luego resta 5 y obtienes x = 4."),
+		dlg("Maestro", "Asegúrate de derrotar a todos los enemigos que encuentres, puede que te den pistas sobre la batalla contra el Rey.")
     ];
 
     // Nivel 4  [BORRADOR]; el ejemplo x² - 5x + 6 = 0 es [DOCUMENTO] (docx 1.5.4)

@@ -1,0 +1,6 @@
+--- a/objects/obj_pause/Step_0.gml
++++ b/objects/obj_pause/Step_0.gml
+@@ -4,2 +4,3 @@
+ if (options_active() || choice_active()) exit;
++if (global.ui_cooldown > 0) exit;  // el Enter que cerró Opciones no debe abrirlo otra vez
+ if (grace > 0) { grace--; exit; }
