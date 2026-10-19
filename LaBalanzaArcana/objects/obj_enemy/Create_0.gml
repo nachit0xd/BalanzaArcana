@@ -5,10 +5,8 @@ sprite_index = spr_enemy;
 image_speed  = 0;
 image_index  = 0;
 
-enemy_id = "";             // id del banco; lo asigna setup()
 home_x   = x;              // punto de origen
 home_y   = y;
-radius   = 48;             // cuánto puede alejarse del origen (px)
 spd      = 0.5;            // píxeles por frame (lento: 30 px/s)
 x_rem    = 0;
 y_rem    = 0;
@@ -35,6 +33,26 @@ setup = function(_id) {
     home_x = x;
     home_y = y;
 };
+
+if (enemy_id != "") {
+    if (!variable_struct_exists(global.bank_src, enemy_id)) {
+        show_debug_message("Enemigo desconocido en la room: " + enemy_id);
+        instance_destroy();
+        exit;
+    }
+    var _source = global.bank_src[$ enemy_id];
+    if (_source.kind != "enemy" || _source.level != global.level) {
+        show_debug_message("Enemigo de otro nivel o tipo: " + enemy_id);
+        instance_destroy();
+        exit;
+    }
+    if (quest_get(enemy_id).done) {
+        instance_destroy();
+        exit;
+    }
+    setup(enemy_id);
+}
+
 
 collides = function(_x, _y) {
     return solid_at(_x + hb_l, _y + hb_t) || solid_at(_x + hb_r, _y + hb_t)

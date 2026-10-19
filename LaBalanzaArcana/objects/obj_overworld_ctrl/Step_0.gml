@@ -23,15 +23,3 @@ if (DEBUG_MODE) {
 	// F12: pasar al siguiente nivel (solo pruebas)
     if (keyboard_check_pressed(vk_f12)) level_goto(min(MAX_LEVEL, global.level + 1));
 }
-
-// Puente cerrado: si el jugador intenta cruzar, la guardiana se lo recuerda
-if (bridge_msg_cd > 0) bridge_msg_cd--;
-if (bridge_locked() && bridge_msg_cd <= 0 && !world_frozen() && instance_exists(obj_player)) {
-    var _bp = obj_player;
-    if (_bp.x >= 28 * TILE - 12 && _bp.y >= 11 * TILE && _bp.y <= 13 * TILE
-        && (keyboard_check(vk_right) || keyboard_check(ord("D")))) {
-        bridge_msg_cd = 600;
-        dialogue_start([ "La guardiana te corta el paso: nadie cruza el puente sin ayudar con el registro.",
-                         "Habla con ella primero." ], "", undefined);
-    }
-}

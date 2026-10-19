@@ -1,8 +1,0 @@
---- a/objects/obj_battle/Create_0.gml
-+++ b/objects/obj_battle/Create_0.gml
-@@ -70 +70 @@
--        array_push(pop, { x: enemy_x, y: enemy_y - 190, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
-+        array_push(pop, { x: enemy_x, y: enemy_y - 70, txt: "-" + string(_dmg), col: COL_GOOD, t: 0 });
-@@ -76 +76 @@
--        array_push(pop, { x: player_x, y: player_y - 190, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
-+        array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });

@@ -14,6 +14,7 @@ hb_l = -5;  hb_r = 4;
 hb_t = -6;  hb_b = -1;
 
 image_index = dir * 3;
+depth = -y; // ordenar correctamente desde el primer fotograma
 
 // ¿Chocaría la caja si el jugador estuviera en (_x, _y)?
 collides = function(_x, _y) {

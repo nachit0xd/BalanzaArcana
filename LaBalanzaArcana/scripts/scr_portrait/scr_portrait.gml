@@ -31,14 +31,19 @@ function portrait_frame(_pid) {
         case "esqueleto":         return 15;
         case "rey_desequilibrio": return 16;
     }
-    return 0;
+    return -1;
 }
 
 // Qué dibujar para un retrato: { kind: "sprite", spr, frame } | { kind: "maestro" } | undefined
 function portrait_info(_pid) {
     // 1) Retratos definitivos, si ya existe el sprite spr_portrait
     var _ps = asset_get_index("spr_portrait");
-    if (_ps != -1) return { kind: "sprite", spr: _ps, frame: portrait_frame(_pid) };
+    var _frame = portrait_frame(_pid);
+    if (_ps != -1) {
+        if (_frame >= 0 && _frame < sprite_get_number(_ps)) {
+            return { kind: "sprite", spr: _ps, frame: _frame };
+        }
+    }
 
     // 2) Provisional: el sprite del personaje, ampliado
     if (_pid == "maestro") return { kind: "maestro" };
@@ -92,7 +97,7 @@ function draw_portrait_maestro(_ox, _oy, _u) {
 
 // Dibuja el marco del retrato con el personaje dentro:
 //   _x, _y, _w, _h : rectángulo del marco (coordenadas de GUI)
-//   _t             : frames desde que apareció (da un leve movimiento de "respiración")
+//   _t             : reservado para mantener la firma actual
 //   _k             : 0..1, opacidad de la entrada
 //   _accent        : color del marco (role_color); undefined = el normal
 function portrait_draw(_pid, _x, _y, _w, _h, _t, _k, _accent) {
@@ -113,27 +118,17 @@ function portrait_draw(_pid, _x, _y, _w, _h, _t, _k, _accent) {
     var _c2 = make_colour_rgb(20, 16, 38);
     draw_rectangle_colour(_x + 4, _y + 4, _x + _w - 4, _y + _h - 4, _c1, _c1, _c2, _c2, false);
 
-    // Sombra en el suelo
-    var _cx   = _x + _w / 2;
-    var _base = _y + _h - 40;
-    draw_set_colour(c_black);
-    draw_set_alpha(0.35 * _a);
-    draw_ellipse(_cx - 100, _base - 10, _cx + 100, _base + 16, false);
-    draw_set_alpha(_a);
+	// Retrato fijo, centrado y apoyado cerca del borde inferior del marco.
+	var _cx   = _x + _w / 2;
+	var _base = _y + _h - 16;
 
-    // Leve vaivén vertical
-    var _bob = round(sin(_t * 0.07) * 3);
-
-    if (_info.kind == "maestro") {
-        var _u = 12;                                            // 16 x 20 casillas de arte
-        draw_portrait_maestro(_cx - 8 * _u, _base + _bob - 20 * _u, _u);
-    } else {
-        var _sw = sprite_get_width(_info.spr);
-        var _sh = sprite_get_height(_info.spr);
-        var _sc = max(1, floor(min((_w - 64) / _sw, (_h - 90) / _sh)));
-        draw_sprite_ext(_info.spr, _info.frame, _cx, _base + _bob, _sc, _sc, 0, c_white, _a);
-    }
-
-    draw_set_alpha(1);
-    draw_set_colour(c_white);
+	if (_info.kind == "maestro") {
+		var _u = 10; // Retrato provisional de 16 x 20 casillas; cabe en 224 x 224.
+		draw_portrait_maestro(_cx - 8 * _u, _base - 20 * _u, _u);
+	} else {
+		var _sw = sprite_get_width(_info.spr);
+		var _sh = sprite_get_height(_info.spr);
+		var _sc = max(1, floor(min((_w - 32) / _sw, (_h - 32) / _sh)));
+		draw_sprite_ext(_info.spr, _info.frame, _cx, _base, _sc, _sc, 0, c_white, _a);
+	}
 }

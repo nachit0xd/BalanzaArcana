@@ -1,4 +1,5 @@
 // Con un ejercicio o diálogo abierto, el jugador se queda quieto
+depth = -y; // actualizar también durante diálogos y transiciones
 if (world_frozen()) {
     moving = false;
     anim_t = 0;
@@ -6,7 +7,6 @@ if (world_frozen()) {
     exit;
 }
 
-depth = -y;      // ordenar por altura
 
 // Entrada: flechas o WASD
 var _dx = (keyboard_check(vk_right) || keyboard_check(ord("D"))) - (keyboard_check(vk_left) || keyboard_check(ord("A")));

@@ -28,16 +28,44 @@ function tile_index_at(_tm, _x, _y) {
 
 function solid_at(_x, _y) {
     if (_x < 0 || _y < 0 || _x >= room_width || _y >= room_height) return true;
-    if (tile_index_at(global.tm_solid, _x, _y) != T_EMPTY) return true;
-    var _g = tile_index_at(global.tm_ground, _x, _y);
-    if (_g == T_WATER) return true;
-    if (_g == T_BRIDGE && bridge_locked()) return true;      // puente cerrado
+    if (global.tm_collision != -1) {
+        var _c = tile_index_at(global.tm_collision, _x, _y);
+        if (_c == 1 || (_c == 2 && bridge_locked())) return true;
+    } else {
+        if (tile_index_at(global.tm_solid, _x, _y) != T_EMPTY) return true;
+        var _g = tile_index_at(global.tm_ground, _x, _y);
+        if (_g == T_WATER) return true;
+        if (_g == T_BRIDGE && bridge_locked()) return true;
+    }
+	if (tree_blocks(_x, _y)) return true;
+	if (barrier_blocks(_x, _y)) return true;
     return npc_blocks(_x, _y);
 }
 
 // El puente de la aldea está cerrado hasta cumplir la misión de la guardiana
 function bridge_locked() {
     return (room == rm_village && !quest_get("guardiana").done);
+}
+
+function barrier_open(_kind) {
+    switch (_kind) {
+        case "gate":   return level_requirements_met(3);
+        case "bridge": return !bridge_locked();
+    }
+    return false;
+}
+
+function barrier_blocks(_x, _y) {
+    var _hit = false;
+    with (obj_barrier) {
+        // El portón siempre se examina; la barrera del puente desaparece al abrirse.
+        var _solid = (barrier_kind == "gate") || !barrier_open(barrier_kind);
+        if (_solid && _x >= x + hb_l && _x <= x + hb_r
+                   && _y >= y + hb_t && _y <= y + hb_b) {
+            _hit = true;
+        }
+    }
+    return _hit;
 }
 
 // ¿Este punto cae dentro de la caja de colisión de algún NPC?
@@ -52,6 +80,17 @@ function npc_blocks(_x, _y) {
     return _hit;
 }
 
+function tree_blocks(_x, _y) {
+    var _hit = false;
+    with (obj_tree_village) {
+        if (_x >= x + trunk_left && _x <= x + trunk_right
+            && _y >= y + trunk_top && _y <= y + trunk_bottom) {
+            _hit = true;
+        }
+    }
+    return _hit;
+}
+
 // ¿El mundo debe quedarse quieto? (ejercicio, diálogo, combate, etc.)
 function world_frozen() {
     return ui_modal_active();
@@ -61,6 +100,25 @@ function world_frozen() {
 function marker_pos(_cx, _cy) {
     return { x: _cx * TILE + TILE / 2, y: _cy * TILE + TILE - 1 };
 }
+
+// Los marcadores se leen también cuando los tiles están pintados en la room.
+function world_extract_markers(_rows, _legend) {
+    for (var _y = 0; _y < array_length(_rows); _y++) {
+        for (var _x = 0; _x < string_length(_rows[_y]); _x++) {
+            var _ch = string_char_at(_rows[_y], _x + 1);
+            if (_ch == "X") {
+                global.markers[$ "exit_east_" + string(_y)] = marker_pos(_x, _y);
+            } else {
+                for (var k = 0; k < array_length(_legend); k++) {
+                    if (_legend[k][0] == _ch) {
+                        global.markers[$ _legend[k][1]] = marker_pos(_x, _y);
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 // Mapa provisional de cada room de nivel: filas de texto y leyenda de
 // marcadores. Devuelve undefined si la room no tiene mapa de texto
@@ -82,18 +140,59 @@ function world_setup() {
     global.markers   = {};      // nombre -> {x, y}  (aparición, NPC, enemigos, salidas)
     global.tm_ground = -1;
     global.tm_solid  = -1;
+	global.tm_collision = -1;
 
-    if (layer_exists("Ground") && layer_exists("Solid")) {
+    var _painted = layer_exists("Ground") && layer_exists("Collision");
+    var _map = _painted ? undefined : world_map_for_room();
+	if (!is_undefined(_map)) {
+		world_extract_markers(_map.rows, _map.legend);
+	}
+
+    if (_painted) {
+        global.tm_ground = layer_tilemap_get_id(layer_get_id("Ground"));
+        global.tm_collision = layer_tilemap_get_id(layer_get_id("Collision"));
+    } else if (layer_exists("Ground") && layer_exists("Solid")) {
         global.tm_ground = layer_tilemap_get_id(layer_get_id("Ground"));
         global.tm_solid  = layer_tilemap_get_id(layer_get_id("Solid"));
     } else {
-        var _map = world_map_for_room();
         if (is_undefined(_map)) {
-            show_debug_message("AVISO: la room " + room_get_name(room) + " no tiene mapa de texto ni capas Ground/Solid.");
+            show_debug_message("AVISO: la room " + room_get_name(room) + " no tiene mapa de texto ni capas Ground/Collision.");
         } else {
             world_build_placeholder_map(_map.rows, _map.legend);
         }
     }
+	
+	if (_painted) {
+		if (instance_exists(obj_player)) {
+			global.markers[$ "spawn"] = { x: obj_player.x, y: obj_player.y };
+		} else {
+			show_debug_message("AVISO: coloca obj_player en " + room_get_name(room) + ".");
+		}
+		with (obj_npc) {
+			if (npc_id != "") global.markers[$ npc_id] = { x: x, y: y };
+		}
+		with (obj_enemy) {
+			if (enemy_id != "") global.markers[$ enemy_id] = { x: x, y: y };
+		}
+		if (instance_exists(obj_gate)) {
+			global.markers[$ "gate"] = { x: obj_gate.x, y: obj_gate.y };
+		} else if (room == rm_castle && instance_exists(obj_barrier)) {
+			global.markers[$ "gate"] = { x: obj_barrier.x, y: obj_barrier.y };
+		}
+
+		var _sources = variable_struct_get_names(global.bank_src);
+		for (var i = 0; i < array_length(_sources); i++) {
+			var _s = global.bank_src[$ _sources[i]];
+			if (_s.level == global.level && !quest_get(_s.id).done
+			    && !variable_struct_exists(global.markers, _s.id)) {
+				show_debug_message("AVISO: falta " + _s.id + " en " + room_get_name(room) + ".");
+			}
+		}
+		if (room == rm_castle && !instance_exists(obj_gate) && !instance_exists(obj_barrier)) {
+			show_debug_message("AVISO: falta obj_barrier en rm_castle.");
+		}
+	}
+
 
     if (!instance_exists(obj_player)) {
         var _p = variable_struct_exists(global.markers, "spawn")
@@ -102,9 +201,12 @@ function world_setup() {
         instance_create_depth(_p.x, _p.y, 0, obj_player);
     }
 
-    world_spawn_npcs();
-    world_spawn_enemies();
-    world_spawn_gate();
+	if (!_painted) {
+		world_spawn_npcs();
+		world_spawn_enemies();
+		world_spawn_gate();
+	}
+
 }
 
 // NPC del nivel actual en los marcadores cuyo nombre es el id del NPC
@@ -179,14 +281,12 @@ function world_build_placeholder_map(_rows, _legend) {
 
                 case "X":                                   // salida este
                     _g = T_PATH;
-                    global.markers[$ "exit_east_" + string(_y)] = marker_pos(_x, _y);
                     break;
 
                 default:                                    // ¿es un marcador de la leyenda?
                     for (var k = 0; k < array_length(_legend); k++) {
                         if (_legend[k][0] == _ch) {
                             _g = T_PATH;
-                            global.markers[$ _legend[k][1]] = marker_pos(_x, _y);
                         }
                     }
                     break;

@@ -1,0 +1,57 @@
+--- a/scripts/scr_world/scr_world.gml
++++ b/scripts/scr_world/scr_world.gml
+@@ -123,9 +123,10 @@
+-    var _map = (room == rm_village) ? undefined : world_map_for_room();
++    var _painted = layer_exists("Ground") && layer_exists("Collision");
++    var _map = _painted ? undefined : world_map_for_room();
+ 	if (!is_undefined(_map)) {
+ 		world_extract_markers(_map.rows, _map.legend);
+ 	}
+ 
+-    if (layer_exists("Ground") && layer_exists("Collision")) {
++    if (_painted) {
+         global.tm_ground = layer_tilemap_get_id(layer_get_id("Ground"));
+         global.tm_collision = layer_tilemap_get_id(layer_get_id("Collision"));
+     } else if (layer_exists("Ground") && layer_exists("Solid")) {
+@@ -142,15 +143,29 @@
+-	if (room == rm_village) {
++	if (_painted) {
+ 		if (instance_exists(obj_player)) {
+ 			global.markers[$ "spawn"] = { x: obj_player.x, y: obj_player.y };
+ 		} else {
+-			show_debug_message("AVISO: coloca obj_player en rm_village.");
++			show_debug_message("AVISO: coloca obj_player en " + room_get_name(room) + ".");
+ 		}
+ 		with (obj_npc) {
+ 			if (npc_id != "") global.markers[$ npc_id] = { x: x, y: y };
+ 		}
+ 		with (obj_enemy) {
+ 			if (enemy_id != "") global.markers[$ enemy_id] = { x: x, y: y };
+ 		}
++		if (instance_exists(obj_gate)) {
++			global.markers[$ "gate"] = { x: obj_gate.x, y: obj_gate.y };
++		}
++		var _sources = variable_struct_get_names(global.bank_src);
++		for (var i = 0; i < array_length(_sources); i++) {
++			var _s = global.bank_src[$ _sources[i]];
++			if (_s.level == global.level && !quest_get(_s.id).done
++			    && !variable_struct_exists(global.markers, _s.id)) {
++				show_debug_message("AVISO: falta " + _s.id + " en " + room_get_name(room) + ".");
++			}
++		}
++		if (room == rm_castle && !instance_exists(obj_gate)) {
++			show_debug_message("AVISO: falta obj_gate en rm_castle.");
++		}
+ 	}
+ 
+ 
+@@ -164,7 +179,7 @@
+-	if (room != rm_village) {
++	if (!_painted) {
+ 		world_spawn_npcs();
+ 		world_spawn_enemies();
++		world_spawn_gate();
+ 	}
+-	world_spawn_gate();
+ 
+ }
