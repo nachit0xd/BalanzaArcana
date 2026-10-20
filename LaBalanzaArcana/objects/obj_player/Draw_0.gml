@@ -1,6 +1,6 @@
 draw_self();
 
-// Con F1 se ve la caja de colisión (rojo)
+// Con la tecla F1 se ve la caja de colisión (rojo)
 if (global.debug) {
     draw_set_colour(c_red);
     draw_set_alpha(0.6);

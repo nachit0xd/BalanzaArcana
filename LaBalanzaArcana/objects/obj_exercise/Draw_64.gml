@@ -3,12 +3,12 @@ if (is_undefined(ex) || closing) exit;
 var _battle = (ctx == "battle");
 var _in_ask = (state == EX_STATE.ASK1 || state == EX_STATE.ASK2);
 var _src    = global.bank_src[$ ex.src];
-var _acc    = role_color(ex.src);                      // dorado = NPC, rojo = enemigo
+var _acc    = role_color(ex.src);                      // Dorado = NPC, rojo = enemigo
 var _lh     = lay.lh;
 var _cx     = GUI_W / 2;
 var _remind = (show_reminder || manual_hint || global.opt.hints_always);
 var _t      = msg_texts();
-var _ttl_hint = _battle ? "" : "Pista";                // en batalla el espacio es corto: sin título
+var _ttl_hint = _battle ? "" : "Pista";              
 
 // Fondo atenuado (solo en misiones) y panel
 if (!_battle) {
@@ -18,7 +18,7 @@ if (!_battle) {
     draw_set_alpha(1);
 }
 draw_panel(lay.px, lay.py, lay.pw, lay.ph);
-draw_set_colour(_acc);                                  // el borde toma el color de quien habla
+draw_set_colour(_acc);                                  // El borde toma el color de quien habla (NPC, Maestro o Enemigo)
 draw_rectangle(lay.px, lay.py, lay.px + lay.pw, lay.py + lay.ph, true);
 draw_rectangle(lay.px + 2, lay.py + 2, lay.px + lay.pw - 2, lay.py + lay.ph - 2, true);
 
@@ -65,7 +65,7 @@ if (!_battle) {
     draw_text_scaled(lay.lx, lay.story_y_battle, story, _lh * lay.story_scale, lay.lw, lay.story_scale);
     _card_y = lay.card_y_ask;
 } else {
-    _card_y = lay.card_y_ans;                           // tras responder, el enunciado cede su lugar
+    _card_y = lay.card_y_ans;                           // Tras responder, el enunciado cede su lugar
 }
 if (lay.show_eq) {
     draw_card(lay.card_x, _card_y, lay.card_w, lay.card_h, COL_BORDER);

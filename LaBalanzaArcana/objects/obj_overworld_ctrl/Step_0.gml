@@ -6,9 +6,10 @@ if (intro_delay > 0) {
     level_intro_start(global.level);
 }
 
+// Teclas del modo DEBUG
 if (DEBUG_MODE) {
     if (keyboard_check_pressed(vk_f2)) room_goto(rm_title);
-    if (keyboard_check_pressed(vk_f3)) { progress_reset(); room_restart(); }   // reinicia la partida de prueba
+    if (keyboard_check_pressed(vk_f3)) { progress_reset(); level_checkpoint_save(1); room_goto(rm_village); }   // reinicia la partida de prueba
 
     // F6, F7 y F8: previsualizar la introducción de los niveles 2, 3 y 4
     if (keyboard_check_pressed(vk_f6)) level_intro_preview(2);

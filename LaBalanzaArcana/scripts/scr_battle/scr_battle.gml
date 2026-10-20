@@ -1,4 +1,4 @@
-// Inicia el combate contra un enemigo (lo llama obj_enemy al tocar al jugador)
+// Script que inicia el combate contra un enemigo (lo llama el objeto obj_enemy al tocar al jugador)
 //   _enemy_id   : id del enemigo en el banco ("hombrelobo", "golem", ...)
 //   _enemy_inst : instancia del enemigo en el mundo (se elimina al ganar)
 function battle_begin(_enemy_id, _enemy_inst) {
@@ -8,7 +8,7 @@ function battle_begin(_enemy_id, _enemy_inst) {
     return _b;
 }
 
-// ¿Hay un combate en curso? (se ignora uno que ya se está cerrando)
+// Check de ¿hay un combate en curso? (se ignora uno que ya se está cerrando)
 function battle_active() {
     var _active = false;
     with (obj_battle) {
@@ -17,8 +17,7 @@ function battle_active() {
     return _active;
 }
 
-// Margen de gracia tras un combate: los enemigos no pueden iniciar otro
-// de inmediato (global.battle_grace_until lo fija obj_battle al terminar)
+// Margen de gracia tras un combate: los enemigos no pueden iniciar otro de inmediato (global.battle_grace_until lo fija obj_battle al terminar)
 function battle_grace_ok() {
     if (!variable_global_exists("battle_grace_until")) return true;
     return (current_time >= global.battle_grace_until);

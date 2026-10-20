@@ -1,9 +1,4 @@
-// Estructura del Banco de ejercicios de La Balanza Arcana.
-
-// Idea central: la matemática (scr_bank_math) y la narrativa (scr_bank_text) viven en archivos separados. Del número se derivan
-// automáticamente: el texto de la ecuación, el recordatorio, la pista y el procedimiento paso a paso (scr_bank_logic). Así nunca hay una
-// pista que contradiga la ecuación.
-
+// Script de estructura del Banco de ejercicios de La Balanza Arcana.
 
 // Símbolos
 #macro SYM_SQ  chr(178)                // ²
@@ -62,8 +57,8 @@ function eq4(_id, _src, _b, _c, _r1, _r2) {
 
 function bank_get(_id) { return global.bank_by_id[$ _id]; }
 
-// BARAJA: entrega los ejercicios de un NPC/enemigo siempre en el mismo orden (así todos los participantes ven la misma secuencia).
-// Si los propios se agotan (ej: el jugador falla varias veces en una batalla), toma los siguientes del mismo nivel, también en orden fijo.
+// Baraja: entrega los ejercicios de cada origen en el orden de su banco.
+// Si se agotan durante un combate largo, repite solo los de ese mismo origen
 function deck_create(_src_id) {
     var _s = global.bank_src[$ _src_id];
     var _d = { src:_src_id, level:_s.level, queue:[], given:{} };
@@ -71,8 +66,7 @@ function deck_create(_src_id) {
     return _d;
 }
 
-// Devuelve la baraja en curso de un origen (la crea si no existe). Se conserva entre reintentos: al repetir una batalla perdida se
-// continúa con ejercicios aún no vistos.
+// Devuelve la baraja en curso de un origen (la crea si no existe). Se conserva entre reintentos: al repetir una batalla perdida se continúa con ejercicios aún no vistos.
 function deck_get(_src_id) {
     if (!variable_struct_exists(global.decks, _src_id)) {
         global.decks[$ _src_id] = deck_create(_src_id);
@@ -94,12 +88,12 @@ function deck_next(_d) {
 }
 
 function deck_extra_id(_d) {
+	var _own = global.bank_src[$ _d.src].order;
     for (var pass = 0; pass < 2; pass++) {
-        for (var i = 0; i < array_length(global.bank_list); i++) {
-            var _e = global.bank_list[i];
-            if (_e.level == _d.level && !variable_struct_exists(_d.given, _e.id)) return _e.id;
+		for (var i = 0; i < array_length(_own); i++) {
+            if (!variable_struct_exists(_d.given, _own[i])) return _own[i];
         }
-        _d.given = {};   // ya se usaron todos: reiniciar el ciclo
+        _d.given = {};   // solo se reinicia el ciclo de este NPC/enemigo
     }
     return undefined;
 }

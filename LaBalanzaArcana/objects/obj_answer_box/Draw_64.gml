@@ -9,7 +9,7 @@ for (var i = 0; i < fields; i++) {
     var _active = enabled && (i == focus);
     var _jit    = (shake > 0 && _active) ? choose(-5, 5) : 0;
 
-	// Los glifos Unicode ₁ y ₂ no están en fnt_math: dibujar cada subíndice con un dígito reducido.
+	// Los glifos Unicode ₁ y ₂ no están en fnt_math, por lo que se dibuja cada subíndice con un dígito de tamaño reducido
     draw_set_colour(COL_TEXT);
     if (fields == 2) {
         draw_set_halign(fa_left);

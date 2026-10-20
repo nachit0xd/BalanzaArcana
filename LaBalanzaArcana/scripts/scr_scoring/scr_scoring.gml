@@ -1,4 +1,4 @@
-// Puntaje:
+// Script de puntaje:
 // _attempt      : 1 o 2 = intento en que acertó | 0 = no acertó
 // _ctx          : "npc" | "battle"   (el bono de tiempo solo existe en batalla)
 // _time_left_pct: 0..1, fracción del tiempo que le quedaba al responder

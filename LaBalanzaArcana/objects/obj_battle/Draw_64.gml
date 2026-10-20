@@ -11,13 +11,13 @@ draw_rectangle_colour(0, 0, GUI_W, 300, _c1, _c1, _c2, _c2, false);
 draw_set_colour(make_colour_rgb(34, 58, 44));
 draw_rectangle(0, 262, GUI_W, 300, false);
 
-// Zona inferior oscurecida (ahí aparece el panel del ejercicio)
+// Zona inferior oscurecida (panel del ejercicio)
 draw_set_colour(c_black);
 draw_set_alpha(0.82 * _a);
 draw_rectangle(0, 300, GUI_W, GUI_H, false);
 draw_set_alpha(_a);
 
-// Enemigo y jugador (sprites de 16 px ampliados ×8). Tiñen de rojo al recibir daño.
+// Enemigo y jugador (sprites de 16 px ampliados). Se tiñen de color rojo al recibir daño
 var _ex = enemy_x  + ((shake_e > 0) ? choose(-6, 6) : 0);
 var _px = player_x + ((shake_p > 0) ? choose(-6, 6) : 0);
 var _ec = (shake_e > 0 && (shake_e mod 4) < 2) ? c_red : c_white;
@@ -50,7 +50,7 @@ for (var j = 0; j < array_length(pop); j++) {
 }
 draw_set_alpha(1);
 
-// Letrero grande (Victoria / Has caído)
+// Banner grande (Victoria o Has caído)
 if (banner != "") {
     draw_set_font(fnt_math);
     draw_set_colour(c_black);

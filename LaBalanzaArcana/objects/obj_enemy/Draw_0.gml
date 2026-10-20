@@ -10,7 +10,7 @@ if (instance_exists(obj_player) && point_distance(x, y, obj_player.x, obj_player
     draw_set_colour(c_white);
 }
 
-// Con F1 sale la caja de colisión (naranja) y área por la que vaga (círculo)
+// Con la tecla F1 sale la caja de colisión (naranja) y área por la que vaga (círculo)
 if (global.debug) {
     draw_set_colour(c_orange);
     draw_set_alpha(0.5);

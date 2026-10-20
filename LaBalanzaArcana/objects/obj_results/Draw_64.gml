@@ -28,7 +28,7 @@ draw_set_font(fnt_ui);
 draw_set_colour(COL_DIM);
 draw_text(_cx, _py + 20 + _th + 4, level_name(level_id));
 
-var _y1 = _py + 20 + _th + 4 + _lh + 24;      // donde empiezan las columnas
+var _y1 = _py + 20 + _th + 4 + _lh + 24;      // Donde empiezan las columnas
 draw_set_halign(fa_left);
 
 if (page == 1) {
@@ -120,7 +120,7 @@ if (page == 1) {
     var _n = min(2, array_length(new_badges) - _first);
     var _by = _y1 + _lh + 16;
     for (var b = 0; b < _n; b++) {
-        if (t < 15 + 20 * b) continue;                 // van apareciendo una a una
+        if (t < 15 + 20 * b) continue;                 // Van apareciendo una a una
         var _bd = new_badges[_first + b];
 
         // Medallón dorado
@@ -150,7 +150,7 @@ if (page_ready()) {
     }
 }
 
-// Etiqueta de vista previa (solo pruebas)
+// Etiqueta de vista previa
 if (preview) {
     draw_set_halign(fa_left);
     draw_set_colour(COL_BAD);

@@ -1,4 +1,4 @@
-// Vida, estadísticas por nivel, insignias y pantalla de resultados
+// Script de vida, estadísticas por nivel, insignias y pantalla de resultados
 
 function level_name(_level) {
     switch (_level) {
@@ -18,10 +18,8 @@ function gamification_reset() {
     badges_init();
 }
 
-// VIDA
-
-// Resta vida (en puntos porcentuales) y lo anota en el nivel actual.
-// Devuelve true si el jugador se quedó sin vida.
+// Vida:
+// Resta vida (en puntos porcentuales) y lo anota en el nivel actual. Devuelve true si el jugador se quedó sin vida.
 function life_lose(_pct) {
     var _before = global.life;
     global.life = max(0, global.life - _pct);
@@ -38,11 +36,8 @@ function life_reset() {
     global.life = 100;
 }
 
-// RESULTADOS: marcas para descartar los puntos de un combate perdido
-// (docx 2.2: "los puntos obtenidos durante el combate fallido no se
-// conservan"). Se usará en la fase de desarrollo de batallas:
-//     var _m = results_mark();   // al empezar la batalla
-//     results_rollback(_m);      // si el jugador pierde toda su vida
+// Resultados: 
+// Marcas para descartar los puntos de un combate perdido
 function results_mark() {
     return array_length(global.results);
 }
@@ -54,7 +49,7 @@ function results_rollback(_mark) {
     }
 }
 
-// ESTADÍSTICAS de un nivel (se calculan desde global.results)
+// Estadísticas de un nivel (se calculan desde global.results)
 function level_stats(_level) {
     var _s = {
         level: _level,
@@ -123,9 +118,8 @@ function source_stats(_level) {
     return _rows;
 }
 
-// INSIGNIAS
-// Cada una se obtiene una sola vez por partida. Se evalúan al cerrar un
-// nivel. "hidden: true" las mostraría como "???" hasta obtenerlas
+// Insignias:
+// Cada una se obtiene una sola vez por partida. Se evalúan al cerrar un nivel. "hidden: true" las mostraría como "???" hasta obtenerlas
 function badges_init() {
     global.badge_defs = [
         {   id: "equilibrio_inicial", name: "Equilibrio inicial", hidden: false,
@@ -168,7 +162,7 @@ function badge_owned(_id) {
     return false;
 }
 
-// ¿Todas las misiones de NPC de todos los niveles están hechas?
+// Check de ¿todas las misiones de NPC de todos los niveles están hechas?
 function all_npc_missions_done() {
     var _names = variable_struct_get_names(global.bank_src);
     for (var i = 0; i < array_length(_names); i++) {
@@ -178,8 +172,7 @@ function all_npc_missions_done() {
     return true;
 }
 
-// Para "El Rey del Equilibrio": 4 niveles completos, sin perder vida y
-// todos los combates resueltos con más del 50 % del tiempo restante.
+// Para la insignia "El Rey del Equilibrio": 4 niveles completos, sin perder vida y todos los combates resueltos con más del 50 % del tiempo restante
 function game_flawless() {
     for (var l = 1; l <= MAX_LEVEL; l++) {
         if (!variable_struct_exists(global.level_done, string(l))) return false;
@@ -192,8 +185,7 @@ function game_flawless() {
     return true;
 }
 
-// Evalúa las insignias al cerrar un nivel y devuelve las nuevas.
-// _commit = false permite previsualizar sin guardar nada.
+// Evalúa las insignias al cerrar un nivel y devuelve las nuevas. _commit = false permite previsualizar sin guardar nada
 function badges_evaluate(_level, _commit) {
     var _new = [];
     for (var i = 0; i < array_length(global.badge_defs); i++) {
@@ -207,7 +199,7 @@ function badges_evaluate(_level, _commit) {
     return _new;
 }
 
-// PANTALLA DE RESULTADOS
+// Pantalla de resultados:
 function results_show(_level, _preview) {
     if (results_active()) return noone;
     var _r = instance_create_depth(0, 0, -950, obj_results);

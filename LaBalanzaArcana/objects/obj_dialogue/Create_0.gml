@@ -1,18 +1,20 @@
-lines     = [];            // array de strings o de dlg(...)
-idx       = 0;             // línea actual
-speaker   = "";            // hablante por defecto
-cur_who   = "";            // hablante de la línea actual
-on_done   = undefined;
-text_full = "";            // línea actual ya partida en renglones
-chars     = 0;             // letras visibles (con decimales)
-cps       = opt_text_cps();   // letras por frame: depende de la opción "Velocidad del texto"
-line_done = false;         // ¿ya se escribió toda la línea?
-grace     = 0;             // frames iniciales en que se ignora la tecla
-closing   = false;         // true mientras se está cerrando
-portrait_id = "";         // id del retrato de quien habla ("" = sin retrato)
-pt        = 0;             // frames desde que apareció el retrato (anima su entrada)
+// Objeto de controlador de diálogos
 
-// Caja (coordenadas de GUI, 1280 x 720)
+lines     = [];            // Array de strings o de dlg(...)
+idx       = 0;             // Línea actual
+speaker   = "";            // Hablante por defecto
+cur_who   = "";            // Hablante de la línea actual
+on_done   = undefined;
+text_full = "";            // Línea actual ya partida en renglones
+chars     = 0;             // Letras visibles (con decimales)
+cps       = opt_text_cps();   // Letras por frame: depende de la opción "Velocidad del texto"
+line_done = false;         // Check de ¿ya se escribió toda la línea?
+grace     = 0;             // Frames iniciales en que se ignora la tecla
+closing   = false;         // true mientras se está cerrando
+portrait_id = "";         // ID del retrato de quien habla ("" = sin retrato)
+pt        = 0;             // Frames desde que apareció el retrato (anima su entrada)
+
+// Caja
 box_w = GUI_W - 128;
 box_h = 184;
 box_x = 64;
@@ -24,14 +26,13 @@ start = function(_lines, _speaker, _on_done) {
     speaker = _speaker;
     on_done = _on_done;
     idx     = 0;
-    grace   = 6;           // la pulsación que abrió el diálogo no debe contar
+    grace   = 6;           // La pulsación que abrió el diálogo no debe contar
     if (array_length(lines) == 0) { finish(); return; }
-    fit_box();             // la caja se ajusta al texto más largo de este diálogo
+    fit_box();             // La caja se ajusta al texto más largo de este diálogo
     show_line();
 };
 
 // La caja mide entre 2 y 4 renglones, según el texto más largo de este diálogo
-// (se calcula una vez, así no cambia de tamaño entre una línea y otra)
 fit_box = function() {
     draw_set_font(fnt_ui);
     var _lh = string_height("M");
@@ -50,12 +51,12 @@ show_line = function() {
     var _t = is_struct(_l) ? _l.text : _l;
     cur_who = is_struct(_l) ? _l.who : speaker;
 
-    // Retrato: se busca por el nombre de quien habla. Si cambia el hablante, entra de nuevo.
+    // Retrato: se busca por el nombre de quien habla. Si cambia el hablante, entra de nuevo
     var _pid = portrait_id_for_name(cur_who);
     if (_pid != portrait_id) pt = 0;
     portrait_id = _pid;
 
-    draw_set_font(fnt_ui);                              // para medir con la fuente correcta
+    draw_set_font(fnt_ui);                              // Para medir con la fuente correcta
     text_full = text_wrap(_t, box_w - pad * 2);
     chars     = 0;
     line_done = false;
@@ -72,9 +73,9 @@ advance = function() {
 };
 
 finish = function() {
-    closing = true;                                     // ya no cuenta como diálogo abierto
+    closing = true;                                     // Ya no cuenta como diálogo abierto
     var _cb = on_done;
-    ui_block(10);                                       // evita reabrir con la misma pulsación
+    ui_block(10);                                       // Evita reabrir con la misma pulsación
     instance_destroy();
     if (!is_undefined(_cb)) _cb();
 };

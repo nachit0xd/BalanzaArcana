@@ -1,11 +1,13 @@
-shown_score = global.score;     // valor que se dibuja (sube contando)
-last_score  = global.score;
-last_left   = 0;                // segmentos que quedaban el frame anterior
-blink_idx   = -1;               // segmento recién perdido (parpadea)
-blink_t     = 0;
-popups      = [];               // textos "+N" que suben: { txt, t }
+// Objeto de controlador de HUD
 
-// Cuántos segmentos tiene la barra y cuántos quedan según la vida actual
+shown_score = global.score;     // Valor que se dibuja (sube contando)
+last_score  = global.score;
+last_left   = 0;                // Segmentos que quedaban el frame anterior
+blink_idx   = -1;               // Segmento recién perdido (parpadea)
+blink_t     = 0;
+popups      = [];               // Textos "+N" que suben: { txt, t }
+
+// Check de ¿cuántos segmentos tiene la barra y cuántos quedan según la vida actual?
 hud_segments = function() {
     var _loss = max(1, cfg_life_loss(global.level));
     return max(1, ceil(100 / _loss));

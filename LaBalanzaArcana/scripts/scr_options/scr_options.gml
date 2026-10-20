@@ -1,13 +1,12 @@
-// Opciones del juego (se guardan en un archivo) y menú de pausa
+// Script de opciones del juego (se guardan en un archivo) y menú de pausa
 
 #macro OPT_FILE "balanza_opciones.ini"
 
-// OPCIONES
+// Opciones:
 //   vol_master / vol_music / vol_sfx : 0 a 100 (de 10 en 10)
 //   fullscreen    : pantalla completa sí/no
 //   text_speed    : 0 lenta | 1 normal | 2 rápida (diálogos)
-//   hints_always  : mostrar el recordatorio de ayuda en TODOS los ejercicios
-//                   (PDF 2.1: "pistas permanentes", decisión personal del jugador)
+//   hints_always  : mostrar el recordatorio de ayuda en todos los ejercicios
 function options_defaults() {
     return { vol_master: 80, vol_music: 70, vol_sfx: 80, fullscreen: false, win_size: 0, text_speed: 1, hints_always: false };
 }
@@ -48,13 +47,7 @@ function options_apply() {
     if (!global.opt.fullscreen) global.win_apply_t = 3;
 }
 
-// TAMAÑO DE LA VENTANA
-// El juego se dibuja en 1280 x 720. Para que el pixel art se vea limpio, el
-// tamaño de la ventana es siempre ese tamaño por un múltiplo de 0,25 (cada
-// píxel del arte mide entonces un número entero de píxeles de pantalla).
-//   win_size 0 = Automática (la mayor que cabe en el monitor)
-//            1 = 1280 x 720   2 = 1600 x 900   3 = 1920 x 1080   4 = 2560 x 1440
-// Nunca se pasa del tamaño que cabe en el monitor
+// Tamaño de la pantalla:
 function win_scale_fit() {
     var _s = min((display_get_width() - 80) / GUI_W, (display_get_height() - 140) / GUI_H);
     return clamp(floor(_s * 4) / 4, 0.75, 3);
@@ -96,7 +89,7 @@ function options_summary() {
          + "|pistas_permanentes=" + string(global.opt.hints_always ? 1 : 0);
 }
 
-// MENÚ DE OPCIONES (obj_options)
+// Menú de opciones (obj_options):
 //   _on_close: function() que se ejecuta al cerrarlo (puede ser undefined)
 function options_show(_on_close) {
     if (options_active()) return noone;
@@ -113,9 +106,8 @@ function options_active() {
     return _active;
 }
 
-// PAUSA (obj_pause)
-//   Solo se puede pausar durante la exploración: no durante un diálogo,
-//   un ejercicio, un combate ni los resultados. Así nadie puede detener
+// Pausa (obj_pause):
+//   Solo se puede pausar durante la exploración: no durante un diálogo, un ejercicio, un combate ni los resultados. Así nadie puede detener
 //   el cronómetro de una pregunta (importa para los datos de la prueba)
 function pause_allowed() {
     return instance_exists(obj_player) && !ui_modal_active() && global.player_code != "";
@@ -153,7 +145,7 @@ function pause_exit_chosen(_index) {
     }
 }
 
-// ¿Algún menú de sistema abierto? (lo suma ui_modal_active)
+// Check de ¿algún menú de sistema abierto? (lo suma ui_modal_active)
 function system_menu_active() {
     return pause_active() || options_active();
 }

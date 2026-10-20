@@ -1,3 +1,5 @@
+// Objeto de barrera
+
 // Cada instancia puede sobreescribir barrier_kind y su sprite en la sala
 image_speed = 0;
 notice_cd = 0;

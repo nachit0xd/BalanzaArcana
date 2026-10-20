@@ -1,18 +1,15 @@
-// Registro de datos de la sesión.
+// Script de registro de datos de la sesión
+//  1) Por defectp: archivo CSV local  balanza_<CODIGO>.csv  (se agrega una fila por evento y se cierra el archivo en cada escritura, así no se pierde nada si el juego se cierra de golpe).
+//  2) Opcional: subida automática de las mismas filas a una hoja de Google (si LOG_UPLOAD_URL no está vacía). Si falla, el CSV local no se afecta y la subida se reintenta sola.
 
-//  1) SIEMPRE: archivo CSV local  balanza_<CODIGO>.csv  (se agrega una fila
-//     por evento y se cierra el archivo en cada escritura, así no se pierde nada si el juego se cierra de golpe).
-//  2) OPCIONAL: subida automática de las mismas filas a una hoja de Google
-//     (si LOG_UPLOAD_URL no está vacía). Si falla, el CSV local no se afecta y la subida se reintenta sola.
-
-// El CSV usa ";" como separador (así se abre bien con doble clic en Excel en español) y solo caracteres ASCII.
+// El CSV usa ";" como separador (así se abre bien con doble clic en Excel en español) y solo caracteres ASCII
 
 // Columnas del archivo (17 en total)
 function log_header() {
     return "tipo;codigo;sesion;version;fecha_hora;nivel;contexto;origen;ejercicio_id;ecuacion;intento;respuesta;correcto;tiempo_agotado;tiempo_ms;limite_s;detalle";
 }
 
-// Estado del sistema de registro. obj_game lo llama una vez (Create)
+// Estado del sistema de registro. obj_game lo llama una vez (evento Create)
 function log_system_init() {
     global.session_id     = "";
     global.log_ready      = false;    // true cuando hay un archivo abierto para el participante
@@ -78,7 +75,6 @@ function log_init() {
 }
 
 // Escritura de filas:
-
 // Las 5 primeras columnas, comunes a todo evento
 function log_base(_tipo) {
     return [ _tipo, global.player_code, global.session_id, GAME_VERSION, datetime_text() ];
@@ -160,8 +156,7 @@ function log_level_summary(_level, _stats, _new_badges) {
 }
 
 
-// SUBIDA AUTOMÁTICA (opcional):
-
+// Subida automática (opcional):
 function log_upload_enqueue(_cols) {
     if (LOG_UPLOAD_URL == "") return;
     var _row = [];
@@ -169,7 +164,7 @@ function log_upload_enqueue(_cols) {
     array_push(global.upload_queue, _row);
 }
 
-// Se llama en cada Step de obj_game: envía hasta 20 filas por solicitud
+// Se llama en cada evento Step de obj_game: envía hasta 20 filas por solicitud
 function log_upload_pump() {
     if (LOG_UPLOAD_URL == "" || global.upload_busy) return;
     if (array_length(global.upload_queue) == 0) return;

@@ -1,6 +1,6 @@
 var _cx = GUI_W / 2;
 
-// Splash:
+// Splash
 if (state == TITLE_STATE.SPLASH) {
     draw_set_colour(c_black);
     draw_rectangle(0, 0, GUI_W, GUI_H, false);
@@ -29,7 +29,7 @@ draw_sky(0);
 draw_stars(stars, tt);
 draw_glyphs(glyphs);
 
-// Menú:
+// Menú
 if (state == TITLE_STATE.MENU) {
     // Logotipo: la balanza se mece suavemente sobre el título
     draw_balance(_cx, 92, 5 * dsin(tt * 1.6), 0.70);
@@ -37,7 +37,7 @@ if (state == TITLE_STATE.MENU) {
     draw_set_font(fnt_math);
     draw_set_halign(fa_center);
     draw_set_valign(fa_top);
-    draw_text_transformed(_cx + 3, 278, "LA BALANZA ARCANA", 1.25, 1.25, 0);       // sombra
+    draw_text_transformed(_cx + 3, 278, "LA BALANZA ARCANA", 1.25, 1.25, 0);       // Sombra
     draw_set_colour(COL_WARN);
     draw_text_transformed(_cx, 275, "LA BALANZA ARCANA", 1.25, 1.25, 0);
 
@@ -68,7 +68,7 @@ if (state == TITLE_STATE.MENU) {
     }
 }
 
-// Cómo jugar:
+// Cómo jugar
 if (state == TITLE_STATE.HOWTO) {
     draw_panel(90, 50, GUI_W - 180, GUI_H - 100);
     draw_set_font(fnt_math);
@@ -92,7 +92,7 @@ if (state == TITLE_STATE.HOWTO) {
     draw_text(_cx, GUI_H - 95, "Enter: volver");
 }
 
-// Créditos:
+// Créditos
 if (state == TITLE_STATE.CREDITS) {
     draw_panel(240, 90, GUI_W - 480, GUI_H - 180);
     draw_set_font(fnt_math);
@@ -114,11 +114,11 @@ if (state == TITLE_STATE.CREDITS) {
     for (var i = 0; i < array_length(_cr); i++) { draw_text(_cx, _yy, _cr[i]); _yy += _lh; }
     _yy += 10;
     draw_set_colour(COL_DIM);
-    draw_text(_cx, _yy, "Arte y sonido: provisionales");
+    draw_text(_cx, _yy, "Arte y sonido: Ignacio Carrillo");
     draw_text(_cx, GUI_H - 145, "Enter: volver");
 }
 
-// Aviso de datos:
+// Aviso de datos
 if (state == TITLE_STATE.NOTICE) {
     draw_panel(120, 70, GUI_W - 240, GUI_H - 140);
     draw_set_font(fnt_math);
@@ -142,7 +142,7 @@ if (state == TITLE_STATE.NOTICE) {
     draw_text(_cx, GUI_H - 130, "Enter: entiendo, continuar     |     Esc: volver");
 }
 
-// Código de participante:
+// Código de participante
 if (state == TITLE_STATE.CODE) {
     draw_panel(120, 70, GUI_W - 240, GUI_H - 140);
     draw_set_font(fnt_math);
@@ -190,7 +190,7 @@ if (state == TITLE_STATE.CODE) {
     draw_text(_cx, GUI_H - 130, "Enter: continuar     |     Esc: volver");
 }
 
-// Confirmar código:
+// Confirmar código
 if (state == TITLE_STATE.CONFIRM) {
     draw_panel(240, 110, GUI_W - 480, GUI_H - 220);
     draw_set_font(fnt_math);

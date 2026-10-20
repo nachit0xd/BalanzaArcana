@@ -4,7 +4,7 @@ switch (stage) {
         if (intro_delay > 0) {
             intro_delay--;
         } else if (!ui_modal_active() && global.ui_cooldown <= 0) {
-            level_intro_start(global.level);   // el maestro explica las ecuaciones con x²
+            level_intro_start(global.level);   // El maestro explica las ecuaciones con x²
             stage = 1;
         }
         break;

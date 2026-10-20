@@ -1,18 +1,14 @@
-// Script con narrativa de cada ejercicio, NPC y enemigo. Se edita sin tocar la
-// matemática (scr_bank_math).
-//
-// Reglas de cada enunciado (para que no contradiga la ecuación):
-//  1. Se escribe siempre los números con cifras (4, no "cuatro").
-//  2. El enunciado debe contener todos los números de la ecuación:
+// Script con narrativa de cada ejercicio, NPC y enemigo. Se edita sin tocar la matemática (scr_bank_math).
+
+// Reglas de cada enunciado (en caso de querer modificar o añadir más):
+//  1) Se escribe siempre los números con cifras (4, no "cuatro").
+//  2) El enunciado debe contener todos los números de la ecuación:
 //       nivel 1: a y c          nivel 2: a, b y c
 //       nivel 3: a, b, c y d    nivel 4: b y c (o la ecuación misma)
-//  3. La incógnita es lo que se pregunta al final, y la respuesta debe
-//     ser exactamente la solución del banco.
-//  4. Si la solución es 0 o negativa, el enunciado debe permitirlo
-//     (p. ej. "si faltan monedas, el cambio es negativo").
-//  5. Un ejercicio sin enunciado no rompe nada: se muestra un texto
-//     genérico (ver ex_story). El validador lo marca como PENDIENTE.
-//
+//  3) La incógnita es lo que se pregunta al final, y la respuesta debe ser exactamente la solución del banco.
+//  4) Si la solución es 0 o negativa, el enunciado debe permitirlo (ej: "si faltan monedas, el cambio es negativo").
+//  5) Un ejercicio sin enunciado no rompe nada: se muestra un texto genérico (ver ex_story).
+
 // Diálogos de un NPC:      intro, outro            (los dice en su misión)
 // Diálogos de un enemigo:  intro, win              (antes y después del combate)
 // Si faltan, se usan frases genéricas.
@@ -29,13 +25,13 @@ function bank_text_init() {
         timeout : "¡Se acabó el tiempo!"
     };
 
-    // NIVEL 1 — NPC
+    // Nivel 1 - NPCs
     global.src_text[$ "herrero"] = {
         intro : [ "¡Ah, aprendiz! Justo a tiempo.",
                   "Mi balanza de la forja se desajustó y las cuentas del taller no cuadran.",
                   "Ayúdame a descubrir el valor que falta en cada una." ],
         outro : [ "¡La balanza vuelve a estar en equilibrio!",
-                  "Tienes buena mano para esto, aprendiz. Pásate por el molino, seguro necesitan ayuda." ]
+                  "Tienes buena mano para esto, aprendiz. Pásate por la molinera, seguro necesitan tu ayuda." ]
     };
     txt("herrero_1", "Tenía 4 espadas colgadas en la pared y ahora cuento 15. ¿Cuántas espadas nuevas aparecieron en mi taller?");
     txt("herrero_2", "En el yunque había 7 herraduras terminadas y, tras una tarde de trabajo, ahora hay 20. ¿Cuántas herraduras forjé esta tarde?");
@@ -45,7 +41,8 @@ function bank_text_init() {
         intro : [ "¡Bienvenido al molino! Con tanto trabajo ya perdí la cuenta de mis sacos.",
                   "¿Me echas una mano con unos números?" ],
         outro : [ "¡Gracias! Ahora sí puedo seguir moliendo tranquila.",
-                  "Dicen que la guardiana del puente busca a alguien que ayude con sus registros." ]
+                  "Dicen que hay un duende extraño al otro lado del puente, ¡pero la guardiana es muy testaruda y no deja pasar a nadie!",
+				  "También ten cuidado por los prados del sur... ¡escuché que hay un lobo feroz suelto!"]
     };
     txt("molinera_1", "Tenía 6 sacos de harina en el granero y, después de la cosecha, ahora hay 14. ¿Cuántos sacos nuevos llegaron?");
     txt("molinera_2", "Mi molino ya había molido 12 costales de trigo y al terminar la jornada llevo 19. ¿Cuántos costales molí hoy?");
@@ -56,7 +53,7 @@ function bank_text_init() {
                   "Ojo: a veces el valor que falta es cero... o incluso negativo." ],
         outro : [ "Registro en orden. Has demostrado tener la cabeza en equilibrio.",
                   "El puente queda abierto para ti.",
-                  "Antes de irte: un duende anda por la aldea con las cuentas enredadas. Y no te acerques al prado del sur: ronda un hombre-lobo." ]
+                  "Ten cuidado con el lado sur de la aldea... ronda un hombre-lobo muy agresivo." ]
     };
     txt("guardiana_1", "Mi puesto tenía 5 antorchas encendidas. Después de la ronda de la noche sigo contando 5. ¿Cuántas antorchas nuevas se encendieron durante la ronda?");
     txt("guardiana_2", "En la caja del peaje había 10 monedas y ahora solo quedan 3. ¿Cuántas monedas cambió la caja? (Si faltan monedas, el cambio es negativo).");
@@ -64,15 +61,15 @@ function bank_text_init() {
 
     global.src_text[$ "duende"] = {
         intro : [ "¡Hola, hola, aprendiz! ¡Soy el duende más listo de la aldea!",
-                  "Pero hoy mis cuentas se enredaron. ¿Me ayudas a desenredarlas?" ],
+                  "A-Aunque me quedé atrapado en este lado del río y del miedo mis cuentas se enredaron. ¿Me ayudas a desenredarlas?" ],
         outro : [ "¡Cuentas claras y duende contento!",
-                  "Si buscas pelea, el hombre-lobo ronda por los prados del sur. ¡Yo no iría!" ]
+                  "Si aún tienes ganas de ayudar, podrías visitar los prados del sur si aún no has ido. ¡Yo no iría!" ]
     };
     txt("duende_1", "Tenía 3 piedras brillantes en mi bolsillo y ahora tengo 11. ¿Cuántas piedras brillantes encontré?");
     txt("duende_2", "En mi cesta había 11 setas y ahora hay 16. ¿Cuántas setas recogí?");
     txt("duende_3", "Tenía 14 bellotas y un cuervo ladrón se llevó algunas. Ahora me quedan 9. ¿Cuántas bellotas cambiaron en mi bolsa? (Si se llevaron bellotas, el cambio es negativo).");
 
-    // NIVEL 1 — ENEMIGO: Hombre-lobo  [BORRADOR]
+    // Nivel 1 — ENEMIGOS
     global.src_text[$ "hombrelobo"] = {
         intro : [ "¡Grrr! Este prado es mío, y nadie pasa sin resolver mis acertijos.",
                   "¡Prepárate, aprendiz! Tendrás poco tiempo para responder." ],
@@ -83,7 +80,7 @@ function bank_text_init() {
     txt("hombrelobo_2", "La manada tenía 13 lobos y, tras tu primer golpe, sigue habiendo 13. ¿Cuántos lobos nuevos se unieron a la pelea?");
     txt("hombrelobo_3", "El hombre-lobo reunía 16 garras de fuerza, pero tu hechizo le quitó algunas y ahora le quedan 7. ¿Cuántas garras cambió? (Si perdió fuerza, el cambio es negativo).");
 
-    // NIVELES 2 — NPC: HERBOLARIA
+    // Nivel 2 — NPCs
 	global.src_text[$ "herbolaria"] = {
 		intro: [
 			"Me alejé del sendero buscando plantas para curar al bosque y perdí la cuenta de mis mezclas.",
@@ -98,7 +95,6 @@ function bank_text_init() {
 	txt("herbolaria_2", "Mi poción ya contiene 9 gotas de savia. Cada flor luminosa añade 3 gotas; la receta pide 30. ¿Cuántas flores luminosas necesito?");
 	txt("herbolaria_3", "He recogido 7 hojas sanas. Por cada brote que rescato encuentro 2 hojas más, y debo reunir 17. ¿Cuántos brotes debo rescatar?");
 
-	// NIVEL 2 — NPC: APICULTOR
 	global.src_text[$ "apicultor"] = {
 		intro: [
 			"¡Con cuidado, aprendiz! Las abejas están inquietas y debo repartir sus panales antes de que anochezca.",
@@ -113,7 +109,6 @@ function bank_text_init() {
 	txt("apicultor_2", "Guardé 6 panales antes del amanecer. Cada colmena que reviso después aporta 4 panales; al terminar cuento 26. ¿Cuántas colmenas revisé después del amanecer?");
 	txt("apicultor_3", "En mi cesta había 3 panales. Cada colmena escondida produce 5 más, y ahora tengo 33. ¿Cuántas colmenas escondidas encontré?");
 
-	// NIVEL 2 — NPC: CARTÓGRAFA
 	global.src_text[$ "cartografa"] = {
 		intro: [
 			"El bosque cambia de aspecto cuando la magia se desequilibra. Marqué el camino, pero mis distancias ya no cuadran.",
@@ -128,7 +123,7 @@ function bank_text_init() {
 	txt("cartografa_2", "El mapa muestra 5 señales antiguas. En cada ruta nueva descubro 6 señales más; al final aparecen 23. ¿Cuántas rutas nuevas encontré?");
 	txt("cartografa_3", "Tengo dibujados 10 cruces de senderos. Cada sector que exploro añade 2 cruces; el mapa completo debe mostrar 18. ¿Cuántos sectores faltan por explorar?");
 	
-	// NIVEL 2 — ENEMIGO: GÓLEM
+	// Nivel 2 — ENEMIGOS
 	global.src_text[$ "golem"] = {
 		intro: [
 			"La piedra recuerda cada cambio de energía. Ningún paso queda sin peso en la balanza.",
@@ -143,7 +138,6 @@ function bank_text_init() {
 	txt("golem_2", "La armadura del gólem parte con 12 marcas de energía. Su núcleo suma 2 veces un cambio firmado x y el registro termina en 4 marcas. ¿Cuál es x? Si perdió energía, escribe un valor negativo.");
 	txt("golem_3", "El Golém absorbió 9 anillos de ira, y cada golpe tuyo libera 4 veces esa calma. Solo cuando le quede 1 anillo, se romperá el cristal, ¿cuánta calma liberas por golpe?");
 
-	// NIVEL 2 — ENEMIGO: ARAÑA DE CRISTAL
 	global.src_text[$ "arana"] = {
 		intro: [
 			"Tic, tic... Cada hebra que tejo atrapa un poco más de luz.",
@@ -158,7 +152,7 @@ function bank_text_init() {
 	txt("arana_2", "El cristal tenía 11 unidades de brillo. Una alteración firmada x modifica 5 unidades por pulso, y al final solo queda 1. ¿Cuál es x? Una pérdida de brillo se escribe en negativo.");
 	txt("arana_3", "La red empieza con 7 destellos. Cada hilo encantado añade 4, hasta reunir 31. ¿Cuántos hilos encantados hay?");
 	
-	// NIVEL 3 — ENEMIGO: SOMBRA HOSTIL
+	// NIVEL 3 — ENEMIGOS
 	global.src_text[$ "sombra"] = {
 		intro: [
 			"En estas ruinas hasta tu sombra tiene otra medida.",
@@ -173,7 +167,6 @@ function bank_text_init() {
 	txt("sombra_2", "Una corriente de la sombra lleva 6 chispas y 5 veces una intensidad x. La corriente opuesta lleva 13 chispas y 4 veces esa misma intensidad. ¿Qué valor de x iguala ambas corrientes?");
 	txt("sombra_3", "En un lado de la balanza oscura hay 3 chispas más 6 veces una fuerza x; en el otro, 8 chispas más 5 veces esa fuerza. ¿Qué valor de x las equilibra?");
 
-	// NIVEL 3 — ENEMIGO: GUERRERO NO MUERTO
 	global.src_text[$ "guerrero"] = {
 		intro: [
 			"Mi espada sigue una orden antigua: defender el castillo de todo intruso.",
@@ -189,7 +182,6 @@ function bank_text_init() {
 	txt("guerrero_2", "El ataque del guerrero suma 5 unidades iniciales y 4 veces una fuerza x. Tu defensa suma 13 unidades iniciales y 2 veces esa fuerza. ¿Qué valor de x las equilibra?");
 	txt("guerrero_3", "El filo encantado reúne 4 unidades más 8 veces un poder x. La barrera del aprendiz reúne 19 unidades más 5 veces el mismo poder. ¿Qué valor de x deja ambos lados iguales?");
 
-	// NIVEL 3 — ENEMIGO: CENTINELA
 	global.src_text[$ "centinela"] = {
 		intro: [
 			"Alto. Mi deber es pesar toda fuerza que intenta cruzar este corredor.",
@@ -204,7 +196,6 @@ function bank_text_init() {
 	txt("centinela_2", "Una placa de la puerta sostiene 7 unidades más 4 veces una carga x; la otra sostiene 19 unidades más una vez esa carga. ¿Qué valor de x mantiene estable el paso?");
 	txt("centinela_3", "El sello del centinela marca 9 unidades más 3 veces una variación firmada x. El sello opuesto marca 3 unidades más una vez x. ¿Qué valor de x los iguala? Si la carga disminuye, escribe un número negativo.");
 
-	// NIVEL 3 — ENEMIGO: ESPECTRO
 	global.src_text[$ "espectro"] = {
 		intro: [
 			"Oigo dos ecos en esta sala. Uno recuerda lo que fui; el otro repite la voz del Rey.",
@@ -219,7 +210,6 @@ function bank_text_init() {
 	txt("espectro_2", "La voz del espectro reúne 6 notas iniciales y 7 veces una resonancia x. La voz del castillo reúne 18 notas iniciales y 4 veces esa resonancia. ¿Qué valor de x iguala los ecos?");
 	txt("espectro_3", "Un eco conserva 5 unidades más 3 veces una variación firmada x; el otro conserva 17 unidades más 5 veces x. ¿Qué valor de x los equilibra? Una disminución de la resonancia se escribe en negativo.");
 
-	// NIVEL 3 — ENEMIGO: ESQUELETO OSCURO
 	global.src_text[$ "esqueleto"] = {
 		intro: [
 	        "Mis huesos se mueven con una magia prestada. Cada fragmento tira de la balanza en una dirección distinta.",
@@ -234,7 +224,7 @@ function bank_text_init() {
 	txt("esqueleto_2", "La mano izquierda del esqueleto reúne 4 marcas más 5 veces una fuerza x. La derecha reúne 16 marcas más 2 veces la misma fuerza. ¿Qué valor de x las equilibra?");
 	txt("esqueleto_3", "La armadura rota guarda 12 marcas más 3 veces una fuerza x. Los huesos bajo ella guardan 6 marcas más 5 veces esa fuerza. ¿Qué valor de x iguala ambas partes?");
 
-	// NIVEL 4 — ENEMIGO: REY DEL DESEQUILIBRIO
+	// NIVEL 4 — ENEMIGO FINAL: REY DEL DESEQUILIBRIO
 	global.src_text[$ "rey_desequilibrio"] = {
 		intro: [
 			"Así que el aprendiz ha llegado hasta mi sala. Has equilibrado el bosque y liberado a mis guardianes.",

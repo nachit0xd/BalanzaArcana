@@ -1,5 +1,5 @@
 // Con un ejercicio o diálogo abierto, el jugador se queda quieto
-depth = -y; // actualizar también durante diálogos y transiciones
+depth = -y; // Actualizar también durante diálogos y transiciones
 if (world_frozen()) {
     moving = false;
     anim_t = 0;

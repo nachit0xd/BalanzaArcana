@@ -1,22 +1,24 @@
+// Objeto que controla la caja de respuestas para los ejercicios
+
 fields    = 1;                 // 1 o 2
-texts     = ["", ""];          // texto escrito en cada campo
-focus     = 0;                 // campo activo (0 o 1)
-enabled   = false;             // ¿acepta teclado?
+texts     = ["", ""];          // Texto escrito en cada campo
+focus     = 0;                 // Campo activo (0 o 1)
+enabled   = false;             // Check de ¿acepta teclado?
 submitted = false;             // true cuando el jugador envió una respuesta válida
-grace     = 0;                 // frames iniciales en que se ignora el teclado
-shake     = 0;                 // temblor al pulsar Enter con algo inválido
-max_len   = 4;                 // "-123" como máximo
+grace     = 0;                 // Frames iniciales en que se ignora el teclado
+shake     = 0;                 // Temblor al pulsar Enter con algo inválido
+max_len   = 4;                 // Por ejemplo, "-123" como máximo
 labels    = ["x =", ""];
 
-// Medidas en píxeles de GUI (1280 x 720)
+// Medidas en píxeles de GUI
 label_w = 110;
 box_w   = 190;
 box_h   = 64;
-gap     = 56;                  // espacio entre los dos campos
-gx = 0;                        // esquina superior izquierda del bloque
+gap     = 56;                  // Espacio entre los dos campos
+gx = 0;                        // Esquina superior izquierda del bloque
 gy = 0;
 
-// Posiciona y define cuántos campos hay. _cx = centro horizontal.
+// Posiciona y define cuántos campos hay. _cx = centro horizontal
 configure = function(_fields, _cx, _y, _compact) {
     fields = _fields;
     labels = (_fields == 1) ? ["x =", ""] : [SYM_X1 + " =", SYM_X2 + " ="];
@@ -38,11 +40,11 @@ clear = function() {
 enable = function() {
     clear();
     enabled = true;
-    grace = 5;                 // ignora teclas que venían pulsadas
+    grace = 5;                 // Ignora teclas que venían pulsadas
 };
 
 disable = function() {
-    enabled = false;           // conserva el texto para mostrarlo en el feedback
+    enabled = false;           // Conserva el texto para mostrarlo en el feedback
 };
 
 all_valid = function() {

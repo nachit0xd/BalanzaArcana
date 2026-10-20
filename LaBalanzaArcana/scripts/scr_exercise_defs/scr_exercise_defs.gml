@@ -1,6 +1,6 @@
-// Definiciones compartidas por obj_exercise y obj_answer_box
+// Script de definiciones compartidas por obj_exercise y obj_answer_box
 
-// Estados del flujo de un ejercicio
+// Estados del flujo de un ejercicio:
 //  ASK1   : primer intento (entrada activa, cronómetro si es batalla)
 //  WRONG1 : falló el 1.º intento -> muestra la pista (sin dar la respuesta)
 //  ASK2   : segundo intento (la pista sigue visible)
@@ -8,7 +8,7 @@
 //  OK     : acertó -> refuerzo positivo + puntos
 enum EX_STATE { ASK1, WRONG1, ASK2, KCR, OK }
 
-// Frames en que se ignora Enter/Espacio tras entrar a un estado de feedback (evita saltarse el mensaje por pulsar Enter dos veces seguidas)
+// Frames en que se ignora Enter/Espacio tras entrar a un estado de feedback
 #macro EX_FEEDBACK_LOCK 15
 
 // Paleta provisional
@@ -22,7 +22,6 @@ enum EX_STATE { ASK1, WRONG1, ASK2, KCR, OK }
 #macro COL_INPUT_BG  make_colour_rgb(12, 10, 24)
 
 // Validación de lo que escribe el jugador
-
 // Función que deja solo dígitos y un "-" al inicio; recorta al largo máximo
 function answer_sanitize(_s, _max) {
     var _out = "";
@@ -37,7 +36,7 @@ function answer_sanitize(_s, _max) {
     return string_copy(_out, 1, _max);
 }
 
-// ¿Es un entero bien escrito? ("" y "-" NO lo son)
+// Check de ¿es un entero bien escrito? ("" y "-" NO lo son)
 function answer_is_valid(_s) {
     var _n = string_length(_s);
     if (_n == 0) return false;
@@ -46,7 +45,7 @@ function answer_is_valid(_s) {
     return (string_length(string_digits(_s)) == (_n - _start + 1)); // el resto son dígitos
 }
 
-// Solo llamar si answer_is_valid(_s) es true (real() falla con texto inválido)
+// Solo llamar si la función answer_is_valid(_s) es true (real() falla con texto inválido)
 function answer_parse(_s) {
     return real(_s);
 }
@@ -69,7 +68,7 @@ function draw_text_scaled(_x, _y, _str, _sep, _w, _s) {
     return string_height_ext(_str, _sep / _s, _w / _s) * _s;
 }
 
-// ¿Hay un ejercicio abierto? (se ignora uno que ya se está cerrando)
+// Check de ¿hay un ejercicio abierto? (se ignora uno que ya se está cerrando)
 function exercise_active() {
     var _active = false;
     with (obj_exercise) {

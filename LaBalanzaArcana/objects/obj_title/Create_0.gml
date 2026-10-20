@@ -1,7 +1,8 @@
+// Objeto de controlador para el título
 state       = (variable_global_exists("splash_done") && global.splash_done) ? TITLE_STATE.MENU : TITLE_STATE.SPLASH;
-t           = 0;                // frames en el estado actual
-tt          = 0;                // frames totales (para las animaciones)
-sel         = 0;                // opción del menú
+t           = 0;                // Frames en el estado actual
+tt          = 0;                // Frames totales (para las animaciones)
+sel         = 0;                // Opción del menú
 confirm_sel = 0;                // 0 = "Sí, es correcto" | 1 = "Corregir"
 code_text   = "";
 code_error  = "";

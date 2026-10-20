@@ -5,7 +5,7 @@ if (shake_e > 0) shake_e--;
 if (shake_p > 0) shake_p--;
 if (crack_t > 0) crack_t--;
 
-// ¿El jugador acertó una sola raíz? -> el escudo se agrieta un momento
+// Check para ¿El jugador acertó una sola raíz? = el escudo se agrieta un momento
 if (instance_exists(ex_inst) && !ex_inst.closing) {
     if (ex_inst.partial_hit > partial_seen) {
         partial_seen = ex_inst.partial_hit;
@@ -34,10 +34,10 @@ switch (state) {
         t++;
         if (t > 80) {
             if (stage == 1) {
-                if (last_ok && broken >= seals_max) set_shield_down();     // tres sellos: cae el escudo
+                if (last_ok && broken >= seals_max) set_shield_down();     // Tres sellos: cae el escudo
                 else if (global.life <= 0)          set_lose();
                 else {
-                    if (last_ok) phase = min(seals_max, broken + 1);       // fase siguiente
+                    if (last_ok) phase = min(seals_max, broken + 1);       // Fase siguiente
                     state = "fight";
                     next_round();
                 }
@@ -71,7 +71,7 @@ switch (state) {
             banner = "";
             state  = "lose_dialogue";
             dialogue_start([ "Te quedaste sin vida, y El Desequilibrio recuperó sus tres sellos.",
-                             "Respira hondo: el combate empieza otra vez desde la primera fase." ], "", restart_fight);
+                             "Tranquilo...te daré otra oportunidad, mi aprendiz. Puedes intentarlo una vez más..." ], "", restart_level);
         }
         break;
 }

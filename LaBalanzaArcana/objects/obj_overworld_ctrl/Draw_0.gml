@@ -1,4 +1,4 @@
-// Con F1 dibuja los marcadores (aparición, NPC, enemigos, salidas)
+// Con la tecla F1 dibuja los marcadores (aparición, NPC, enemigos, salidas)
 if (!global.debug) exit;
 
 var _names = variable_struct_get_names(global.markers);

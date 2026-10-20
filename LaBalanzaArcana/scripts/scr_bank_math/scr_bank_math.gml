@@ -1,4 +1,4 @@
-// Banco fijo de ejercicios matemáticos
+// Script con banco fijo de ejercicios matemáticos
 
 //   Nivel 1: 4 NPC + 1 enemigo     Nivel 2: 3 NPC + 2 enemigos
 //   Nivel 3: 5 enemigos            Nivel 4: jefe con 3 fases (2 ecuaciones por fase)
@@ -19,9 +19,8 @@ function eq4p(_id, _src, _phase, _b, _c, _r1, _r2) {
 
 function bank_load_math() {
 
-    // ORÍGENES: NPC, enemigos y jefe
+    // Orígenes: NPC, enemigos y jefe
     //      id                    nombre                       tipo    nivel  vida/sellos
-    // (vida del enemigo: el docx dice 2-3 puntos; el Hombre-lobo, el primero, tiene 2)
     src_add("herrero",           "Herrero del pueblo",         "npc",   1, 0);
     src_add("molinera",          "Molinera alegre",            "npc",   1, 0);
     src_add("guardiana",         "Guardiana del puente",       "npc",   1, 0);
@@ -40,7 +39,7 @@ function bank_load_math() {
     src_add("espectro",          "Espectro fantasmal",         "enemy", 3, 3);
     src_add("esqueleto",         "Esqueleto oscuro",           "enemy", 3, 3);
 
-    src_add("rey_desequilibrio", "El Rey del Desequilibrio",   "boss",  4, 3);   // 3 sellos
+    src_add("rey_desequilibrio", "Rey del Desequilibrio",   "boss",  4, 3);   // 3 sellos
 
     // NIVEL 1:  a + x = c
     //  id                origen       a    c    x

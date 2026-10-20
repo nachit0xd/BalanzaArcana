@@ -1,15 +1,16 @@
-// Controlador del flujo de un ejercicio. Lo usan las misiones de NPC y las batallas
+// Objeto que actúa como controlador del flujo de un ejercicio. 
+// Se usa en las misiones de NPC y las batallas.
 
-ex            = undefined;      // ejercicio del banco
+ex            = undefined;      // Ejercicio del banco
 ctx           = "npc";          // "npc" | "battle"
 state         = EX_STATE.ASK1;
-state_t       = 0;              // frames transcurridos en el estado actual
-attempt       = 1;              // intento actual (1 o 2)
-time_limit    = 0;              // segundos por intento (0 = sin cronómetro)
-t_elapsed     = 0;              // segundos usados en el intento actual
-show_reminder = false;          // pista por defecto (primer ejercicio del nivel)
+state_t       = 0;              // Frames transcurridos en el estado actual
+attempt       = 1;              // Intento actual (1 o 2)
+time_limit    = 0;              // Segundos por intento (0 = sin cronómetro)
+t_elapsed     = 0;              // Segundos usados en el intento actual
+show_reminder = false;          // Pista por defecto (primer ejercicio del nivel)
 timed_out     = false;
-wrong_hits    = 0;              // nivel 4: raíces acertadas en el intento fallido
+wrong_hits    = 0;              // Nivel 4: raíces acertadas en el intento fallido
 last_points   = 0;
 last_bonus    = 0;
 msg_ok        = "";
@@ -21,21 +22,21 @@ result        = undefined;
 on_done       = undefined;
 box           = noone;
 closing       = false;          // true mientras se está cerrando
-lay           = {};             // medidas de la pantalla (las calcula compute_layout)
-manual_hint   = false;          // el jugador pidió la pista con la tecla H
-last_tick     = -1;             // último segundo en que sonó el tic de la cuenta atrás
-partial_hit   = 0;              // nivel 4: veces que respondió con UNA sola raíz correcta (lo lee el jefe)
+lay           = {};             // Medidas de la pantalla (las calcula compute_layout)
+manual_hint   = false;          // El jugador pidió la pista con la tecla H
+last_tick     = -1;             // Último segundo en que sonó el tic de la cuenta atrás
+partial_hit   = 0;              // Nivel 4: veces que respondió con UNA sola raíz correcta (lo lee el jefe)
 
-// Inicio: lo llama exercise_launch()
+// Inicio: lo llama la función exercise_launch()
 start = function(_ex, _ctx, _first_of_level, _on_done, _time) {
     ex            = _ex;
     ctx           = _ctx;
     on_done       = _on_done;
     show_reminder = _first_of_level;
     time_limit    = (_ctx == "battle") ? cfg_time(_ex.level) : 0;
-    if (!is_undefined(_time)) time_limit = _time;      // tiempo propio (p. ej. las fases del jefe)
+    if (!is_undefined(_time)) time_limit = _time;      // Tiempo propio (ej: las fases del jefe)
 
-    // Todo el texto se deriva del banco
+    // Todo el texto se deriva del banco de preguntas
     story = ex_story(_ex);
     hint  = ex_hint(_ex);
     var _steps = ex_steps(_ex);
@@ -46,7 +47,7 @@ start = function(_ex, _ctx, _first_of_level, _on_done, _time) {
         steps_text += ((steps_text != "") ? "\n" : "") + _steps[i];
     }
 
-    // Caja de respuesta: su posición la define compute_layout
+    // Caja de respuesta: su posición la define la función compute_layout
     var _fields = (_ex.level == 4) ? 2 : 1;
     box = instance_create_depth(0, 0, -1001, obj_answer_box);
     compute_layout(_fields);
@@ -85,8 +86,7 @@ compute_layout = function(_fields) {
     lay.card_h  = lay.show_eq ? ((ctx == "battle") ? round(_mh * 0.72) + 24 : _mh + 28) : 0;
 
     if (ctx == "battle") {
-        // Panel inferior de dos columnas: izquierda = enunciado y ecuación;
-        // derecha = caja de respuesta y mensajes. La escena del combate queda arriba.
+        // Panel inferior de dos columnas: izquierda = enunciado y ecuación; derecha = caja de respuesta y mensajes
         lay.px = 32;  lay.py = 300;  lay.pw = GUI_W - 64;  lay.ph = GUI_H - 324;
         lay.lx = lay.px + 32;   lay.lw = 560;
         lay.rx = lay.px + 624;  lay.rw = 560;
@@ -94,9 +94,9 @@ compute_layout = function(_fields) {
         lay.body_y  = lay.py + 84;
         lay.card_x  = lay.lx;
         lay.card_w  = lay.lw;
-        lay.card_y_ask = lay.body_y;  // ecuación arriba: los textos largos quedan debajo
-        lay.card_y_ans = lay.body_y;                                                // al responder, el enunciado se oculta
-        lay.fb_y    = lay.body_y + 64 + 14;                                         // mensajes bajo la caja de respuesta
+        lay.card_y_ask = lay.body_y;  // Ecuación arriba: los textos largos quedan debajo
+        lay.card_y_ans = lay.body_y;                                                // Al responder, el enunciado se oculta
+        lay.fb_y    = lay.body_y + 64 + 14;                                         // Mensajes bajo la caja de respuesta
         lay.foot_y  = lay.py + lay.ph - 28;
         box.configure(_fields, lay.rx + lay.rw / 2, lay.body_y, (_fields == 2));
 		lay.story_y_battle = lay.card_y_ask + lay.card_h + 14;
@@ -107,8 +107,7 @@ compute_layout = function(_fields) {
             lay.story_scale = max(0.55, lay.story_scale - 0.05);
         }
     } else {
-        // Panel centrado, con encabezado con retrato, enunciado, tarjeta, respuesta y mensajes.
-        // El alto se adapta al texto, reservando lo que ocupará el mensaje más largo.
+        // Panel centrado, con encabezado con retrato, enunciado, tarjeta, respuesta y mensajes
         var _pw = 1000, _cw = _pw - 64;
         var _hdr = 96;
         var _sh  = string_height_ext(story, _lh, _cw);
@@ -149,7 +148,7 @@ set_state = function(_s) {
 };
 
 begin_attempt = function() {
-    t_elapsed = 0;          // cada intento tiene su propio cronómetro completo
+    t_elapsed = 0;          // Cada intento tiene su propio cronómetro completo
     last_tick = -1;
     box.enable();
 };
@@ -164,12 +163,12 @@ make_result = function(_correct, _attempt, _pts, _timeout, _left) {
         src           : ex.src,
         level         : ex.level,
         ctx           : ctx,
-        correct       : _correct,     // ¿resolvió el ejercicio?
-        attempt       : _attempt,     // intento en que acertó (1 o 2); 0 si no acertó
+        correct       : _correct,     // Hace check de ¿resolvió el ejercicio?
+        attempt       : _attempt,     // Intento en que acertó (1 o 2); 0 si no acertó
         points        : _pts,
         timed_out     : _timeout,     // true si se acabó el tiempo
-        time_left_pct : _left,        // fracción de tiempo restante al acertar
-        roots_hit     : wrong_hits    // solo nivel 4
+        time_left_pct : _left,        // Fracción de tiempo restante al acertar
+        roots_hit     : wrong_hits    // Solo para el nivel 4
     };
 };
 
@@ -184,7 +183,7 @@ resolve_answer = function() {
 
     sfx(_ok ? "snd_correct" : "snd_wrong");
 
-    // Nivel 4: ¿acertó exactamente una de las dos raíces? (agrieta el escudo del jefe)
+    // Nivel 4: hace check de ¿acertó exactamente una de las dos raíces? (agrieta el escudo del jefe)
     var _hits = (ex.level == 4) ? ex_roots_hit(ex, _vals) : 0;
     if (!_ok && _hits == 1) partial_hit++;
 
@@ -196,22 +195,22 @@ resolve_answer = function() {
         set_state(EX_STATE.OK);
     } else if (attempt == 1) {
         wrong_hits = _hits;
-        set_state(EX_STATE.WRONG1);               // pista, sin dar la respuesta
+        set_state(EX_STATE.WRONG1);               // Pista, sin dar la respuesta
     } else {
         wrong_hits = _hits;
         pending_result = make_result(false, 0, 0, false, 0);
-        set_state(EX_STATE.KCR);                  // respuesta + procedimiento
+        set_state(EX_STATE.KCR);                  // Respuesta + Procedimiento
     }
 };
 
-// Se acabó el tiempo (solo batalla)
+// Se acabó el tiempo (solo en batalla)
 resolve_timeout = function() {
     log_attempt({ ex:ex, ctx:ctx, attempt:attempt, answer:box.get_text(),
                   correct:false, ms:round(t_elapsed * 1000), timeout:true });
     sfx("snd_timeout");
     timed_out = true;
     pending_result = make_result(false, 0, 0, true, 0);
-    set_state(EX_STATE.KCR);                      // sin segundo intento
+    set_state(EX_STATE.KCR);                      // Sin segundo intento
 };
 
 // Fin del ejercicio

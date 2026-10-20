@@ -2,7 +2,7 @@ if (closing) exit;
 
 // Mientras hay otro menú encima (opciones o confirmación), este no responde
 if (options_active() || choice_active()) exit;
-if (global.ui_cooldown > 0) exit;  // el Enter que cerró Opciones no debe abrirlo otra vez
+if (global.ui_cooldown > 0) exit;  // El Enter que cerró Opciones no debe abrirlo otra vez
 if (grace > 0) { grace--; exit; }
 
 var _accept = keyboard_check_pressed(vk_enter) || keyboard_check_pressed(vk_space);

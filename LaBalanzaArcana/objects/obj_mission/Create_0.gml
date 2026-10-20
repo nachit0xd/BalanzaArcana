@@ -1,21 +1,17 @@
-// Controla una misión de NPC de principio a fin:
-//   [tutorial del maestro, solo la 1.ª vez del nivel] -> introducción del NPC
-//   -> sus ejercicios, uno tras otro -> cierre del NPC (+ consejo)
-//   -> misión marcada como hecha -> revisión de cierre de nivel.
+// Objeto que controla una misión de NPC de principio a fin
 
 npc_id = "";
-src    = undefined;        // datos del NPC en el banco
-deck   = undefined;        // solo ejercicios del banco de este NPC
-total  = 0;                // cuántos ejercicios tiene la misión
-n_done = 0;                // cuántos van
+src    = undefined;        // Datos del NPC en el banco
+deck   = undefined;        // Solo ejercicios del banco de este NPC
+total  = 0;                // Check de ¿cuántos ejercicios tiene la misión?
+n_done = 0;                // Check de ¿cuántos van?
 
 // Inicio
-// (El tutorial del maestro ya no va aquí: se muestra al inicio del nivel,
-//  ver level_intro_start en scr_quests.)
 start = function(_npc_id) {
     npc_id = _npc_id;
     src    = global.bank_src[$ npc_id];
-    deck   = deck_create(npc_id);          // contiene únicamente los ejercicios de este NPC
+    deck   = deck_create(npc_id);          // Contiene únicamente los ejercicios de este NPC
+	
     // Barajar sin repetición al iniciar la misión; cada partida puede dar un par distinto
     for (var i = array_length(deck.queue) - 1; i > 0; i--) {
         var j = irandom(i);
@@ -40,15 +36,15 @@ next_exercise = function() {
     if (n_done >= total) { outro(); return; }
 
     var _ex    = deck_next(deck);
-    var _first = first_exercise_of_level(src.level);   // 1.º del nivel -> pista por defecto
+    var _first = first_exercise_of_level(src.level);   // 1.º del nivel -> Pista por defecto
 
     exercise_launch(_ex, "npc", _first, on_exercise_done);
 };
 
 on_exercise_done = function(_r) {
-    record_result(_r);          // suma puntos y guarda el resultado
+    record_result(_r);          // Se suma puntos y guarda el resultado
     n_done++;
-    next_exercise();            // aunque falle se continúa con la misión
+    next_exercise();            // Aunque falle se continúa con la misión
 };
 
 // Cierre del NPC + consejo
@@ -70,5 +66,5 @@ finish = function() {
     quest_get(npc_id).done = true;
     var _lvl = src.level;
     instance_destroy();
-    quest_check_level(_lvl);    // ¿se completó el nivel?
+    quest_check_level(_lvl);    // Check de ¿se completó el nivel?
 };

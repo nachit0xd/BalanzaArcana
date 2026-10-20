@@ -1,5 +1,4 @@
-// Piezas de interfaz reutilizables, dibujadas por código. Todas usan
-// coordenadas de GUI (1280 x 720) y la paleta COL_* de scr_exercise_defs.
+// Script con "piezas" de interfaz reutilizables, dibujadas por código
 
 // Color de acento según quién habla o actúa:
 //   maestro = celeste | NPC = dorado | enemigo o jefe = rojo | sin personaje = borde normal

@@ -1,4 +1,4 @@
-// Menú de opciones. Se abre desde la pantalla de inicio y desde la pausa con options_show()
+// Objeto controlador del menú de opciones. Se abre desde la pantalla de inicio y desde la pausa con la función options_show()
 
 rows = [
     { id: "vol_master",   kind: "slider", label: "Volumen general",      desc: "Volumen de todos los sonidos del juego." },
@@ -13,10 +13,10 @@ rows = [
     { id: "back",         kind: "button", label: "Volver",               desc: "" }
 ];
 sel       = 0;
-grace     = 8;                    // frames iniciales en que se ignora la tecla
+grace     = 8;                    // Frames iniciales en que se ignora la tecla
 closing   = false;
 on_close  = undefined;
-before    = "";                   // resumen al abrir (para registrar si hubo cambios)
+before    = "";                   // Resumen al abrir (para registrar si hubo cambios)
 
 start = function(_on_close) {
     on_close = _on_close;
@@ -45,7 +45,7 @@ finish = function() {
     closing = true;
     options_save();
     var _after = options_summary();
-    if (_after != before) log_event("opciones", _after);      // queda en el archivo de datos
+    if (_after != before) log_event("opciones", _after);      // Queda en el archivo de datos
     ui_block(10);
     var _cb = on_close;
     instance_destroy();

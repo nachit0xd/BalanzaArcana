@@ -1,9 +1,11 @@
+// Objeto de controlador para las elecciones de Opciones
+
 prompt      = "";
 prompt_wrap = "";
 options     = [];
 sel         = 0;
 on_choose   = undefined;
-grace       = 8;                 // frames iniciales en que se ignora la tecla
+grace       = 8;                 // Frames iniciales en que se ignora la tecla
 closing     = false;
 
 start = function(_prompt, _options, _on_choose) {

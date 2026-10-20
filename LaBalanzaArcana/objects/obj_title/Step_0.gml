@@ -10,7 +10,7 @@ for (var i = 0; i < array_length(glyphs); i++) {
 if (starting) exit;
 
 if (options_active()) exit;
-if (global.ui_cooldown > 0) exit;      // evita que el Enter que cerró las opciones las vuelva a abrir
+if (global.ui_cooldown > 0) exit;      // Evita que el Enter que cerró las opciones las vuelva a abrir
 
 var _dir = (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S")))
          - (keyboard_check_pressed(vk_up)   || keyboard_check_pressed(ord("W")));
@@ -33,7 +33,7 @@ switch (state) {
                 case 4: game_end(); break;
             }
         }
-        // Atajo de desarrollo (solo al ejecutar desde el IDE): F2 = entrar directo a la aldea
+        // Atajo de desarrollo: F2 = entrar directo a la aldea
         if (DEBUG_MODE && keyboard_check_pressed(vk_f2)) {
             session_start("TEST00");
             room_transition(rm_village);
@@ -90,7 +90,7 @@ switch (state) {
                 room_transition(rm_intro);
                 starting = true;
             } else {
-                keyboard_string = code_text;           // volver a editar
+                keyboard_string = code_text;           // Volver a editar
                 set_state(TITLE_STATE.CODE);
             }
         }

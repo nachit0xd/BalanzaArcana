@@ -1,15 +1,16 @@
+// Objeto para la creación de NPCs
 sprite_index = spr_npc;
 image_speed  = 0;
 image_index  = 0;
 
-talk_range = 24;            // distancia máxima para hablar (px)
+talk_range = 24;            // Distancia máxima para hablar (px)
 can_talk   = false;         // true cuando el jugador puede hablarle ahora mismo
 
 // Caja de colisión en los pies (12 x 8 px): bloquea al jugador
 hb_l = -6;  hb_r = 5;
 hb_t = -7;  hb_b = 0;
 
-depth = -y;                 // ordenar por altura: quien está más abajo se dibuja encima
+depth = -y;                 // Ordenar por altura: quien está más abajo se dibuja encima
 
 setup = function(_id) {
     npc_id      = _id;

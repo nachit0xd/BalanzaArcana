@@ -30,7 +30,7 @@ draw_set_halign(fa_left);
 draw_set_valign(fa_top);
 draw_set_colour(COL_TEXT);
 draw_text(_x2 + 56, _y2 + 8, _l1);
-draw_set_colour(make_colour_rgb(225, 220, 245));          // claro: se lee sobre cualquier mapa
+draw_set_colour(make_colour_rgb(225, 220, 245));          // Claro: se lee sobre cualquier mapa
 draw_text(_x2 + 56, _y2 + 8 + _lh, _l2);
 
 // "+N" que sube bajo la placa derecha

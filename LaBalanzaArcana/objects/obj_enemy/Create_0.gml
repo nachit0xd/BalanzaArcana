@@ -1,13 +1,12 @@
-// Enemigo del mundo abierto. Vaga al azar cerca de su punto de origen
-// (alterna pausas y caminatas cortas, sin alejarse más de "radius" píxeles) y, si toca al jugador, inicia el combate
+// Objeto de enemigo del mundo abierto. Vaga al azar cerca de su punto de origen y, si toca al jugador, inicia el combate
 
 sprite_index = spr_enemy;
 image_speed  = 0;
 image_index  = 0;
 
-home_x   = x;              // punto de origen
+home_x   = x;              // Punto de origen
 home_y   = y;
-spd      = 0.5;            // píxeles por frame (lento: 30 px/s)
+spd      = 0.5;            // Píxeles por frame
 x_rem    = 0;
 y_rem    = 0;
 state    = 0;              // 0 = quieto, 1 = caminando
@@ -16,9 +15,9 @@ dx       = 0;
 dy       = 0;
 blocked  = false;
 walk_t   = 0;
-armed_t  = 90;             // frames tras aparecer antes de poder iniciar un combate
+armed_t  = 90;             // Frames tras aparecer antes de poder iniciar un combate
 
-// Caja de colisión en los pies (12 x 8 px)
+// Caja de colisión en los pies
 hb_l = -6;  hb_r = 5;
 hb_t = -7;  hb_b = 0;
 

@@ -3,7 +3,7 @@ if (closing) exit;
 var _a  = anim_in;
 var _cx = GUI_W / 2;
 
-// Escena (franja superior, 0..300)
+// Escena
 draw_set_alpha(_a);
 var _c1 = make_colour_rgb(30, 10, 36);
 var _c2 = make_colour_rgb(86, 26, 48);
@@ -11,13 +11,13 @@ draw_rectangle_colour(0, 0, GUI_W, 300, _c1, _c1, _c2, _c2, false);
 draw_set_colour(make_colour_rgb(38, 20, 40));
 draw_rectangle(0, 262, GUI_W, 300, false);
 
-// Zona inferior oscurecida (ahí aparece el panel del ejercicio)
+// Zona inferior oscurecida (panel del ejercicio)
 draw_set_colour(c_black);
 draw_set_alpha(0.82 * _a);
 draw_rectangle(0, 300, GUI_W, GUI_H, false);
 draw_set_alpha(_a);
 
-// Jefe (sprite de 32 px ampliado ×5) y jugador (16 px ×8)
+// Jefe (sprite de 32 px ampliado) y jugador (16 px)
 var _bx = boss_x   + ((shake_e > 0) ? choose(-6, 6) : 0);
 var _px = player_x + ((shake_p > 0) ? choose(-6, 6) : 0);
 var _bc = (shake_e > 0 && (shake_e mod 4) < 2) ? c_red : c_white;
@@ -43,7 +43,7 @@ if (shield_a > 0) {
     draw_set_alpha(0.9 * shield_a * _flick * _a);
     draw_circle(_sx, _sy, _sr, true);
     draw_circle(_sx, _sy, _sr - 1, true);
-    if (crack_t > 0) {                          // grietas blancas desde el centro
+    if (crack_t > 0) {                          // Grietas blancas desde el centro
         draw_set_colour(c_white);
         draw_set_alpha(_a);
         for (var i = 0; i < array_length(crack_ang); i++) {
@@ -109,7 +109,7 @@ for (var j = 0; j < array_length(pop); j++) {
 }
 draw_set_alpha(1);
 
-// Letrero grande (Victoria / Has caído)
+// Banner grande (Victoria / Has caído)
 if (banner != "") {
     draw_set_font(fnt_math);
     draw_set_halign(fa_center);

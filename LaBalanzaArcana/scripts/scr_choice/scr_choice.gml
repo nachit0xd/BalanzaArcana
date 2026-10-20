@@ -1,3 +1,5 @@
+// Script para las elecciones del jugador
+
 // _prompt   : texto de la pregunta
 // _options  : array de textos
 // _on_choose: function(indice) que se ejecuta al elegir (0 = primera opción)
@@ -8,7 +10,7 @@ function choice_show(_prompt, _options, _on_choose) {
     return _c;
 }
 
-// ¿Hay un menú de elección abierto? (se ignora uno que ya se está cerrando)
+// Check de ¿hay un menú de elección abierto? (se ignora uno que ya se está cerrando)
 function choice_active() {
     var _active = false;
     with (obj_choice) {

@@ -1,5 +1,4 @@
-// Estado de una partida nueva. obj_game lo llama al iniciar el juego y
-// la tecla F3 (debug) lo llama para reiniciar las pruebas.
+// Script de estado de una partida nueva. obj_game lo llama al iniciar el juego y la tecla F3 (debug) lo llama para reiniciar las pruebas
 function progress_reset() {
     global.level         = 1;
     global.score         = 0;
@@ -11,15 +10,13 @@ function progress_reset() {
     global.level_started = {};    // "1" -> true tras lanzar el primer ejercicio del nivel
     global.level_done    = {};    // "1" -> true cuando el nivel se completó
     global.ui_cooldown   = 0;
+	global.level_checkpoint = undefined;
 	gamification_reset();      // vida, insignias y vida perdida por nivel
     decks_reset();
 }
 
-// Introducción del maestro al inicio de cada nivel
-// Se muestra una sola vez por nivel. La dispara el controlador de la
-// room del nivel (obj_overworld_ctrl) poco después de cargarla. Los
-// textos están en global.level_intro (scr_story_text).
-// Devuelve true si se mostró la introducción.
+// Introducción del maestro al inicio de cada nivel:
+// Se muestra una sola vez por nivel
 function level_intro_start(_level) {
     var _key = string(_level);
     if (variable_struct_exists(global.level_intro_seen, _key)) return false;
@@ -30,21 +27,20 @@ function level_intro_start(_level) {
         return false;
     }
 
-    // Se marca como vista al TERMINAR el diálogo (si el jugador sale antes, se repite)
+    // Se marca como vista al terminar el diálogo (si el jugador sale antes, se repite)
     var _on_done = method({ k: _key }, function() {
         global.level_intro_seen[$ k] = true;
     });
     return (dialogue_start(global.level_intro[$ _key], "Maestro", _on_done) != noone);
 }
 
-// Solo para pruebas: vuelve a mostrar la introducción de un nivel
+// Solo para DEBUG: vuelve a mostrar la introducción de un nivel
 function level_intro_preview(_level) {
     variable_struct_remove(global.level_intro_seen, string(_level));
     level_intro_start(_level);
 }
 
-// true solo la primera vez que se llama para ese nivel. Sirve para saber
-// si un ejercicio es el primero del nivel (y mostrar su pista por defecto).
+// true solo la primera vez que se llama para ese nivel. Sirve para saber si un ejercicio es el primero del nivel (y mostrar su pista por defecto).
 function first_exercise_of_level(_level) {
     var _key = string(_level);
     if (variable_struct_exists(global.level_started, _key)) return false;
@@ -52,8 +48,7 @@ function first_exercise_of_level(_level) {
     return true;
 }
 
-// Misiones
-
+// Misiones:
 // Estado de la misión de un NPC o enemigo (se crea la primera vez)
 function quest_get(_id) {
     if (!variable_struct_exists(global.quests, _id)) {
@@ -98,17 +93,15 @@ function npc_look_frame(_npc_id) {
     return 0;
 }
 
-// Registro de resultados. Cada ejercicio terminado pasa por aquí.
-// Las Fases 5 y 6 usarán global.results para la pantalla de resultados
-// y para el registro de datos.
+// Registro de resultados: 
+// Cada ejercicio terminado pasa por aquí
 function record_result(_r) {
     array_push(global.results, _r);
     global.score += _r.points;
 }
 
-// Cierre de nivel
-// Un nivel está completo cuando TODOS sus NPC/enemigos tienen la misión
-// hecha (en el Nivel 1 solo hay NPC; las batallas se suman en la Fase 7).
+// Cierre de nivel:
+// Un nivel está completo cuando todos sus NPC/enemigos tienen la misión hecha
 function level_requirements_met(_level) {
     var _names = variable_struct_get_names(global.bank_src);
     for (var i = 0; i < array_length(_names); i++) {

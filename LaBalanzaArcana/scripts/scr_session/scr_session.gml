@@ -1,9 +1,6 @@
-// Script de onfiguración de la recolección de datos, código de participante, inicio y fin de sesión
+// Script de configuración de la recolección de datos, código de participante, inicio y fin de sesión
 
-// CONFIGURACIÓN:
-
-// Hasta qué nivel es jugable la versión actual. Al terminar ese nivel se muestra la pantalla de fin de sesión. Súbelo a medida que existan
-// niveles (Fases 7 y 8); al final debe valer MAX_LEVEL
+// Configuración:
 #macro LAST_PLAYABLE_LEVEL 4
 
 // Prefijo del archivo de datos: balanza_<CODIGO>.csv
@@ -12,8 +9,8 @@
 // Subida automática: URL de la aplicación web de Google Apps Script. Vacío = desactivada; los datos igual quedan en el CSV local
 #macro LOG_UPLOAD_URL ""
 
-// CÓDIGO DE PARTICIPANTE:
-// Regla definida en el diseño: 2 letras del nombre + 2 letras del apellido + día de nacimiento con 2 cifras (ej.: NAGO15). Total: 6 caracteres
+// Código de participante:
+// Regla definida: 2 letras del nombre + 2 letras del apellido + día de nacimiento con 2 cifras (ej.: NAGO15). Total: 6 caracteres
 #macro CODE_LEN 6
 
 // Convierte un carácter escrito a mayúscula sin tilde (ñ -> N). Devuelve "" si no es una letra A-Z ni un dígito
@@ -66,13 +63,13 @@ function code_error_text(_s) {
     return "Los 2 últimos son el día de nacimiento: de 01 a 31.";
 }
 
-// SESIÓN:
-
+// Sesión:
 // Inicia una sesión de juego para un participante: reinicia la partida, abre su archivo de datos y deja constancia del inicio
 function session_start(_code) {
     global.player_code = _code;
     global.session_id  = session_stamp();
     progress_reset();                 // partida nueva (puntaje, vida, misiones, etc.)
+	level_checkpoint_save(1);
     log_init();                       // crea el archivo con su encabezado si no existe
     log_event("sesion_inicio", "build=" + GAME_VERSION);
 }
@@ -103,7 +100,7 @@ function open_data_folder() {
     return false;
 }
 
-// PANTALLA DE FIN DE SESIÓN:
+// Pantalla de fin de sesión:
 function session_end_show() {
     if (session_end_active()) return noone;
     var _e = instance_create_depth(0, 0, -950, obj_session_end);
@@ -118,7 +115,7 @@ function session_end_active() {
     return _active;
 }
 
-// ¿Hay algo "modal" abierto que deba congelar el mundo? Las fases siguientes agregan aquí lo que haga falta (batallas, pausa, etc.).
+// ¿Hay algo "modal" abierto que deba congelar el mundo?
 function ui_modal_active() {
     return exercise_active() || dialogue_active() || results_active()
         || session_end_active() || transition_active() || battle_active()

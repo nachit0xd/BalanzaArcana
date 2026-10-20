@@ -1,12 +1,10 @@
-// Cinemática breve de apertura con una balanza animada
-// que se desequilibra y vuelve a equilibrarse, con el texto de la
-// historia. Se puede avanzar con Enter/Espacio y saltar con Esc
+// Objeto de controlador de cinemática breve de apertura con una balanza animada que se desequilibra y vuelve a equilibrarse, con el texto de la historia. Se puede avanzar con Enter/Espacio y saltar con Esc
 slides     = intro_slides();
-idx        = 0;                 // lámina actual
-st         = 0;                 // frames desde que empezó la lámina (anima la balanza)
-ht         = 0;                 // frames con el texto ya escrito (tiempo de lectura)
-total_t    = 0;                 // frames totales
-chars      = 0;                 // letras visibles
+idx        = 0;                 // Lámina actual
+st         = 0;                 // Frames desde que empezó la lámina (anima la balanza)
+ht         = 0;                 // Frames con el texto ya escrito (tiempo de lectura)
+total_t    = 0;                 // Frames totales
+chars      = 0;                 // Letras visibles
 text_full  = "";
 typed_done = false;
 ending     = false;

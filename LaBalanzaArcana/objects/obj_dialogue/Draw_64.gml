@@ -6,10 +6,9 @@ draw_set_halign(fa_left);
 // Color según quién habla: dorado = NPC, celeste = maestro, rojo = enemigo
 var _acc = role_color(portrait_id);
 
-// Retrato de quien habla: arriba a la derecha de la caja. En combate no se muestra
-// porque la escena ya muestra al enemigo.
+// Retrato de quien habla: arriba a la derecha de la caja. En combate no se muestra porque la escena ya muestra al enemigo.
 if (portrait_id != "" && !battle_active() && !boss_active()) {
-    var _k   = min(pt / 12, 1);                       // entrada suave (0.2 s)
+    var _k   = min(pt / 12, 1);                       // Entrada suave (0.2 s)
     var _prw = 224, _prh = 224;
 	portrait_draw(portrait_id, box_x + box_w - _prw, box_y - _prh - 8, _prw, _prh, pt, _k, _acc);
 }

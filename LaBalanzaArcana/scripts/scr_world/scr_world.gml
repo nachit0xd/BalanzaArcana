@@ -1,4 +1,4 @@
-// Lógica del overworld: tiles, colisiones, NPC, enemigos y preparación de cada room de nivel
+// Script con lógica del overworld: tiles, colisiones, NPC, enemigos y preparación de cada room de nivel
 
 #macro TILE 16
 
@@ -68,13 +68,10 @@ function barrier_blocks(_x, _y) {
     return _hit;
 }
 
-// ¿Este punto cae dentro de la caja de colisión de algún NPC?
+// Check de ¿este punto cae dentro de la caja de colisión de algún NPC?
 function npc_blocks(_x, _y) {
     var _hit = false;
     with (obj_npc) {
-        if (_x >= x + hb_l && _x <= x + hb_r && _y >= y + hb_t && _y <= y + hb_b) _hit = true;
-    }
-    with (obj_gate) {                      // el portón del castillo también bloquea el paso
         if (_x >= x + hb_l && _x <= x + hb_r && _y >= y + hb_t && _y <= y + hb_b) _hit = true;
     }
     return _hit;
@@ -91,7 +88,7 @@ function tree_blocks(_x, _y) {
     return _hit;
 }
 
-// ¿El mundo debe quedarse quieto? (ejercicio, diálogo, combate, etc.)
+// Check de ¿el mundo debe quedarse quieto? (ejercicio, diálogo, combate, etc.)
 function world_frozen() {
     return ui_modal_active();
 }
@@ -174,10 +171,8 @@ function world_setup() {
 		with (obj_enemy) {
 			if (enemy_id != "") global.markers[$ enemy_id] = { x: x, y: y };
 		}
-		if (instance_exists(obj_gate)) {
-			global.markers[$ "gate"] = { x: obj_gate.x, y: obj_gate.y };
-		} else if (room == rm_castle && instance_exists(obj_barrier)) {
-			global.markers[$ "gate"] = { x: obj_barrier.x, y: obj_barrier.y };
+		with (obj_barrier) {
+			if (barrier_kind == "gate") global.markers[$ "gate"] = { x: x, y: y };
 		}
 
 		var _sources = variable_struct_get_names(global.bank_src);
@@ -188,7 +183,7 @@ function world_setup() {
 				show_debug_message("AVISO: falta " + _s.id + " en " + room_get_name(room) + ".");
 			}
 		}
-		if (room == rm_castle && !instance_exists(obj_gate) && !instance_exists(obj_barrier)) {
+		if (room == rm_castle && !variable_struct_exists(global.markers, "gate")) {
 			show_debug_message("AVISO: falta obj_barrier en rm_castle.");
 		}
 	}
@@ -243,7 +238,7 @@ function world_spawn_gate() {
     if (global.level != 3) return;
     if (!variable_struct_exists(global.markers, "gate")) return;
     var _m = global.markers[$ "gate"];
-    instance_create_depth(_m.x, _m.y, 0, obj_gate);
+    instance_create_depth(_m.x, _m.y, 0, obj_barrier);
 }
 
 // Construye las capas de tiles desde el mapa de texto

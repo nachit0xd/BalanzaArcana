@@ -8,7 +8,7 @@ if (can_talk) {
     draw_set_colour(c_white);
 }
 
-// Con F1 se ve la caja de colisión (azul)
+// Con la tecla F1 se ve la caja de colisión (azul)
 if (global.debug) {
     draw_set_colour(c_aqua);
     draw_set_alpha(0.5);

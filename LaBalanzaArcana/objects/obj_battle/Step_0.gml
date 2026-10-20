@@ -35,7 +35,7 @@ switch (state) {
             banner = "";
             state  = "lose_dialogue";
             dialogue_start([ "Te quedaste sin vida, pero la Balanza Arcana te da otra oportunidad.",
-                             "Respira hondo: el combate empieza de nuevo." ], "", restart_fight);
+                             "Volverás al inicio de este nivel. Todo progreso será reiniciado..." ], "", restart_level);
         }
         break;
 }

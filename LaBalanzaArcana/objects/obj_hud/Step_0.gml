@@ -8,7 +8,7 @@ if (_left < last_left) {
 last_left = _left;
 if (blink_t > 0) blink_t--;
 
-// El puntaje sube contando; si baja (p. ej. un combate perdido) se ajusta de golpe
+// El puntaje sube contando; si baja (ej: un combate perdido) se ajusta de golpe
 if (global.score > last_score) {
     array_push(popups, { txt: "+" + string(global.score - last_score), t: 0 });
     sfx("snd_score");

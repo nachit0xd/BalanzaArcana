@@ -1,62 +1,49 @@
-// Batalla final contra El Rey del Desequilibrio:
-//  - Tres sellos = tres fases. Cada fase presenta una ecuación cuadrática
-//    de su conjunto (2 por fase) y el jugador escribe LAS DOS raíces.
-//  - Ambas raíces correctas al 1.er intento: el sello se rompe (100 puntos
-//    + bono de tiempo). Al 2.º intento: se rompe (60 puntos).
-//  - UNA sola raíz correcta: el escudo del jefe se agrieta, pero se
-//    recarga; no hay daño ni puntos (el intento cuenta como fallido).
-//  - Falla ambos intentos o se acaba el tiempo: el jugador pierde vida,
-//    ve la factorización y la fase se repite con OTRA ecuación del conjunto.
-//  - Sin vida: el jefe recupera sus tres sellos, se descartan los puntos
-//    del combate y todo empieza de nuevo desde la fase 1.
-//  - Tres sellos rotos: el ESCUDO CAE y el combate continúa. El jefe pasa a tener
-//    3 puntos de energía y recibe daño como un enemigo normal (2 al acertar al
-//    1.er intento, 1 al 2.º). Con 0 puntos de energía: victoria y fin del juego.
-//  - Cada fallo cuesta 50 % de vida: dos golpes derrotan al jugador.
+// Este objeto controla la batalla contra El Rey del Desequilibrio.
+// Consiste en una batalla de dos fases: en la primera fase el jugador debe destruir los tres sellos del jefe en ejercicios de ecuaciones cuadráticas.
+// En la segunda fase el jugador puede dañar al jefe como un enemigo normal, con tres puntos de vida. Cada fallo del jugador le cuesta un 50% de su vida.
 
 src_id    = "rey_desequilibrio";
 src       = global.bank_src[$ src_id];
 seals_max = 3;
-broken    = 0;                 // sellos rotos
-phase     = 1;                 // fase actual (1 a 3)
-pool_i    = [0, 0, 0, 0];      // qué ecuación de cada fase toca (índices 1..3)
-mark      = 0;                 // punto de control de results (para descartar si pierde)
+broken    = 0;                 // Sellos rotos
+phase     = 1;                 // Fase actual (1 a 3)
+pool_i    = [0, 0, 0, 0];      // Qué ecuación de cada fase toca (índices 1..3)
 last_ok   = false;
 stage     = 1;                 // 1 = sellos y escudo | 2 = escudo caído, el jefe recibe daño
-hp_max    = 3;                 // puntos de energía del jefe en la etapa 2
+hp_max    = 3;                 // Puntos de energía del jefe en la etapa 2
 hp        = hp_max;
-given     = {};                // ecuaciones ya mostradas en este combate
-global.boss_shield = true;     // lo lee obj_exercise para el mensaje de respuesta parcial
+given     = {};                // Ecuaciones ya mostradas en este combate
+global.boss_shield = true;     // Lo lee obj_exercise para el mensaje de respuesta parcial
 
 state     = "intro";           // intro | fight | hit | shield_banner | shield_dialogue | win_banner | win_dialogue | lose_banner | lose_dialogue
 t         = 0;
 anim_in   = 0;
 shake_e   = 0;
 shake_p   = 0;
-crack_t   = 0;                 // frames de las grietas del escudo
-shatter_t = 0;                 // frames de la rotura del escudo
-shield_a  = 1;                 // opacidad del escudo (0..1)
+crack_t   = 0;                 // Frames de las grietas del escudo
+shatter_t = 0;                 // Frames de la rotura del escudo
+shield_a  = 1;                 // Opacidad del escudo (0..1)
 pop       = [];
 banner    = "";
 closing   = false;
 
-ex_inst      = noone;          // el ejercicio en curso (para ver si hubo respuesta parcial)
+ex_inst      = noone;          // El ejercicio en curso (para ver si hubo respuesta parcial)
 partial_seen = 0;
 
 // Posiciones en la escena
 boss_x   = 900;   boss_y   = 292;
 player_x = 300;   player_y = 292;
 
-// Grietas del escudo: ángulo y largo de cada una
+// Grietas del escudo, con el ángulo y largo de cada una
 crack_ang = [20, 75, 130, 200, 255, 310];
 crack_len = [60, 85, 55, 90, 70, 65];
 
-// Tiempo por fase (docx: 70 a 90 s)
+// Tiempo por fase (70 a 90 s)
 phase_time = function(_p) {
     return [70, 80, 90][_p - 1];
 };
 
-// Ids de las ecuaciones de una fase, en el orden del banco
+// IDs de las ecuaciones de una fase, en el orden del banco
 phase_ids = function(_p) {
     var _ids = [];
     for (var i = 0; i < array_length(global.bank_list); i++) {
@@ -68,7 +55,6 @@ phase_ids = function(_p) {
 
 // Inicio
 start = function() {
-    mark = results_mark();
     log_event("combate_inicio", src_id);
     sfx("snd_battle_start");
     state = "intro";
@@ -80,18 +66,18 @@ begin_fight = function() {
     next_round();
 };
 
-// Una ronda = una ecuación
+// Una ronda equivale a una ecuación
 next_round = function() {
     var _ex, _time;
     if (stage == 1) {
         var _ids = phase_ids(phase);
         var _id  = _ids[pool_i[phase] mod array_length(_ids)];
-        pool_i[phase]++;                                   // si falla, la próxima vez toca la otra ecuación
+        pool_i[phase]++;                                   // Si falla, la próxima vez toca la otra ecuación
         _ex   = bank_get(_id);
         _time = phase_time(phase);
     } else {
-        _ex   = pick_free();                               // etapa 2: una ecuación aún no vista
-        _time = undefined;                                 // tiempo normal del nivel
+        _ex   = pick_free();                               // Etapa 2: una ecuación aún no vista
+        _time = undefined;                                 // Tiempo normal del nivel
     }
     given[$ _ex.id] = true;
     var _first = first_exercise_of_level(4);
@@ -99,7 +85,7 @@ next_round = function() {
     ex_inst = exercise_launch(_ex, "battle", _first, on_round_done, _time);
 };
 
-// Etapa 2: siguiente ecuación del nivel 4 que aún no se mostró (si se agotan, reinicia el ciclo)
+// Etapa 2 del combate: siguiente ecuación del Nivel 4 que aún no se mostró (si se agotan, reinicia el ciclo)
 pick_free = function() {
     for (var pass = 0; pass < 2; pass++) {
         for (var i = 0; i < array_length(global.bank_list); i++) {
@@ -112,13 +98,13 @@ pick_free = function() {
 };
 
 on_round_done = function(_r) {
-    record_result(_r);                     // suma los puntos (se descartan si pierde)
+    record_result(_r);                     // Se suma puntos; se revierten si se reinicia el nivel
     state   = "hit";
     t       = 0;
     last_ok = _r.correct;
 
     if (stage == 1) {
-        // Etapa 1: romper los sellos
+        // Etapa 1 del jefe: romper los sellos de escudo
         if (_r.correct) {
             broken++;
             shatter_t = 60;
@@ -134,7 +120,7 @@ on_round_done = function(_r) {
             array_push(pop, { x: player_x, y: player_y - 70, txt: "-" + string(_pct) + " %", col: COL_BAD, t: 0 });
         }
     } else {
-        // Etapa 2: el jefe recibe daño como un enemigo normal
+        // Etapa 2 del jefe: el jefe recibe daño como un enemigo normal
         if (_r.correct) {
             var _dmg = (_r.attempt == 1) ? 2 : 1;
             hp = max(0, hp - _dmg);
@@ -165,38 +151,27 @@ finish_win = function() {
     global.boss_shield = false;
     closing = true;
     instance_destroy();
-    quest_check_level(4);                  // completa el nivel 4: cierre, resultados y fin de sesión
+    quest_check_level(4);                  // Se hace check de completación del nivel 4: cierre, resultados y fin de sesión
 };
 
-// Derrota: el jefe recupera sus sellos y todo vuelve a empezar
+// Derrota: al terminar el diálogo, se reinicia todo el nivel 4
 set_lose = function() {
     state  = "lose_banner";
     banner = "Has caído...";
     jingle("mus_defeat");
     t = 0;
-    results_rollback(mark);                // los puntos del combate no se conservan
     log_event("combate_derrota", src_id);
 };
 
-restart_fight = function() {
-    life_reset();
-    broken    = 0;
-    phase     = 1;
-    pool_i    = [0, 0, 0, 0];
-    shield_a  = 1;
-    stage     = 1;
-    hp        = hp_max;
-    given     = {};
-    global.boss_shield = true;
-    mark      = results_mark();
-    banner    = "";
-    log_event("combate_reinicio", src_id);
-    state = "fight";
-    next_round();
+restart_level = function() {
+    var _defeated_by = src_id;
+    closing = true;
+    level_restart_from_defeat(_defeated_by);
+    instance_destroy();
 };
 
 
-// Etapa 2: tras el tercer sello el escudo cae y el combate continúa
+// Etapa 2 del jefe: tras el tercer sello, el escudo cae y el combate continúa
 set_shield_down = function() {
     state  = "shield_banner";
     banner = "¡El escudo ha caído!";

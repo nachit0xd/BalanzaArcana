@@ -1,5 +1,4 @@
-// Script que contiene todo lo que se DERIVA de los números del banco: texto de la ecuación,
-// corrección de respuestas, recordatorio, pista y procedimiento.
+// Script que contiene todo lo que se deriva de los números del banco: texto de la ecuación, corrección de respuestas, recordatorio, pista y procedimiento.
 
 // Utilidades de texto
 function term_x(_k) {                       // 1 -> "x" ; 4 -> "4x"
@@ -34,8 +33,8 @@ function ex_solution_string(_ex) {
     return SYM_X1 + " = " + string(_ex.sol[0]) + "  y  " + SYM_X2 + " = " + string(_ex.sol[1]);
 }
 
-// Corrección
-// ¿Cumple x con la ecuación? (se usa en el validador)
+// Corrección:
+// Check de ¿cumple x con la ecuación? (se usa en el validador)
 function ex_solves(_ex, _x) {
     switch (_ex.level) {
         case 1: return (_ex.a + _x == _ex.c);
@@ -54,7 +53,7 @@ function ex_check(_ex, _ans) {
     return (_ans[0] == _s[0] && _ans[1] == _s[1]) || (_ans[0] == _s[1] && _ans[1] == _s[0]);
 }
 
-// Cuántas raíces DISTINTAS acertó el jugador (0, 1 o 2): sirve para el "escudo" del jefe (1 raíz rompe el escudo, 2 hacen daño).
+// Cuántas raíces distintas acertó el jugador (0, 1 o 2): sirve para el "escudo" del jefe (1 raíz rompe el escudo, 2 hacen daño).
 function ex_roots_hit(_ex, _ans) {
     var _hits = 0;
     for (var i = 0; i < 2; i++) {
@@ -65,8 +64,8 @@ function ex_roots_hit(_ex, _ans) {
     return _hits;
 }
 
-// Andamiaje
-// Pista visible por defecto (primer ejercicio de cada nivel): 1 línea.
+// Andamiaje:
+// Pista visible por defecto (primer ejercicio de cada nivel): 1 línea
 function ex_reminder(_ex) {
     switch (_ex.level) {
         case 1: return "Recuerda: resta " + string(_ex.a) + " en ambos lados.";
@@ -77,7 +76,7 @@ function ex_reminder(_ex) {
     return "";
 }
 
-// Pista tras el primer error: el procedimiento en 2 sub-pasos, SIN dar la respuesta.
+// Pista tras el primer error: el procedimiento en 2 sub-pasos, SIN dar la respuesta
 function ex_hint(_ex) {
     switch (_ex.level) {
         case 1:
@@ -100,7 +99,7 @@ function ex_hint(_ex) {
     return "";
 }
 
-// Procedimiento completo (se muestra tras el segundo error). Devuelve un array de líneas.
+// Procedimiento completo (se muestra tras el segundo error). Devuelve un array de líneas
 function ex_steps(_ex) {
     var _a = _ex.a, _b = _ex.b, _c = _ex.c, _d = _ex.d;
     var _s = [ ex_equation_string(_ex) ];
@@ -157,7 +156,7 @@ function ex_story(_ex) {
     return _t;
 }
 
-// VALIDADOR — sustituye a la "prueba de 10 000 casos" del plan original. Se ejecuta solo en desarrollo (DEBUG_MODE) al iniciar el juego y
+// Validador: se ejecuta solo en desarrollo (DEBUG_MODE) al iniciar el juego y
 // atrapa errores de tipeo del banco (por ejemplo "4 + 5x = 24 → x = 24"). ERROR = hay que corregir | AVISO = revisar | PENDIENTE = falta narrativa
 function bank_validate() {
     var _err = 0;
@@ -171,28 +170,28 @@ function bank_validate() {
         var _eqs_txt = ex_equation_string(_ex);
         var _tag = "[" + _ex.id + "] " + _eqs_txt;
 
-        // 1. id único
+        // ID único
         if (variable_struct_exists(_ids, _ex.id)) { show_debug_message("ERROR " + _tag + ": id repetido"); _err++; }
         _ids[$ _ex.id] = true;
 
-        // 2. ecuación repetida dentro del banco
+        // Ecuación repetida dentro del banco
         if (variable_struct_exists(_eqs, _eqs_txt)) {
             show_debug_message("AVISO " + _tag + ": misma ecuación que " + _eqs[$ _eqs_txt]);
         }
         _eqs[$ _eqs_txt] = _ex.id;
 
-        // 3. el NPC/enemigo existe y su nivel coincide
+        // El NPC/enemigo existe y su nivel coincide
         if (!variable_struct_exists(global.bank_src, _ex.src)) {
             show_debug_message("ERROR " + _tag + ": el origen '" + _ex.src + "' no está registrado"); _err++;
         } else if (global.bank_src[$ _ex.src].level != _ex.level) {
             show_debug_message("ERROR " + _tag + ": el nivel no coincide con el de '" + _ex.src + "'"); _err++;
         }
 
-        // 4. coeficientes coherentes con el nivel
+        // Coeficientes coherentes con el nivel
         if (_ex.level == 2 && _ex.b < 2) { show_debug_message("AVISO " + _tag + ": b < 2 (sería de Nivel 1)"); }
         if (_ex.level == 3 && _ex.b == _ex.d) { show_debug_message("ERROR " + _tag + ": b = d (no tiene solución única)"); _err++; }
 
-        // 5. las soluciones realmente cumplen la ecuación
+        // Las soluciones realmente cumplen la ecuación
         var _need = (_ex.level == 4) ? 2 : 1;
         if (array_length(_ex.sol) != _need) {
             show_debug_message("ERROR " + _tag + ": debe tener " + string(_need) + " solución(es)"); _err++;
@@ -207,12 +206,12 @@ function bank_validate() {
             }
         }
 
-        // 6. ¿coincide con un ítem del pre-test o post-test?
+        // ¿Coincide con un ítem del pre-test o post-test?
         if (variable_struct_exists(_tests, _eqs_txt)) {
             show_debug_message("AVISO " + _tag + ": es idéntica al ítem " + _tests[$ _eqs_txt] + " del test");
         }
 
-        // 7. narrativa
+        // Narrativa
         if (!variable_struct_exists(global.bank_text, _ex.id)) {
             show_debug_message("PENDIENTE " + _tag + ": sin narrativa");
         }

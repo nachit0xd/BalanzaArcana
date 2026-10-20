@@ -1,9 +1,8 @@
-// Música y efectos de sonido
+// Script de música y efectos de sonido
 
-// El juego busca cada sonido por nombre. Si el asset todavía no existe, simplemente no suena (no da error)
+// El juego busca cada sonido por nombre. Si el asset todavía no existe, simplemente no suena
 
-// Volumen: el general lo aplica audio_master_gain (scr_options); la música y
-// los efectos usan opt_music_gain() y opt_sfx_gain()
+// Volumen: el general lo aplica audio_master_gain (scr_options); la música y los efectos usan opt_music_gain() y opt_sfx_gain()
 
 #macro AUDIO_PRIO_MUSIC 100
 #macro AUDIO_PRIO_SFX   10
@@ -26,7 +25,7 @@ function audio_names() {
     ];
 }
 
-// Id del asset con ese nombre, o -1 si aún no existe
+// ID del asset con ese nombre, o -1 si aún no existe
 function snd_find(_name) {
     var _a = asset_get_index(_name);
     return (_a != -1 && audio_exists(_a)) ? _a : -1;
@@ -37,7 +36,7 @@ function snd_id(_name) {
     return -1;
 }
 
-// Se llama una vez desde obj_game (Create)
+// Se llama una vez desde el objeto obj_game (evento Create)
 function audio_init() {
     global.snd = {};
     var _names   = audio_names();
@@ -48,12 +47,12 @@ function audio_init() {
         global.snd[$ _names[i]] = _a;
         if (_a == -1) _missing += " " + _names[i]; else _found++;
     }
-    global.music_snd    = -1;       // pista que debería sonar (asset)
-    global.music_inst   = -1;       // instancia que está sonando
-    global.music_gain   = 0;        // ganancia actual de esa pista (para fundidos)
-    global.music_fading = [];       // pistas que se están apagando: { inst, g }
-    global.music_step   = 0.02;     // velocidad de los fundidos (1 s aprox.)
-    global.jingle_until = 0;        // mientras dura un jingle, la música de fondo baja
+    global.music_snd    = -1;       // Pista que debería sonar (asset)
+    global.music_inst   = -1;       // Instancia que está sonando
+    global.music_gain   = 0;        // Ganancia actual de esa pista (para fundidos)
+    global.music_fading = [];       // Pistas que se están apagando: { inst, g }
+    global.music_step   = 0.02;     // Velocidad de los fundidos (1 s aprox.)
+    global.jingle_until = 0;        // Mientras dura un jingle, la música de fondo baja
 
     if (DEBUG_MODE) {
         show_debug_message("AUDIO: " + string(_found) + " de " + string(array_length(_names)) + " sonidos encontrados.");
@@ -61,7 +60,7 @@ function audio_init() {
     }
 }
 
-// EFECTOS DE SONIDO:
+// Efectos de sonido:
 function sfx(_name) {
     return sfx_ext(_name, 1, 1);
 }
@@ -85,7 +84,7 @@ function voice_pitch(_pid) {
     return 1;
 }
 
-// MÚSICA:
+// Música:
 // Qué pista corresponde ahora, según dónde está el jugador ("" = silencio)
 function music_desired() {
     if (boss_active())   return "mus_boss";
@@ -96,7 +95,7 @@ function music_desired() {
         case rm_village: return "mus_village";
         case rm_forest:  return "mus_forest";
         case rm_castle:  return "mus_castle";
-        case rm_boss:    return "mus_castle";      // antes de empezar el combate final
+        case rm_boss:    return "mus_castle";      // Antes de empezar el combate final
     }
     return "";
 }
@@ -113,7 +112,7 @@ function music_switch(_s) {
     }
 }
 
-// Jingle: un sonido corto de música (victoria, derrota...). La música de fondo baja mientras suena.
+// Jingle: un sonido corto de música (victoria, derrota...). La música de fondo baja mientras suena
 function jingle(_name) {
     var _s = snd_id(_name);
     if (_s == -1) return;
@@ -122,14 +121,14 @@ function jingle(_name) {
     global.jingle_until = current_time + audio_sound_length(_s) * 1000;
 }
 
-// Se llama en cada Step de obj_game
+// Se llama en cada evento Step de obj_game
 function audio_update() {
-    // 1) ¿Cambió la pista que corresponde?
+    // Check de ¿cambió la pista que corresponde?
     var _want = music_desired();
     var _s    = (_want == "") ? -1 : snd_id(_want);
     if (_s != global.music_snd) music_switch(_s);
 
-    // 2) Ganancia objetivo: baja durante un jingle y en la pausa
+    // Ganancia objetivo, baja durante un jingle y en la pausa
     var _target = 1;
     if (current_time < global.jingle_until) _target = 0.12;
     else if (pause_active())                _target = 0.4;
@@ -139,7 +138,7 @@ function audio_update() {
         audio_sound_gain(global.music_inst, global.music_gain * opt_music_gain(), 0);
     }
 
-    // 3) Las pistas anteriores se apagan poco a poco
+    // Las pistas anteriores se apagan poco a poco
     for (var i = array_length(global.music_fading) - 1; i >= 0; i--) {
         var _f = global.music_fading[i];
         _f.g -= global.music_step;
@@ -152,7 +151,7 @@ function audio_update() {
     }
 }
 
-// SONIDOS DE MENÚS (los llama obj_game: no hay que tocar cada menú):
+// Sonidos de menús (los llama obj_game, no hay que tocar cada menú):
 function menu_context_active() {
     if (instance_exists(obj_title)) {
         // En el título, no durante la presentación ni al escribir el código

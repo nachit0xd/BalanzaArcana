@@ -1,10 +1,10 @@
-// Script con pantalla de inicio, cinemática de apertura y transiciones.
-// Todo el arte de estas pantallas se dibuja por código (no necesita imágenes)
+// Script con pantalla de inicio, cinemática de apertura y transiciones
+// Todo el arte de estas pantallas se dibuja por código
 
 // Estados de la pantalla de inicio
 enum TITLE_STATE { SPLASH, MENU, HOWTO, CREDITS, NOTICE, CODE, CONFIRM }
 
-// TEXTOS: (todo es borrador salvo lo indicado)
+// Textos:
 
 // Créditos:
 function title_credits() {
@@ -15,16 +15,16 @@ function title_credits() {
     ];
 }
 
-// Aviso de datos (se informa que los datos son anónimos y solo para este proyecto académico)  [BORRADOR]
+// Aviso de datos (se informa que los datos son anónimos y solo para este proyecto académico)
 function title_notice() {
     return [
-        "La Balanza Arcana es un proyecto académico para practicar ecuaciones de primer grado.",
-        "Mientras juegas se guardan tus respuestas y el tiempo que tardas en ellas, asociadas solo al código que vas a crear a continuación. No se guarda tu nombre, tu RUT ni tu correo.",
+        "La Balanza Arcana es un proyecto académico para practicar ecuaciones de primer y segundo grado.",
+        "Mientras juegas se guardan tus respuestas y el tiempo que tardas en ellas, asociadas solo al código que vas a crear a continuación. No se guarda tu nombre completo, tu RUT ni tu correo.",
         "Los datos se usan de forma anónima, solo para evaluar este proyecto. Puedes dejar de jugar cuando quieras."
     ];
 }
 
-// Controles:  [BORRADOR]
+// Controles:
 function title_howto() {
     return [
         "Moverte: flechas o WASD.",
@@ -38,19 +38,19 @@ function title_howto() {
     ];
 }
 
-// Cinemática de apertura: 4 láminas breves  [BORRADOR]
+// Cinemática de apertura: 4 láminas breves
 // "from"/"to" = inclinación de la balanza en grados
 // (0 = equilibrada, positivo = se inclina a la derecha). "hold" = frames
 // que se mantiene el texto ya escrito.
 function intro_slides() {
     return [
-        { text: "En el reino de Aequor, la magia vive en el equilibrio. Mientras ambos lados de la Balanza Arcana pesen lo mismo, todo florece.",
+        { text: "En el reino de Arcane, la magia vive en el equilibrio. Mientras ambos lados de la Balanza Arcana pesen lo mismo, todo florece.",
           from: 0,  to: 0,  hold: 110 },
-        { text: "Pero llegó El Desequilibrio. Los números dejaron de coincidir y la magia comenzó a apagarse.",
+        { text: "Pero un día llegó El Rey del Desequilibrio. Su poder caótico provocó que los números dejaran de coincidir y la magia comenzó a apagarse.",
           from: 0,  to: 26, hold: 110 },
-        { text: "Tú eres un joven aprendiz de mago. Tu amuleto en forma de balanza es la última esperanza del reino.",
+        { text: "Tú eres un joven aprendiz de mago. Tu poder interior te permite equilibrar el caos dentro de cada habitante y criatura del reino.",
           from: 26, to: 14, hold: 110 },
-        { text: "Tu maestro te espera en la aldea. ¡Aprende a equilibrar cada ecuación!",
+        { text: "Tu maestro te espera en la aldea. ¡Aprende a equilibrar cada ecuación y libera el reino de las garras del Desequilibrio!",
           from: 14, to: 0,  hold: 120 }
     ];
 }
@@ -67,8 +67,7 @@ function transition_active() {
     return instance_exists(obj_transition);
 }
 
-// DIBUJO: (coordenadas de GUI, 1280 x 720)
-
+// Dibujo:
 // Cielo nocturno con degradado. _tilt (0..1) lo tiñe de rojo oscuro.
 function draw_sky(_tilt) {
     var _top = merge_colour(make_colour_rgb(10, 8, 28), make_colour_rgb(58, 12, 24), _tilt);

@@ -1,4 +1,4 @@
-// Retrato de quien habla, que aparece arriba a la derecha de la caja de diálogo (lo dibuja obj_dialogue)
+// Script para el retrato de quien habla, que aparece arriba a la derecha de la caja de diálogo (lo dibuja obj_dialogue)
 
 // Nombre que se muestra sobre la caja -> id del retrato ("" si no tiene)
 function portrait_id_for_name(_name) {
@@ -34,9 +34,9 @@ function portrait_frame(_pid) {
     return -1;
 }
 
-// Qué dibujar para un retrato: { kind: "sprite", spr, frame } | { kind: "maestro" } | undefined
+// Se dibuja lo siguiente: { kind: "sprite", spr, frame } | { kind: "maestro" } | undefined
 function portrait_info(_pid) {
-    // 1) Retratos definitivos, si ya existe el sprite spr_portrait
+    // Retratos definitivos, si ya existe el sprite spr_portrait
     var _ps = asset_get_index("spr_portrait");
     var _frame = portrait_frame(_pid);
     if (_ps != -1) {
@@ -45,7 +45,7 @@ function portrait_info(_pid) {
         }
     }
 
-    // 2) Provisional: el sprite del personaje, ampliado
+    // Provisional: el sprite del personaje, ampliado (en caso de error con el sprite principal)
     if (_pid == "maestro") return { kind: "maestro" };
     if (_pid == "rey_desequilibrio") return { kind: "sprite", spr: spr_boss, frame: 0 };
     if (variable_struct_exists(global.bank_src, _pid)) {
@@ -96,10 +96,6 @@ function draw_portrait_maestro(_ox, _oy, _u) {
 }
 
 // Dibuja el marco del retrato con el personaje dentro:
-//   _x, _y, _w, _h : rectángulo del marco (coordenadas de GUI)
-//   _t             : reservado para mantener la firma actual
-//   _k             : 0..1, opacidad de la entrada
-//   _accent        : color del marco (role_color); undefined = el normal
 function portrait_draw(_pid, _x, _y, _w, _h, _t, _k, _accent) {
     var _info = portrait_info(_pid);
     if (is_undefined(_info)) return;
@@ -118,12 +114,12 @@ function portrait_draw(_pid, _x, _y, _w, _h, _t, _k, _accent) {
     var _c2 = make_colour_rgb(20, 16, 38);
     draw_rectangle_colour(_x + 4, _y + 4, _x + _w - 4, _y + _h - 4, _c1, _c1, _c2, _c2, false);
 
-	// Retrato fijo, centrado y apoyado cerca del borde inferior del marco.
+	// Retrato fijo, centrado y apoyado cerca del borde inferior del marco
 	var _cx   = _x + _w / 2;
 	var _base = _y + _h - 16;
 
 	if (_info.kind == "maestro") {
-		var _u = 10; // Retrato provisional de 16 x 20 casillas; cabe en 224 x 224.
+		var _u = 10;
 		draw_portrait_maestro(_cx - 8 * _u, _base - 20 * _u, _u);
 	} else {
 		var _sw = sprite_get_width(_info.spr);
@@ -131,4 +127,6 @@ function portrait_draw(_pid, _x, _y, _w, _h, _t, _k, _accent) {
 		var _sc = max(1, floor(min((_w - 32) / _sw, (_h - 32) / _sh)));
 		draw_sprite_ext(_info.spr, _info.frame, _cx, _base, _sc, _sc, 0, c_white, _a);
 	}
+    // La entrada del retrato no debe alterar la opacidad del resto de la escena
+    draw_set_alpha(1);
 }

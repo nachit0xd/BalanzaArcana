@@ -17,7 +17,7 @@ function config_init() {
         bonus_fast : 25,    // primer intento con más del 50 % del tiempo
         bonus_slow : 10,    // primer intento con 50 % o menos
         bonus_threshold : 0.5,
-		show_eq_npc : true   // true: enunciado + ecuación | false: solo enunciado
+		show_eq_npc : true   // true: enunciado + ecuación o false: solo enunciado
     };
 }
 

@@ -1,30 +1,17 @@
-// Narrativa del Mundo (no de cada ejercicio): introducción del maestro
-// al inicio de cada nivel, consejos de los NPC y cierres de nivel. Los
-// enunciados y diálogos de cada NPC siguen en scr_bank_text.
-//
-// Se llama desde obj_game (Create), después de bank_init().
-//
-// Las claves de los structs son el número de nivel como texto ("1", "2"...).
-// Cada línea es un dlg(quien_habla, texto). Mantén cada línea en unos
-// 3 renglones o menos (~200 caracteres); si es más larga, pártela en dos.
-// Estado de cada texto:
-//   [BORRADOR]   redacción de borrador
-//   [DOCUMENTO]  origen del documento de diseño
-//   [PENDIENTE]  falta definirlo
-// =====================================================================
+// Script con narrativa del Mundo: introducción del maestro al inicio de cada nivel, consejos de los NPC y cierres de nivel.
+// Los enunciados y diálogos de cada NPC siguen en scr_bank_text
+
+// Se llama desde obj_game (Create), después de bank_init()
 
 function story_text_init() {
 
     // Introducción del maestro al inicio de cada nivel
-    // Se muestra solo una vez por nivel, apenas carga el nivel y antes de que
-    // el jugador pueda moverse. Ya no depende del primer ejercicio.
-    //  - Nivel 1: introducción completa (controles, interacción, balanza).
-    //  - Niveles 2 a 4: breve, solo el tipo de ejercicio que viene.
+
     global.level_intro = {};
 
-    // Nivel 1  [BORRADOR] salvo el ejemplo resuelto (5 + x = 12), que es [DOCUMENTO] (PDF 2.2)
+    // Nivel 1 - intro
     global.level_intro[$ "1"] = [
-        dlg("Maestro", "¡Despierta, aprendiz! Hoy comienza tu entrenamiento con la Balanza Arcana."),
+        dlg("Maestro", "¡Despierta, mi aprendiz! Hoy comienza tu entrenamiento con la Balanza Arcana."),
         dlg("Maestro", "Muévete con las flechas o con WASD. Acércate a un habitante, míralo de frente y pulsa Espacio, Enter o E para hablar."),
         dlg("Maestro", "Cada habitante tiene un problema. Para resolverlo, escribe el valor de x con el teclado y pulsa Enter."),
         dlg("Maestro", "La balanza funciona así: lo que haces de un lado, debes hacerlo del otro. Si no, se desequilibra."),
@@ -33,15 +20,15 @@ function story_text_init() {
         dlg("Maestro", "¡Ahora te toca a ti! Empieza por quien quieras. En el primer problema te daré una pista.")
     ];
 
-    // Nivel 2  [BORRADOR]; el ejemplo 3 + 2x = 11 es [DOCUMENTO] (PDF 2.2)
+    // Nivel 2 - intro
     global.level_intro[$ "2"] = [
-        dlg("Maestro", "Bienvenido al Bosque encantado. Aquí las ecuaciones tendrán un número multiplicando a x, como 3 + 2x = 11."),
+        dlg("Maestro", "Bienvenido al Bosque Encantado. Aquí las ecuaciones tendrán un número multiplicando a x, como 3 + 2x = 11."),
         dlg("Maestro", "Primero quita 3 de ambos lados: queda 2x = 8. Luego divide ambos lados entre 2 y obtienes x = 4."),
 		dlg("Maestro", "Ten cuidado, parece que hay más criaturas hóstiles aquí..."),
 		dlg("Maestro", "Si llegas a toparte con uno de ellos, ¡asegúrate de equilibrar la balanza a tiempo!")
     ];
 
-    // Nivel 3  [BORRADOR]; el ejemplo 5 + 4x = 9 + 3x es [DOCUMENTO] (PDF 2.2)
+    // Nivel 3 - intro
     global.level_intro[$ "3"] = [
         dlg("Maestro", "Has llegado al castillo de El Rey del Desequilibrio, tu objetivo no está muy lejos, muchacho."),
 		dlg("Maestro", "Aquí se esconden ecuaciones con x en ambos lados, como 5 + 4x = 9 + 3x."),
@@ -49,42 +36,54 @@ function story_text_init() {
 		dlg("Maestro", "Asegúrate de derrotar a todos los enemigos que encuentres, puede que te den pistas sobre la batalla contra el Rey.")
     ];
 
-    // Nivel 4  [BORRADOR]; el ejemplo x² - 5x + 6 = 0 es [DOCUMENTO] (docx 1.5.4)
+    // Nivel 4 - intro
     global.level_intro[$ "4"] = [
+		dlg("Maestro", "Parece que estás entrando en la habitación final...puedo sentir una presencia maligna cerca de ti."),
         dlg("Maestro", "El Rey del Desequilibrio usa ecuaciones con x" + SYM_SQ + ", como x" + SYM_SQ + " - 5x + 6 = 0. Siempre tienen dos soluciones."),
-        dlg("Maestro", "Se pueden factorizar: (x - 2)(x - 3) = 0. Las raíces son x = 2 y x = 3. ¡Debes escribir las dos!")
+        dlg("Maestro", "Se pueden factorizar: (x - 2)(x - 3) = 0. Las raíces son x = 2 y x = 3. ¡Debes escribir las dos!"),
+		dlg("Maestro", "Ve con cuidado, mi aprendiz... ¡es hora de derrotar a ese malvado rey!")
     ];
 
-    // CIERRE DE NIVEL 1 (lo dice el maestro al completar el nivel)
+    // Cierre del Nivel 1
     global.level_end_text = {};
-    global.level_end_text[$ "1"] = [     // [BORRADOR]
-        dlg("Maestro", "¡Lo lograste, aprendiz! La aldea vuelve a estar en equilibrio."),
-        dlg("Maestro", "El Bosque encantado te espera al otro lado del puente.")
+    global.level_end_text[$ "1"] = [ 
+        dlg("Maestro", "¡Lo lograste, mi aprendiz! La aldea vuelve a estar en equilibrio."),
+        dlg("Maestro", "Parece que el camino a una nueva zona se ha desbloqueado... ¡sigamos equilibrando esos problemas!")
     ];
 	
-	// CIERRE DE NIVEL 4 (lo dice el maestro al completar el nivel)
-	global.level_end_text[$ "4"] = [     // [BORRADOR]
-        dlg("Maestro", "¡Lo lograste, aprendiz! El reino de Aequor recupera su equilibrio."),
+	// Cierre del Nivel 2
+    global.level_end_text = {};
+    global.level_end_text[$ "2"] = [ 
+        dlg("Maestro", "¡Bien hecho! El Bosque Encantado ha encontrado su equilibrio."),
+        dlg("Maestro", "Nos acercamos al castillo de El Rey del Desequilibrio... prepárate para más problemas, mi aprendiz.")
+    ];
+	
+	// Cierre del Nivel 3
+    global.level_end_text = {};
+    global.level_end_text[$ "3"] = [ 
+        dlg("Maestro", "¡Excelente! Todos los enemigos han caído..."),
+        dlg("Maestro", "El Rey del Desequilibrio no debe estar lejos... ten mucho cuidado.")
+    ];
+	
+	// Cierre del Nivel 4
+	global.level_end_text[$ "4"] = [  
+        dlg("Maestro", "¡Lo lograste, mi aprendiz! El reino de Arcane recupera su equilibrio."),
+		dlg("Maestro", "El mundo entero podrá vivir en armonía y equilibrio, ¡eres todo un héroe!"),
         dlg("Maestro", "Gracias por jugar La Balanza Arcana.")
     ];
 	
 
-    // CONSEJOS Y FRASES DE REPETICIÓN de los NPC del Nivel 1
-    // Se agregan al struct que ya creó bank_text_init()
-    //   tip          -> el NPC lo dice al terminar su misión
-    //   repeat_lines -> lo que dice si el jugador le habla de nuevo
-    // Los consejos son los ejemplos del docx 1.5.1 [DOCUMENTO]; el docx
-    // aclara que son solo ejemplos y pueden cambiar
+    // Consejos y frases de repetición de los NPC
     var _herrero = global.src_text[$ "herrero"];
     _herrero.tip = "Para despejar x, pasa lo que sobra al otro lado con la operación inversa. ¡Pero hazlo en ambos lados de la igualdad!";
-    _herrero.repeat_lines = [ "Mi forja vuelve a funcionar gracias a ti. ¡Sigue practicando con la balanza!" ];   // [BORRADOR]
+    _herrero.repeat_lines = [ "Mi forja vuelve a funcionar gracias a ti. ¡Sigue practicando con la balanza!" ];
 
     var _molinera = global.src_text[$ "molinera"];
     _molinera.tip = "Recuerda que una ecuación de primer grado tiene una única solución.";
-    _molinera.repeat_lines = [ "Con tu ayuda el molino no se detiene. ¡Gracias, jovencito!" ];                       // [BORRADOR]
+    _molinera.repeat_lines = [ "Con tu ayuda el molino no se detiene. ¡Gracias, jovencito!" ];                
 
     var _guardiana = global.src_text[$ "guardiana"];
-    _guardiana.repeat_lines = [ "El registro está en orden. Cruza cuando quieras." ];                                  // [BORRADOR]
+    _guardiana.repeat_lines = [ "El registro está en orden. Cruza cuando quieras." ];                          
 	
 	var _herbolaria = global.src_text[$ "herbolaria"];
 	_herbolaria.tip = "Primero aparta lo que ya tenías; después divide lo que falta entre lo que aporta cada grupo.";

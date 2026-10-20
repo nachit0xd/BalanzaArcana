@@ -1,3 +1,5 @@
+// Script para la batalla contra El Rey del Desequilibrio
+
 // Inicia la batalla final (lo llama obj_boss_room al entrar a la sala del jefe)
 function boss_begin() {
     if (ui_modal_active()) return noone;
@@ -6,7 +8,7 @@ function boss_begin() {
     return _b;
 }
 
-// ¿Hay una batalla final en curso? (se ignora una que ya se está cerrando)
+// Check de ¿hay una batalla final en curso? (se ignora una que ya se está cerrando)
 function boss_active() {
     var _active = false;
     with (obj_boss) {
@@ -15,8 +17,7 @@ function boss_active() {
     return _active;
 }
 
-// Frases del jefe  [BORRADOR]. Se definen en
-// global.src_text[$ "rey_desequilibrio"] = { intro: [...], win: [...] }.
+// Frases del jefe. Se definen en global.src_text[$ "rey_desequilibrio"] = { intro: [...], win: [...] }.
 function boss_intro_lines() {
     var _t = global.src_text[$ "rey_desequilibrio"];
     if (!is_undefined(_t) && variable_struct_exists(_t, "intro")) return _t.intro;
@@ -31,7 +32,7 @@ function boss_win_lines() {
              "El Desequilibrio se desvanece y la Balanza Arcana brilla de nuevo." ];
 }
 
-// Frases del jefe cuando el escudo cae (empieza la segunda etapa)  [BORRADOR]
+// Frases del jefe cuando el escudo cae (empieza la segunda etapa)
 function boss_shield_lines() {
     var _t = global.src_text[$ "rey_desequilibrio"];
     if (!is_undefined(_t) && variable_struct_exists(_t, "shield")) return _t.shield;
