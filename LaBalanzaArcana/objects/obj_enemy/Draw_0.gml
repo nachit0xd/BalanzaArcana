@@ -10,12 +10,3 @@ if (instance_exists(obj_player) && point_distance(x, y, obj_player.x, obj_player
     draw_set_colour(c_white);
 }
 
-// Con la tecla F1 sale la caja de colisión (naranja) y área por la que vaga (círculo)
-if (global.debug) {
-    draw_set_colour(c_orange);
-    draw_set_alpha(0.5);
-    draw_rectangle(x + hb_l, y + hb_t, x + hb_r, y + hb_b, false);
-    draw_set_alpha(1);
-    draw_circle(home_x, home_y, radius, true);
-    draw_set_colour(c_white);
-}

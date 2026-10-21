@@ -18,6 +18,4 @@ switch (stage) {
         break;
 }
 
-// Atajo de desarrollo: Esc vuelve a rm_title
-if (DEBUG_MODE && keyboard_check_pressed(vk_f2)) room_goto(rm_title);
 

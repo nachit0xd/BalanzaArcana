@@ -8,11 +8,3 @@ if (can_talk) {
     draw_set_colour(c_white);
 }
 
-// Con la tecla F1 se ve la caja de colisión (azul)
-if (global.debug) {
-    draw_set_colour(c_aqua);
-    draw_set_alpha(0.5);
-    draw_rectangle(x + hb_l, y + hb_t, x + hb_r, y + hb_b, false);
-    draw_set_alpha(1);
-    draw_set_colour(c_white);
-}

@@ -41,5 +41,5 @@ finish = function() {
     var _lv = level_id;
     ui_block(10);            // La misma pulsación no debe activar otra cosa
     instance_destroy();
-    if (!preview) on_results_closed(_lv);      // La vista previa (con tecla F11) no debe terminar la sesión
+    if (!preview) on_results_closed(_lv);      // La vista previa no debe terminar la sesión
 };

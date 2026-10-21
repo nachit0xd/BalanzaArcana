@@ -1,4 +1,4 @@
-// Script de estado de una partida nueva. obj_game lo llama al iniciar el juego y la tecla F3 (debug) lo llama para reiniciar las pruebas
+// Estado de una partida nueva. Se reinicia al iniciar el juego o una sesión.
 function progress_reset() {
     global.level         = 1;
     global.score         = 0;
@@ -32,12 +32,6 @@ function level_intro_start(_level) {
         global.level_intro_seen[$ k] = true;
     });
     return (dialogue_start(global.level_intro[$ _key], "Maestro", _on_done) != noone);
-}
-
-// Solo para DEBUG: vuelve a mostrar la introducción de un nivel
-function level_intro_preview(_level) {
-    variable_struct_remove(global.level_intro_seen, string(_level));
-    level_intro_start(_level);
 }
 
 // true solo la primera vez que se llama para ese nivel. Sirve para saber si un ejercicio es el primero del nivel (y mostrar su pista por defecto).

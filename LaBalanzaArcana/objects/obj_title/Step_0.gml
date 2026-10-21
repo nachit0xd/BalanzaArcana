@@ -33,12 +33,6 @@ switch (state) {
                 case 4: game_end(); break;
             }
         }
-        // Atajo de desarrollo: F2 = entrar directo a la aldea
-        if (DEBUG_MODE && keyboard_check_pressed(vk_f2)) {
-            session_start("TEST00");
-            room_transition(rm_village);
-            starting = true;
-        }
         break;
 
     case TITLE_STATE.HOWTO:

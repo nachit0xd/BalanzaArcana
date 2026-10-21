@@ -60,12 +60,6 @@ if (state == TITLE_STATE.MENU) {
     draw_text(24, GUI_H - 44, "v" + GAME_VERSION);
     draw_set_halign(fa_right);
     draw_text(GUI_W - 24, GUI_H - 44, "Flechas o W/S: mover     Enter: elegir");
-    if (DEBUG_MODE) {
-        draw_set_halign(fa_center);
-        draw_set_colour(COL_BAD);
-        draw_set_halign(fa_left);
-        draw_text(24, 20, "[DEBUG] F2: entrar directo a la aldea");
-    }
 }
 
 // Cómo jugar
@@ -106,7 +100,7 @@ if (state == TITLE_STATE.CREDITS) {
     draw_set_colour(COL_TEXT);
     draw_text(_cx, _yy, "La Balanza Arcana"); _yy += _lh;
     draw_set_colour(COL_DIM);
-    draw_text(_cx, _yy, "Proyecto del curso Sistemas Educativos Inteligentes"); _yy += _lh + 18;
+    draw_text(_cx, _yy, "Proyecto para el curso Sistemas Educativos Inteligentes"); _yy += _lh + 18;
     draw_set_colour(COL_WARN);
     draw_text(_cx, _yy, "Equipo"); _yy += _lh;
     draw_set_colour(COL_TEXT);
@@ -114,7 +108,7 @@ if (state == TITLE_STATE.CREDITS) {
     for (var i = 0; i < array_length(_cr); i++) { draw_text(_cx, _yy, _cr[i]); _yy += _lh; }
     _yy += 10;
     draw_set_colour(COL_DIM);
-    draw_text(_cx, _yy, "Arte y sonido: Ignacio Carrillo");
+    draw_text(_cx, _yy, "Arte y sonido: Archivos de licencia libre");
     draw_text(_cx, GUI_H - 145, "Enter: volver");
 }
 

@@ -2,7 +2,8 @@
 #macro GAME_TITLE   "La Balanza Arcana"
 #macro GAME_VERSION "0.5.0"
 #macro MAX_LEVEL    4
-#macro DEBUG_MODE   (GM_build_type == "run")   // true al ejecutar desde el IDE
+// Desactiva las opciones de desarrollo también al ejecutar desde el IDE.
+#macro DEBUG_MODE   false
 
 // Parámetros ajustables para los niveles/gamificación
 function config_init() {
