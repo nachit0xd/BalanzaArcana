@@ -206,15 +206,29 @@ function bank_validate() {
             }
         }
 
-        // ¿Coincide con un ítem del pre-test o post-test?
-        if (variable_struct_exists(_tests, _eqs_txt)) {
-            show_debug_message("AVISO " + _tag + ": es idéntica al ítem " + _tests[$ _eqs_txt] + " del test");
-        }
-
         // Narrativa
         if (!variable_struct_exists(global.bank_text, _ex.id)) {
             show_debug_message("PENDIENTE " + _tag + ": sin narrativa");
         }
+    }
+
+    // Los tests usan ejercicios del banco: cada ecuación seleccionada debe seguir existiendo.
+    var _test_eqs = variable_struct_get_names(_tests);
+    var _pre_count = 0;
+    var _post_count = 0;
+    if (array_length(_test_eqs) != 16) {
+        show_debug_message("ERROR tests: deben tener 16 ecuaciones distintas (8 por test)"); _err++;
+    }
+    for (var t = 0; t < array_length(_test_eqs); t++) {
+        var _test_label = _tests[$ _test_eqs[t]];
+        if (string_pos("del pre-test", _test_label) > 0) _pre_count++;
+        if (string_pos("del post-test", _test_label) > 0) _post_count++;
+        if (!variable_struct_exists(_eqs, _test_eqs[t])) {
+            show_debug_message("ERROR tests: falta " + _test_label + " en el banco: " + _test_eqs[t]); _err++;
+        }
+    }
+    if (_pre_count != 8 || _post_count != 8) {
+        show_debug_message("ERROR tests: se requieren 8 ejercicios en cada test"); _err++;
     }
 
     // Resumen por NPC/enemigo
@@ -229,25 +243,26 @@ function bank_validate() {
     return (_err == 0);
 }
 
-// Ítems de los tests, con el mismo formato de ex_equation_string
+// Ítems elegidos del banco para cada test, con el mismo formato de ex_equation_string
 function bank_test_items() {
     var _t = {};
-    _t[$ "4 + x = 15"]          = "1 del pre-test";
-    _t[$ "10 + x = 3"]          = "2 del pre-test";
-    _t[$ "3 + 2x = 11"]         = "3 del pre-test";
-    _t[$ "12 + 2x = 4"]         = "4 del pre-test";
-    _t[$ "5 + 4x = 9 + 3x"]     = "5 del pre-test";
-    _t[$ "10 + 2x = 4 + 3x"]    = "6 del pre-test";
-    _t[$ ("x" + SYM_SQ + " - 5x + 6 = 0")]  = "7 del pre-test";
-    _t[$ ("x" + SYM_SQ + " + 7x + 6 = 0")]  = "8 del pre-test";
-    _t[$ "7 + x = 20"]          = "1 del post-test";
-    _t[$ "8 + x = 2"]           = "2 del post-test";
-    _t[$ "9 + 3x = 30"]         = "3 del post-test";
-    _t[$ "11 + 5x = 1"]         = "4 del post-test";
-    _t[$ "6 + 5x = 13 + 4x"]    = "5 del post-test";
-    _t[$ "4 + 5x = 16 + 2x"]    = "6 del post-test";
-    _t[$ ("x" + SYM_SQ + " - 7x + 12 = 0")] = "7 del post-test";
-    _t[$ ("x" + SYM_SQ + " + 7x + 12 = 0")] = "8 del post-test";
+    _t[$ "5 + x = 19"]           = "1 del pre-test";
+    _t[$ "14 + x = 5"]           = "2 del pre-test";
+    _t[$ "4 + 3x = 22"]          = "3 del pre-test";
+    _t[$ "18 + 3x = 3"]          = "4 del pre-test";
+    _t[$ "8 + 9x = 20 + 7x"]     = "5 del pre-test";
+    _t[$ "7 + 3x = 23 + 5x"]     = "6 del pre-test";
+    _t[$ ("x" + SYM_SQ + " - 11x + 28 = 0")] = "7 del pre-test";
+    _t[$ ("x" + SYM_SQ + " - x - 30 = 0")]   = "8 del pre-test";
+
+    _t[$ "13 + x = 24"]          = "1 del post-test";
+    _t[$ "17 + x = 10"]          = "2 del post-test";
+    _t[$ "7 + 6x = 37"]          = "3 del post-test";
+    _t[$ "20 + 4x = 8"]          = "4 del post-test";
+    _t[$ "9 + 8x = 25 + 4x"]     = "5 del post-test";
+    _t[$ "20 + 6x = 8 + 3x"]     = "6 del post-test";
+    _t[$ ("x" + SYM_SQ + " - 14x + 45 = 0")] = "7 del post-test";
+    _t[$ ("x" + SYM_SQ + " + 3x - 18 = 0")]  = "8 del post-test";
     return _t;
 }
 

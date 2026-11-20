@@ -239,7 +239,7 @@ function bank_text_init() {
 		win: [
 			"I-Imposible... mi poder mágico... se desvanece...",
 			"Puedo sentir... el equilibrio vuelve en mi interior...",
-			"El Desequilibrio ya no me pertenece. El reino de Aequor... puede encontrar su equilibrio... una vez más..."
+			"El Desequilibrio ya no me pertenece. El reino de Arcane... puede encontrar su equilibrio... una vez más..."
 		]
 	};
 	txt("rey_1", "Una inscripción del Rey muestra x² - 11x + 28 = 0. La balanza solo se estabiliza cuando encuentras los dos valores de x que la cumplen. ¿Cuáles son las dos raíces?");
